@@ -2,6 +2,12 @@ package com.bw.fit.common.util.service;
 
 import java.util.Date;
 
+/****
+ * 系统级工具组件 
+ * @version v3.0
+ * @author yangh
+ *
+ */
 public interface PubFun {
 	/****
 	 * 根据shrio加密方式

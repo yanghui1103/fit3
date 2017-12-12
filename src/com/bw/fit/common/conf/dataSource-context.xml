@@ -13,8 +13,9 @@
 	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/task
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+	<!-- 实施配置总入口 -->
 	<context:property-placeholder
-		location="file:D:/eclipse/workspace_new/jdbc_fitn.properties" /> 
+		location="file:D:/eclipse/workspace_v3/fitImplementConf.properties" /> 
 	<!-- 配置c3p0数据源 class="com.mchange.v2.c3p0.ComboPooledDataSource" -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="${jdbc.driverClassName}" />

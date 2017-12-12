@@ -14,32 +14,32 @@ public interface NoSQLDataSource {
 	 * @param listName 队列名称
 	 * @param object  数据
 	 */
-	public void lPush_list(String listName,Object object);
+	public void lPush_list(String listName,String str);
 	/****
 	 * 获取队列里的数据，从左侧开始数
 	 * @param listName 队列名称
 	 * @param start 开始  从0开始
 	 * @param end 结束，-1 代表无限大
 	 */
-	public void lrange(String listName,int start ,int end);
+	public void lrange(String listName,long start ,long end);
 	/*****
 	 * 做右侧push数据
 	 * @param listName 队列名称
 	 * @param object 数据
 	 */
-	public void rPush(String listName,Object object);
+	public void rPush(String listName,String str);
 	/****
 	 * 清除数据，从左侧数
 	 * @param listName 队列名称 
 	 * @param index 
 	 */
-	public void lRemove(String listName,int index);
+	public void lRemove(String listName,long index);
 	/****
 	 * 获取数据，从左侧数
 	 * @param listName 队列名称 
 	 * @param index 
 	 */
-	public void lIndex(String listName,int index);
+	public void lIndex(String listName,long index);
 	/****
 	 * 从左侧pop数据
 	 * @param listName
@@ -57,25 +57,25 @@ public interface NoSQLDataSource {
 	 * @param setName 集合名称
 	 * @param object 数据
 	 */
-	public void sAdd(String setName ,Object object);
+	public void sAdd(String setName ,String object);
 	/****
 	 * 清除数据，
 	 * @param setName 集合名称
 	 * @param object 数据
 	 */
-	public void sRemove(String setName ,Object object);
+	public void sRemove(String setName ,String object);
 	/****
 	 * 返回集合元素个数
 	 * @param setName set集合名称
 	 * @return
 	 */
-	public int sCard(String setName);
+	public long sCard(String setName);
 	/****
 	 * 判断object是不是这个集合里的数据
 	 * @param setName 集合名称
 	 * @param object 数据
 	 * @return
 	 */
-	public boolean sisMember(String setName,Object object);
+	public boolean sisMember(String setName,String object);
 	
 }
