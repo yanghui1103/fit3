@@ -1,8 +1,13 @@
-package com.bw.fit.common.entity;
+package com.bw.fit.common.model;
 
 
 import org.apache.commons.lang3.StringUtils;
 
+/*****
+ * 顶级领域对象
+ * @author yangh
+ *
+ */
 public class BaseModel {
 
 	private String fdid = getUUID();

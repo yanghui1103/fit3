@@ -8,7 +8,7 @@ import org.springframework.data.redis.connection.*;
 import org.springframework.stereotype.Component;
 
 import com.bw.fit.common.data.source.MqDataSource;
-import com.bw.fit.common.entity.RbackException;
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.service.PubFun;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;

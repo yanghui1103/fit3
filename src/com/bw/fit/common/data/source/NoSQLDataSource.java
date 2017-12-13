@@ -1,6 +1,6 @@
 package com.bw.fit.common.data.source;
 
-import com.bw.fit.common.entity.RbackException;
+import com.bw.fit.common.model.RbackException;
 
 public interface NoSQLDataSource {
 	

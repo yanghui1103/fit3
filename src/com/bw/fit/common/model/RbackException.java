@@ -1,9 +1,13 @@
-package com.bw.fit.common.entity;
+package com.bw.fit.common.model;
 
+/****
+ * 系统级回滚事务_异常类
+ * @author yangh
+ *
+ */
 public class RbackException extends Exception {
-
 	/****
-	 * servi层事务回滚
+	 * 事务回滚使用到的异常类
 	 */
 	private String res ;
 	private String msg ;

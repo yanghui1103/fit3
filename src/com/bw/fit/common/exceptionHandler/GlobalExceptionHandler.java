@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import com.alibaba.fastjson.*;
-import com.bw.fit.common.entity.RbackException;
+import com.bw.fit.common.model.RbackException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {  

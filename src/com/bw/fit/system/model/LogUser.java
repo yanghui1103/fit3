@@ -1,4 +1,4 @@
-package com.bw.fit.common.entity;
+package com.bw.fit.system.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -7,10 +7,16 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class LogUser implements Serializable{
+import com.bw.fit.common.model.BaseModel;
+
+/*****
+ * 登录用户(领域对象)
+ * @author yangh
+ *
+ */
+public class LogUser extends BaseModel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String user_id ;
 	@NotEmpty(message="{user.login.cd}")
 	private String user_cd ;
 	private String user_name;
@@ -20,22 +26,13 @@ public class LogUser implements Serializable{
 	private String ip; 
 	private String mac ;
 	private String company_id;
-	private String company_name;
-//	private List<Postion> postions;
-//	private List<Role> roles;
-	private String menuAuthTreeJson;
-	private String menuAuthTreeJson2;
-	// @NotEmpty(message="{verificationCode.empty}")
+	private String company_name; 
+	private String menuAuthTreeJson; 
+	@NotEmpty(message="{verificationCode.empty}")
 	private String verificationCode;
 	
 	
-	
-	public String getMenuAuthTreeJson2() {
-		return menuAuthTreeJson2;
-	}
-	public void setMenuAuthTreeJson2(String menuAuthTreeJson2) {
-		this.menuAuthTreeJson2 = menuAuthTreeJson2;
-	}
+
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -59,7 +56,7 @@ public class LogUser implements Serializable{
 	}
 	public void setCompany_name(String company_name) {
 		this.company_name = company_name;
-	}
+	} 
 	public String getMac() {
 		return mac;
 	}
@@ -89,12 +86,6 @@ public class LogUser implements Serializable{
 	}
 	public void setUser_cd(String user_cd) {
 		this.user_cd = user_cd;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
 	}
 	public String getUser_name() {
 		return user_name;
