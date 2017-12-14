@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -438,6 +439,19 @@ public class PubFun {
                 writer.close();
         }
     }
+	/********
+	 * 获取licnece
+	 */
+	public static String getLicneceMiWen(String key){
+		ResourceBundle rb=null;
+		try {
+			rb = ResourceBundle.getBundle("com/bw/fit/common/conf/licence" );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+        return rb.getString(key);
+	} 
 	/***
 	 * 即时通讯
 	 */

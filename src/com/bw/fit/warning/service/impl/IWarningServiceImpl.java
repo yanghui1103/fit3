@@ -9,10 +9,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.MailTool;
 import com.bw.fit.common.util.SmsSender;
-import com.bw.fit.warning.service.WarningService;
+import com.bw.fit.warning.service.IWarningService;
 
 @Service
-public class WarningServiceImpl implements WarningService {
+public class IWarningServiceImpl implements IWarningService {
 
 	@Override
 	public void sendWarning(String warningLevel ,String target_number,String subject,String message) throws RbackException {
@@ -29,13 +29,14 @@ public class WarningServiceImpl implements WarningService {
 				MailTool.send(subject, sb, new InternetAddress[] { new InternetAddress(target_number) });
 			} catch (AddressException e) {
 				// TODO Auto-generated catch block
-				throw new RbackException("1","预警邮件发送异常,地址:"+target_number); 
 			}
 		}else if("2".equals(warningLevel)){
 			/****
 			 * 发送即时消息
 			 */
-		} 
+		} else{
+			throw new RbackException("1","预警级别错误"); 
+		}
 	}
 
 }

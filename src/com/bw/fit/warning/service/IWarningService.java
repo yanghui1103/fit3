@@ -7,7 +7,7 @@ import com.bw.fit.common.model.RbackException;
  * @author yangh
  *
  */
-public interface WarningService {
+public interface IWarningService {
 
 	/*****
 	 * 接收来自各个模块的预警需求
