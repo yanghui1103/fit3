@@ -12,6 +12,7 @@ import com.bw.fit.common.entity.BaseEntity;
 public class TLogInfo extends BaseEntity{
 
 	private String level;
+	private String actionName ;
 	private String user_id;
 	private String menu_id;
 	private String operation_id;
@@ -19,6 +20,13 @@ public class TLogInfo extends BaseEntity{
 	private JSONObject message;
 	private String res;
 	private String msg;
+	
+	public String getActionName() {
+		return actionName;
+	}
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
+	}
 	public String getLevel() {
 		return level;
 	}

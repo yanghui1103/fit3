@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+	
+	<!-- 采集Controller请求方法日志 -->
+	<aop:config>
+		<aop:aspect ref="controlLogAspect" order="1">
+		<aop:pointcut
+			expression="execution(* com.bw.fit.*.controller.*.create*(..))||execution(* com.bw.fit.*.controller.*.update*(..))||execution(* com.bw.fit.*.controller.*.edit*(..))||execution(* com.bw.fit.*.controller.*.del*(..))||execution(* com.bw.fit.*.controller.*.insert*(..))"
+			id="logpointcut1" />
+			<aop:around method="aroundMethod" pointcut-ref="logpointcut1" />
+		</aop:aspect>
+	</aop:config>	
+	
+	<!-- 采集mq方法日志 -->
+	<aop:config>
+		<aop:aspect ref="mqLogAspect" order="2">
+		<aop:pointcut
+			expression="execution(* com.bw.fit.*.service.*.mq_*(..))"
+			id="logpointcut2" />
+			<aop:around method="aroundMethod" pointcut-ref="logpointcut2" />
+		</aop:aspect>
+	</aop:config>	
+	
+	<!-- 采集Ws请求方法日志 -->
+	<aop:config>
+		<aop:aspect ref="wsLogAspect" order="3">
+		<aop:pointcut
+			expression="execution(* com.bw.fit.*.service.*.ws_*(..))"
+			id="logpointcut3" />
+			<aop:around method="aroundMethod" pointcut-ref="logpointcut3" />
+		</aop:aspect>
+	</aop:config>	
+	
+	<!-- 采集Job方法日志 -->
+	<aop:config>
+		<aop:aspect ref="jobLogAspect" order="4">
+		<aop:pointcut
+			expression="execution(* com.bw.fit.*.service.*.job_*(..))"
+			id="logpointcut4" />
+			<aop:around method="aroundMethod" pointcut-ref="logpointcut4" />
+		</aop:aspect>
+	</aop:config>	
+</beans> 

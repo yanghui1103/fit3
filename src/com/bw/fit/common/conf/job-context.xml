@@ -17,7 +17,7 @@
 	<!-- 定时任务，ref是那个bean，method是执行的方法 -->
 <!-- 	<task:annotation-driven/> -->
 <!-- 	<task:scheduled-tasks> -->
-<!-- 		<task:scheduled ref="testJob" method="testJobRun" cron="0 10  * * * ?"/> -->
+<!-- 		<task:scheduled ref="iJobService" method="test" cron="0/3 * * * * ?"/> -->
 <!-- 	</task:scheduled-tasks> -->
 	
 	
