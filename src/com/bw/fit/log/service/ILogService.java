@@ -14,6 +14,7 @@ import com.bw.fit.log.entity.TLogInfo;
 public interface ILogService {
 	/******
 	 * 录入日志消息
+	 * @param l 日志实体对象
 	 */
 	public void notice(TLogInfo l);
 	/*****
