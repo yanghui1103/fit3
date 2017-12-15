@@ -5,7 +5,7 @@ import java.util.Date;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.entity.BaseEntity;
 /****
- * 
+ * 日志实体类
  * @author yangh
  *
  */

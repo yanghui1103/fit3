@@ -1,17 +1,15 @@
-package com.bw.fit.log.service;
+package com.bw.fit.log.dao;
 
-import java.util.Date;
 import java.util.List;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.log.entity.TLogInfo;
 
 /*****
- * 日志组件
+ * 日志组件DAO层
  * @author yangh
  *
  */
-public interface ILogService {
+public interface DLogDao {
 	/******
 	 * 录入日志消息
 	 */
@@ -29,4 +27,6 @@ public interface ILogService {
 	 * @return 返回 日志记录fdid的list
 	 */
 	public List<String> getFdidByInfo(TLogInfo l);
+
+
 }
