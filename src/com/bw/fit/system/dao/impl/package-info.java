@@ -5,4 +5,4 @@
  * @author yangh
  *
  */
-package com.bw.fit.system.service.impl;
+package com.bw.fit.system.dao.impl;

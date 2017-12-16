@@ -2,6 +2,7 @@ package com.bw.fit.flow.service;
 
 import java.util.*;
 
+
 import org.activiti.engine.history.HistoricIdentityLink;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.pvm.PvmTransition;
@@ -20,6 +21,12 @@ import com.bw.fit.common.model.RbackException;
 import java.awt.image.*;
 import java.io.IOException;
 import java.io.InputStream;
+
+/****
+ * 流程组件（核心部分）
+ * @author yangh
+ *
+ */
 public interface FlowCoreService {
 
 	/***部署资源***/

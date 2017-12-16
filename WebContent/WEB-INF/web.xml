@@ -89,7 +89,7 @@
 
 	<!-- session建立和销毁,都被此处拦截并进行增删 -->
 	<listener>
-		<listener-class>com.bw.fit.common.listener.MultiSessionListener</listener-class>
+		<listener-class>com.bw.fit.common.listenter.MultiSessionListener</listener-class>
 	</listener>
 	<!-- log4j -->
 

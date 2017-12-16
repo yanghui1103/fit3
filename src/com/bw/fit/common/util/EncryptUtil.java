@@ -392,7 +392,7 @@ public class EncryptUtil {
     }  
       
     public static void main(String[] args) throws Exception {  
-    	String s = ""; 
-    	System.out.println(getLicneceMiWen("FitLicence")); 
+    	Object s = ((JSONObject.parse((decrypt(getLicneceMiWen("FitLicence")))))); 
+    	System.out.println(((JSONObject)s).get("user_total")); 
     }  
 }  

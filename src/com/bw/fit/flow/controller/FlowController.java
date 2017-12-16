@@ -34,6 +34,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bw.fit.common.model.RbackException;
 
+/*****
+ * 流程模块
+ * @author yangh
+ *
+ */
 @RequestMapping("flow")
 @Controller
 public class FlowController {

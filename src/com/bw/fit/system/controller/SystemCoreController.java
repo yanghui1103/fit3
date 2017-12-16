@@ -10,7 +10,7 @@ import com.bw.fit.common.controller.BaseController;
  * @author yangh
  *
  */
-@RequestMapping("sys")
+@RequestMapping("system")
 @Controller
 public class SystemCoreController extends BaseController {
 

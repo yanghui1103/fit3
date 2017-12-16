@@ -15,8 +15,5 @@ public abstract class BaseController {
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				dateFormat, false));
-//		binder.setValidator(new UserTestValidator());
-//		binder.validate();
-	}
-	
+	}	
 }

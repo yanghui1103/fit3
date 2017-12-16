@@ -54,7 +54,7 @@
 	</bean>
 	<!-- 配额securityManager -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="customRealm" />
+		<property name="realm" ref="verificationRealm" />
 		<property name="sessionMode" value="native" />
 		<!-- 注入缓存管理器 -->
 		<!-- <property name="cacheManager" ref="cacheManager1" /> -->
@@ -66,13 +66,13 @@
 		</property>
 		<property name="realms">
 			<list>
-				<ref bean="customRealm" />
+				<ref bean="verificationRealm" />
 			</list>
 		</property>
 	</bean>
 
 
-	<bean id="customRealm" class="com.bw.fit.common.interceptor.CustomRealm">
+	<bean id="verificationRealm" class="com.bw.fit.common.interceptor.VerificationRealm">
 		<property name="credentialsMatcher" ref="credentialsMatcher" />
 	</bean>
 
