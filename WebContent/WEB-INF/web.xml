@@ -97,7 +97,7 @@
 	<servlet>
 		<description>输出验证码</description>
 		<servlet-name>VerificationCode</servlet-name>
-		<servlet-class>com.bw.fit.system.servlet.VerificationCodeServlet</servlet-class>
+		<servlet-class>com.bw.fit.common.servlet.VerificationCodeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>VerificationCode</servlet-name>

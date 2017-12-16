@@ -1,5 +1,8 @@
 package com.bw.fit.system.service;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.system.model.LogUser;
 
@@ -15,5 +18,13 @@ public interface SystemService {
 	 * @param user 登录用户
 	 * @return 验证结果信息
 	 */
-	public JSONObject getUserCheckResult(LogUser user);
+	public JSONObject getUserCheckResult(LogUser user);	
+	/*****
+	 * 查看当前用户帐号登录情况，检查是否多地登录
+	 * @param session
+	 * @param user 登录用户领域模型
+	 * @param servletContext 上下文
+	 * @return
+	 */
+	public JSONObject getOnLineSituation(HttpSession session,LogUser user,ServletContext servletContext);
 }

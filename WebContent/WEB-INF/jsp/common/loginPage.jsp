@@ -14,9 +14,8 @@
 <title><%=PropertiesUtil.getValueByKey("system.full_name")%></title>
 <link href="<%=basePath%>themes/login.css" rel="stylesheet"
 	type="text/css" />
-<script language="javascript">  
-
-function myReload() {  
+<script language="javascript">
+function reload() {  
     document.getElementById("CreateCheckCode").src = document  
             .getElementById("CreateCheckCode").src  
             + "?nocache=" + new Date().getTime();  
@@ -48,10 +47,10 @@ function myReload() {
 						<label>密码：</label> <input type="password" name="passwd" size="20"
 						value="123456"	class="login_input" />
 					</p>
-<!-- 					<input name="verificationCode" type="text" id="checkCode"  -->
-<%-- 						size="6"  maxlength="4" /> <img src="<%=basePath %>getCheckCode" width=40% height=60% --%>
-<!-- 						id="CreateCheckCode" align="middle"> -->
-<!-- 						<a href="" onclick="myReload()">换一个</a>   -->
+					<input name="verificationCode" type="text" id="checkCode" value="0000"
+						size="6"  maxlength="4" /> <img src="<%=basePath %>getCheckCode" width=40% height=60%
+						id="CreateCheckCode" align="middle">
+						<a href="" onclick="reload()">换一个</a>  
 					<c:if test="${errorMsg !=null}">
 						<p>
 							<font color=red>${errorMsg}</font>
