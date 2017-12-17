@@ -1,7 +1,13 @@
 package com.bw.fit.common.entity;
 import static com.bw.fit.common.util.PubFun.*;
 
+
 import java.util.Date;
+/*****
+ * 父实体类
+ * @author yangh
+ *
+ */
 public class BaseEntity {
 
 
@@ -9,7 +15,17 @@ public class BaseEntity {
 	private Date create_time ;
 	private Date version_time ;
 	private String operator_id;
-	private String creator_id;
+	private String creator_id; 
+	private String isdeleted ="0" ; // 默认未删除
+	
+	
+	
+	public String getIsdeleted() {
+		return isdeleted;
+	}
+	public void setIsdeleted(String isdeleted) {
+		this.isdeleted = isdeleted;
+	}
 	public String getFdid() {
 		return fdid;
 	}

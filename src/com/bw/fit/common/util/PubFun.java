@@ -12,6 +12,7 @@ import java.io.LineNumberReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.text.DateFormat;
@@ -34,6 +35,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.activiti.engine.form.FormProperty;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -499,6 +501,15 @@ public class PubFun {
 		Object salt = ByteSource.Util.bytes(PropertiesUtil.getValueByKey("user.pw.slogmm") + userName);
 		Object result = new SimpleHash(hashalgorithmName,credentials,salt,iterations);
 		return result.toString();
+	}
+	
+	public static void copyProperties(Object dest,Object orig){
+		try {
+			BeanUtils.copyProperties(dest, orig);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static void main(String[] args) {
 		System.out.println(getUserPasswordShiro("admin","123456","MD5",10));

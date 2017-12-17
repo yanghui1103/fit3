@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.system.model.LogUser;
+import com.bw.fit.system.model.User;
 
 /****
  * 系统管理模块
@@ -27,4 +28,10 @@ public interface SystemService {
 	 * @return
 	 */
 	public JSONObject getOnLineSituation(HttpSession session,LogUser user,ServletContext servletContext);
+	/*****
+	 * 查询用户（领域模型）所有信息
+	 * @param user_id
+	 * @return
+	 */
+	public User getCurrentUserInfo(String user_id); 
 }

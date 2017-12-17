@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import static com.bw.fit.common.util.PubFun.*;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -17,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.controller.BaseController;
-import com.bw.fit.common.util.PropertiesUtil;
+import com.bw.fit.common.dao.DaoTemplete;
+import com.bw.fit.common.util.PropertiesUtil; 
 import com.bw.fit.system.model.LogUser;
+import com.bw.fit.system.model.User;
 import com.bw.fit.system.service.SystemService;
 
 /*****
@@ -32,6 +37,8 @@ import com.bw.fit.system.service.SystemService;
 public class SystemCoreController extends BaseController {
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private DaoTemplete daoTemplete ;
 
 	/****
 	 * 登录请求
@@ -94,6 +101,9 @@ public class SystemCoreController extends BaseController {
 			model.addAttribute("errorMsg", "登录失败,认证拦截");
 			return "common/loginPage";
 		}
-		return null;
+		
+		User uu = systemService.getCurrentUserInfo(user.getFdid());
+		model.addAttribute(uu);
+		return  "common/indexPage";
 	}
 }
