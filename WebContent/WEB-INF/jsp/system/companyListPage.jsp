@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	import="com.bw.fit.common.model.LogUser,com.bw.fit.common.util.*"
+	import="com.bw.fit.common.util.*"
 	isELIgnored="false" pageEncoding="UTF-8"%><jsp:include page="/common.jsp"></jsp:include>
 <%
 	String path = request.getContextPath();
@@ -26,18 +26,6 @@
 		</form>
 	</div>
 <script type="text/javascript" src="<%=basePath%>common/fit/companyListPage.js"></script>
-<script type="text/javascript">
-function dd(){
-	$.ajax({
-		type:"post",
-		url:"http://localhost/fitn/system/getOperationsByMenuId/101",
-		datatype:"jsonp",
-		data:{},
-		sucess:function(data){
-			alert(data.res);
-		}
-	});
-}
-</script>
+
 </body>
 </html>

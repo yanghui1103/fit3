@@ -6,11 +6,18 @@ public class Company  extends BaseModel{
 
 	private String company_name;
 	private String company_type_cd ;
+	private String company_type_name ;
 	private String parent_id;
 	private String company_address;
 	private String company_order;
 	
 	
+	public String getCompany_type_name() {
+		return company_type_name;
+	}
+	public void setCompany_type_name(String company_type_name) {
+		this.company_type_name = company_type_name;
+	}
 	public String getCompany_order() {
 		return company_order;
 	}

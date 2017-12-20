@@ -1,5 +1,7 @@
 package com.bw.fit.system.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -27,6 +29,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.controller.BaseController;
 import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.util.PropertiesUtil; 
+import com.bw.fit.system.dao.CompanyDao;
+import com.bw.fit.system.dao.SystemDao;
+import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Menu;
@@ -44,6 +49,10 @@ import com.bw.fit.system.service.SystemService;
 public class SystemCoreController extends BaseController {
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private CompanyDao companyDao ;
+	@Autowired
+	private SystemDao systemDao;
 	@Autowired
 	private DaoTemplete daoTemplete ;
 
@@ -145,7 +154,10 @@ public class SystemCoreController extends BaseController {
 			return JSONObject.toJSONString(menu);
 		} 
 	}
-	
+	@RequestMapping("openCompanyList/{params}")
+	public String openCompanyList(@PathVariable("params") String params){
+		return "system/companyListPage";
+	}
 	/*****
 	 * 查询组织管理列表
 	 * @param params 
@@ -161,7 +173,18 @@ public class SystemCoreController extends BaseController {
 			Model model, @ModelAttribute Company c,HttpServletRequest request,
 			HttpSession session) { 
 		JSONObject json = new JSONObject();
-		
+		c.setPaginationEnable("1");
+		List<Company> list = companyDao.getCompanyList(c);
+		for(Company cc:list){
+			TdataDict d = (systemDao.getDictByValue(cc.getCompany_type_cd()));
+			if(d!=null){
+				cc.setCompany_type_name(d.getDict_name());
+			}
+		}
+		c.setPaginationEnable("0");
+		List<Company> listTotal = companyDao.getCompanyList(c);
+		json.put("total", listTotal.size()); 
+		json.put("rows", JSONObject.toJSON(list));
 		return json ;
 	}
 	

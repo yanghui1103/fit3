@@ -1,7 +1,7 @@
 $(function() {
 	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
-	renderAuthorityOperateBtnAll($("#companylist_toolBar"),ctx+"system/getOperationsByMenuId","100",false,"toolBar");
-
+	//renderAuthorityOperateBtnAll($("#companylist_toolBar"),ctx+"system/getOperationsByMenuId","100",false,"toolBar");
+ 
 	query(); 
 });
 
@@ -16,7 +16,7 @@ function query(){
                    { field: 'fdid', title: 'ID' ,hidden:true  },
                    { field: 'company_name', title: '组织名称', width: '25%',fixed:true  },
                    { field: 'company_type_name', title: '类型', width: '25%' },
-                   { field: 'parent_company_name', title: '父组织', width: '25%' }, 
+                   { field: 'company_name', title: '父组织', width: '25%' }, 
                    { field: 'company_address', title: '地址', width: '25%' }
                ]],
              fit: true,    

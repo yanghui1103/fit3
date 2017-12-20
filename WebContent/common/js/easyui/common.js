@@ -12,7 +12,7 @@ var prompt_title = "系统提示框";
  * 
  * @param data
  */
-function openNewTab(data){
+function openNewTab(data){ 
 	//判断选项卡是否重复打开  
         if ($('#mainFrame').tabs('exists', data.menu_name)) {  
             $('#mainFrame').tabs('select', data.menu_name);//选中并刷新  

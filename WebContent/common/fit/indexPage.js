@@ -6,7 +6,7 @@ $(function() {
 				  type: 'POST',
 				  url:  ctx+"system/getFrameUrlByMenuId",
 				  data: {"menuId":node.id},
-				  success: function(data){ 
+				  success: function(data){  
 					  if(data.res !="1" ){
 						  openNewTab(data)
 					  }

@@ -7,7 +7,7 @@
 	</select>
 	<!-- 获取用户信息 -->
 	<select id="getUserById" parameterType="String" resultType="tuser">
-		select st.*,cp.company_name,cp.company_type company_type_cd from staff  st,staff2company sc ,company cp where st.fdid = sc.user_id and sc.company_id = cp.fdid 
+		select st.*,cp.company_name,cp.company_type_cd from staff  st,staff2company sc ,company cp where st.fdid = sc.user_id and sc.company_id = cp.fdid 
 		and st.fdid = #{user_id} 
 	</select>
 	<!-- 根据用户查询其角色 -->

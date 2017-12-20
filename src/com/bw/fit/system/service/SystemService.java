@@ -35,5 +35,6 @@ public interface SystemService {
 	 * @return 返回JSONArray
 	 */
 	public JSONArray getMenuTreeJsonByUserId(String user_id);
+	 
 	
 }

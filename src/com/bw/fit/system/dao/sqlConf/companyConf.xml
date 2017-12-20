@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="companySql">
+<mapper namespace="companySql"> 
+	<sql id="paginationSql">
+		<![CDATA[ and rownum >#{start_num} and rownum <= #{end_num} ]]>   
+	</sql>
 	<!-- 获取组织信息 -->
 	<select id="getCompanyList" parameterType="company" resultType="company">
-		select fdid from staff where user_cd = #{user_cd} and isdeleted='0'
+		select * from (
+		select * from company where company_name like  '%'||#{keyWords}||'%' and isdeleted='0' order by version_time desc ) 
+		where 1=1  
+		<if test="paginationEnable!='0'">		
+			<include refid="paginationSql"></include>
+		</if>
 	</select>
 </mapper>   

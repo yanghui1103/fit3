@@ -13,12 +13,13 @@ import org.springframework.web.context.request.NativeWebRequest;
 import com.alibaba.fastjson.*;
 import com.bw.fit.common.model.RbackException;
 
-@ControllerAdvice
+
 public class GlobalExceptionHandler {  
 	   
 		@ExceptionHandler(Exception.class)  
 	    public String processUnauthenticatedException(NativeWebRequest request, Exception e,Model model) {  
 	        System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出Exception异常时执行"); 
+	        System.out.println(e.getLocalizedMessage());
 	        model.addAttribute("exceptionMessage", e.getLocalizedMessage());
 	        return "common/exceptionPage"; //逻辑视图名  
 	    }  

@@ -33,12 +33,39 @@ public class BaseModel {
 	/***
 	 * 翻页使用
 	 */
-	private Integer page ;
-	private Integer rows ;
+	private Integer page =1;
+	private Integer rows =20;
+	private Integer start_num;
+	private Integer end_num;
+	private String paginationEnable;
 	
 	
 	
 	
+	public String getPaginationEnable() {
+		return paginationEnable;
+	}
+	public void setPaginationEnable(String paginationEnable) {
+		this.paginationEnable = paginationEnable;
+	}
+	public Integer getPage() {
+		return page;
+	}
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+	public Integer getRows() {
+		return rows;
+	}
+	public void setRows(Integer rows) {
+		this.rows = rows;
+	}
+	public Integer getStart_num() {
+		return (page-1)*rows;
+	} 
+	public Integer getEnd_num() {
+		return (page-1)*rows + rows;
+	} 
 	public String getStatus() {
 		return status;
 	}
