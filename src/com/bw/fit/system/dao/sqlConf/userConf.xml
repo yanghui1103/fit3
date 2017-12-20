@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userSql">
+	<!-- 获取用户信息 -->
+	<select id="getUserIdByCd" parameterType="String" resultType="String">
+		select fdid from staff where user_cd = #{user_cd} and isdeleted='0'
+	</select>
+	<!-- 获取用户信息 -->
+	<select id="getUserById" parameterType="String" resultType="tuser">
+		select st.*,cp.company_name,cp.company_type company_type_cd from staff  st,staff2company sc ,company cp where st.fdid = sc.user_id and sc.company_id = cp.fdid 
+		and st.fdid = #{user_id} 
+	</select>
+	<!-- 根据用户查询其角色 -->
+	<select id="getUserRoleInfo" parameterType="String" resultType="trole">
+		select rl.*
+		from staff2role sr,roles rl where sr.role_id = rl.fdid and
+		rl.isdeleted='0'
+		and sr.user_id = #{user_id}
+	</select>
+	<!-- 查询用户岗位 -->
+	<select id="getUserPostionInfo" parameterType="String"
+		resultType="tpostion">
+		select p.*
+		from staff2postion sr,postion p where sr.postion_id = p.fdid
+		and sr.user_id =#{user_id}
+	</select>
+	<!-- 用户的所有的菜单 -->
+	<select id="getMenuInfoByUserId" parameterType="String"
+		resultType="menu">
+	select mm.* from staff2role sr ,role2authority ra,authority2menu am,menu mm
+	where sr.role_id = ra.role_id and ra.authority_id = am.authority
+	and am.menu_id = mm.fdid and sr.user_id = #{user_id}
+	</select>
+</mapper>   

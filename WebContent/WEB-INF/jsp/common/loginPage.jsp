@@ -16,6 +16,7 @@
 	type="text/css" />
 <script language="javascript">
 function reload() {  
+	alert('<%=basePath%>');
     document.getElementById("CreateCheckCode").src = document  
             .getElementById("CreateCheckCode").src  
             + "?nocache=" + new Date().getTime();  
@@ -24,18 +25,6 @@ function reload() {
 </head>
 <body>
 	<div id="login">
-		<div id="login_header">
-			<h1 class="login_logo">
-				<a href="http://demo.dwzjs.com"><img
-					src="<%=basePath%>themes/default/images/login_logo.gif" /></a>
-			</h1>
-			<div class="login_headerContent">
-				<div class="navList"></div>
-				<h2 class="login_title">
-					<img src="<%=basePath%>themes/default/images/login_title.png" />
-				</h2>
-			</div>
-		</div>
 		<div id="login_content">
 			<div class="loginForm">
 				<form action="<%=basePath%>system/login" method="post">
@@ -60,22 +49,6 @@ function reload() {
 						<input  type="submit" value="登录" />
 					</div>
 				</form>
-			</div>
-			<div class="login_banner">
-				<img src="<%=basePath%>themes/default/images/login_banner.jpg" />
-			</div>
-			<div class="login_main">
-				<ul class="helpList">
-					<li><a href="#"></a></li>
-					<li><a href="#"></a></li>
-					<li><a href="#"></a></li>
-					<li><a href="#"></a></li>
-				</ul>
-				<div class="login_inner">
-					<p></p>
-					<p></p>
-					<p></p>
-				</div>
 			</div>
 		</div>
 		<div id="login_footer">Copyright &copy; 2009 . All Rights

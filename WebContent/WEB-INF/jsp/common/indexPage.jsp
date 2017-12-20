@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	import="com.bw.fit.common.model.LogUser,com.bw.fit.common.util.*"
+	import="com.bw.fit.common.util.*"
 	pageEncoding="UTF-8"%><jsp:include page="/common.jsp"></jsp:include>
 <%
 	String path = request.getContextPath();

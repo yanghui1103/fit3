@@ -22,7 +22,7 @@ public class LogUser extends BaseModel implements Serializable{
 	private String user_name;
 	@NotEmpty(message="{user.login.pwd}")
 	private String passwd;
-	private String pwd_mm;
+	private String password;/***密文**/
 	private String ip; 
 	private String mac ;
 	private String company_id;
@@ -75,11 +75,12 @@ public class LogUser extends BaseModel implements Serializable{
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
-	public String getPwd_mm() {
-		return pwd_mm;
+	
+	public String getPassword() {
+		return password;
 	}
-	public void setPwd_mm(String pwd_mm) {
-		this.pwd_mm = pwd_mm;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getUser_cd() {
 		return user_cd;

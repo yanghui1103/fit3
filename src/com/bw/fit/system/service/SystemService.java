@@ -3,6 +3,7 @@ package com.bw.fit.system.service;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.User;
@@ -14,12 +15,6 @@ import com.bw.fit.system.model.User;
  */
 public interface SystemService {
 
-	/*****
-	 * 验证登录用户信息，并反馈信息
-	 * @param user 登录用户
-	 * @return 验证结果信息
-	 */
-	public JSONObject getUserCheckResult(LogUser user);	
 	/*****
 	 * 查看当前用户帐号登录情况，检查是否多地登录
 	 * @param session
@@ -33,5 +28,12 @@ public interface SystemService {
 	 * @param user_id
 	 * @return
 	 */
-	public User getCurrentUserInfo(String user_id); 
+	public User getCurrentUserInfo(String user_cd); 
+	/****
+	 * 根据用户id查询其拥有的菜单
+	 * @param user_id
+	 * @return 返回JSONArray
+	 */
+	public JSONArray getMenuTreeJsonByUserId(String user_id);
+	
 }

@@ -30,7 +30,11 @@ public class BaseModel {
 	private String action_name ;
 	private String UUID ;
 	private String status ;
-	
+	/***
+	 * 翻页使用
+	 */
+	private Integer page ;
+	private Integer rows ;
 	
 	
 	

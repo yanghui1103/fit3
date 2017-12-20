@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="systemSql">
-	<!-- 获取用户信息 -->
-	<select id="getStaffInfoByCd" parameterType="tuser" resultType="tuser">
-		
+
+	<!-- 菜单id查询其url -->
+	<select id="getFrameUrlByMenuId" parameterType="String"
+		resultType="menu">
+		select * from menu a where fdid =#{menuId}
 	</select>
 </mapper>   

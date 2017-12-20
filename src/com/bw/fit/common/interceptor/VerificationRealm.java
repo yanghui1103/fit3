@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import static com.bw.fit.common.util.PubFun.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authc.AuthenticationException;
@@ -25,6 +27,9 @@ import org.apache.shiro.authc.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.util.PropertiesUtil;
+import com.bw.fit.common.util.PubFun;
+import com.bw.fit.system.dao.UserDao;
+import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.service.SystemService;
 /*****
@@ -34,7 +39,7 @@ import com.bw.fit.system.service.SystemService;
  */
 public class VerificationRealm extends AuthorizingRealm  {
 	@Autowired
-	private SystemService systemService;
+	private UserDao userDao;
 	private Log log = LogFactory.getLog(this.getClass());	
 	/*****
 	 * 认证权限是否符合
@@ -49,15 +54,14 @@ public class VerificationRealm extends AuthorizingRealm  {
 		//3.数据库中查询用户记录
 		LogUser user =new LogUser();
 		user.setUser_cd(userName);
-		JSONObject j2 = systemService.getUserCheckResult(user);
-		if (j2 != null && "1".equals(j2.get("res"))) {
-			throw new AuthenticationException(j2.get("msg").toString());
+		Tuser u1 = userDao.getUserById(userDao.getUserIdByCd(user.getUser_cd()));
+		if (u1 ==null) {
+			throw new AuthenticationException("用户不存在");
 		}
-		//4，若用户不存在，密码错误，锁定等   扔出去
-		
+		copyProperties(user, u1);
 		//5,最后返回的用户信息，
 		Object principal = userName;
-		Object credentials = j2.get("pwd");
+		Object credentials = user.getPassword();
 		//6 盐值
 		ByteSource salt = ByteSource.Util.bytes(PropertiesUtil.getValueByKey("user.pw.slogmm") + userName );
 		SimpleAuthenticationInfo info = null ;

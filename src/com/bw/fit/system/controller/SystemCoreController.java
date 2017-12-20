@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import static com.bw.fit.common.util.PubFun.*;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -16,13 +17,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.controller.BaseController;
 import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.util.PropertiesUtil; 
+import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.LogUser;
+import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.User;
 import com.bw.fit.system.service.SystemService;
 
@@ -98,12 +105,64 @@ public class SystemCoreController extends BaseController {
 			currentUser.login(token);
 		} catch (AuthenticationException e) {
 			// TODO Auto-generated catch block 
-			model.addAttribute("errorMsg", "登录失败,认证拦截");
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "登录失败,认证拦截:"+e.getMessage());
 			return "common/loginPage";
 		}
 		
-		User uu = systemService.getCurrentUserInfo(user.getFdid());
-		model.addAttribute(uu);
+		User uu = systemService.getCurrentUserInfo(user.getUser_cd());
+		session.setAttribute("CurrentUser",uu);
 		return  "common/indexPage";
 	}
+	
+	/*****
+	 * 当前用户，的所有菜单权限
+	 * 拼接为JSON-父子结构
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="getMenuAuthTreeJson",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public JSONArray getMenuAuthTreeJson(HttpSession session){ 
+		String user_id = ((User)session.getAttribute("CurrentUser")).getFdid() ;
+		return systemService.getMenuTreeJsonByUserId(user_id);
+	}
+	
+	/*****
+	 * 菜单id，查询其对应的URL
+	 * @param menuId
+	 * @return
+	 */
+	@RequestMapping(value="getFrameUrlByMenuId",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String getFrameUrlByMenuId(@RequestParam(value="menuId") String menuId){
+		JSONObject json = new JSONObject();
+		Menu menu = (Menu)daoTemplete.getOneData("systemSql.getFrameUrlByMenuId", menuId); 
+		if(StringUtils.isBlank(menu.getMenu_path())||"".equals(menu.getMenu_path())||"-9".equals(menu.getMenu_path())){
+			json.put("res", "1");
+			return json.toJSONString() ;
+		}else{
+			return JSONObject.toJSONString(menu);
+		} 
+	}
+	
+	/*****
+	 * 查询组织管理列表
+	 * @param params 
+	 * @param model UI-Model
+	 * @param c 组织
+	 * @param request 请求
+	 * @param session 会话
+	 * @return
+	 */
+	@RequestMapping("companyList/{params}")
+	@ResponseBody
+	public JSONObject companyList(@PathVariable("params") String params,
+			Model model, @ModelAttribute Company c,HttpServletRequest request,
+			HttpSession session) { 
+		JSONObject json = new JSONObject();
+		
+		return json ;
+	}
+	
 }

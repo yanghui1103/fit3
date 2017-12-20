@@ -11,9 +11,7 @@
     </settings>     
     <typeAliases>
     	<package name="com.bw.fit.system.entity"/>
-    	<package name="com.bw.fit.log.entity"/>
+    	<package name="com.bw.fit.log.entity"/> 
+    	<package name="com.bw.fit.system.model"/>
     </typeAliases>
-    <mappers>
-    	<mapper resource="com/bw/fit/system/dao/sqlConf/systemConf.xml"  />
-    </mappers>
 </configuration>

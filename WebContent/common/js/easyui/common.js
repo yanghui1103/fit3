@@ -4,7 +4,7 @@
 *	2，通用的JS方法
 *	3，其他
 ****/
-var ctx = "http://localhost:8080/fit3/";
+var ctx = "http://localhost/fit3/";
 var prompt_title = "系统提示框";
 
 /****

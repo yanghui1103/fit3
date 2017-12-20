@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.bw.fit.common.util.PubFun.*;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -11,11 +13,19 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.util.PropertiesUtil;
+import com.bw.fit.common.util.PubFun;
+import com.bw.fit.system.dao.UserDao;
+import com.bw.fit.system.entity.Tpostion;
+import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.LogUser;
+import com.bw.fit.system.model.Menu;
+import com.bw.fit.system.model.Postion;
+import com.bw.fit.system.model.Role;
 import com.bw.fit.system.model.User;
 import com.bw.fit.system.service.SystemService;
 
@@ -23,12 +33,9 @@ import com.bw.fit.system.service.SystemService;
 public class SystemServiceImpl implements SystemService {
 
 	@Autowired
-	private DaoTemplete daoTemplete ;
-	@Override
-	public JSONObject getUserCheckResult(LogUser user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private DaoTemplete daoTemplete ; 
+	@Autowired
+	private UserDao userDao ; 
 
 	@Override
 	public JSONObject getOnLineSituation(HttpSession session, LogUser user,
@@ -65,9 +72,97 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public User getCurrentUserInfo(String user_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getCurrentUserInfo(String user_cd) {
+		User user = new User();
+		String user_id = userDao.getUserIdByCd(user_cd);
+		copyProperties(user, userDao.getUserById(user_id)); 
+		List<Role> roles = new ArrayList<>();
+		List<Trole> rls = userDao.getUserRoleInfo(user_id);
+		for(Trole r:rls){
+			Role r1 = new Role();
+			copyProperties(r1, r); 
+			roles.add(r1);
+		}
+		if(roles!=null){
+			user.setRole_list(roles);
+		}
+		List<Postion> postions1 = new ArrayList<>();
+		List<Tpostion> Postions = userDao.getUserPostionInfo(user_id);
+		for(Tpostion p:Postions){
+			Postion r1 = new Postion();
+			copyProperties(r1, p); 
+			postions1.add(r1);
+		}
+		if(postions1!=null){
+			user.setPostion_list(postions1);
+		}
+		return user;
+	}
+
+	@Override
+	public JSONArray getMenuTreeJsonByUserId(String user_id) {
+		JSONArray array = new JSONArray();
+		List<Menu> list = userDao.getMenuInfoByUserId(user_id);
+		list = list.stream().sorted((x,y)->(x.getMenu_level().compareTo(y.getMenu_level()))).collect(Collectors.toList());
+		JSONArray json = new JSONArray(); 
+		List<Menu> nodeList = list ;  
+
+		// start
+		List<Menu> levelList = nodeList.stream()
+				.filter((n) -> "1".equals(n.getMenu_level()))
+				.collect(Collectors.toList());
+		json =   getJSON(nodeList, levelList) ; 
+		return json;
+	}
+	
+
+	private boolean getExisteNode(List<Menu> list, Menu c) {
+		List ls = list.stream()
+				.filter((n) -> (n.getParent_id()).equals(c.getFdid()))
+				.collect(Collectors.toList());
+		if (ls.size() < 1)
+			return false;
+		return true;
+	}
+
+	private JSONArray getJSON(List<Menu> list2, List<Menu> list) {
+		JSONArray array1 = new JSONArray();
+		for (Menu cc : list) {
+			JSONObject json2 = new JSONObject();
+			json2.put("text", cc.getMenu_name());
+			String fdid = cc.getFdid();
+			List<Menu> childs = list2.stream()
+					.filter((n) -> (n.getParent_id()).equals(fdid))
+					.collect(Collectors.toList());
+			if (childs.size() > 0) {
+				json2.put("children", getChildJSON(childs, fdid, list2));
+			}
+			array1.add(json2);
+		}
+		return array1;
+	}
+
+	private JSONArray getChildJSON(List<Menu> list, String fdid,
+			List<Menu> alllist) {
+		JSONArray array = new JSONArray();
+		List<Menu> list2 = alllist.stream()
+				.filter((n) -> fdid.equals(n.getParent_id()))
+				.collect(Collectors.toList());
+
+		for (Menu cc : list2) {
+			JSONObject json2 = new JSONObject();
+			json2.put("id", cc.getFdid());
+			json2.put("text", cc.getMenu_name());
+			JSONArray arra2 = getChildJSON(list, cc.getFdid(), alllist);
+			if (arra2.size() > 0) {
+				json2.put("children", arra2);
+			}
+			if (!getExisteNode(list, cc)) {
+				array.add(json2);
+			}
+		}
+		return array;
+
 	}
 
 }

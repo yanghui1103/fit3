@@ -8,7 +8,8 @@ import com.bw.fit.common.entity.BaseEntity;
  *
  */
 public class Tcompany extends BaseEntity{
-	
+
+	private String company_id;
 	private String company_name;
 	private String company_type_cd ;
 	private String parent_id;
@@ -16,6 +17,12 @@ public class Tcompany extends BaseEntity{
 	private String company_order;
 	
 	
+	public String getCompany_id() {
+		return company_id;
+	}
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
 	public String getCompany_order() {
 		return company_order;
 	}
