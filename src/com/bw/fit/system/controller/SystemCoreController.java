@@ -1,5 +1,6 @@
 package com.bw.fit.system.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +29,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.controller.BaseController;
 import com.bw.fit.common.dao.DaoTemplete;
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.PropertiesUtil; 
+import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.CompanyDao;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.model.Company;
+import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.User;
@@ -156,7 +160,7 @@ public class SystemCoreController extends BaseController {
 	}
 	@RequestMapping("openCompanyList/{params}")
 	public String openCompanyList(@PathVariable("params") String params){
-		return "system/companyListPage";
+		return "system/company/companyListPage";
 	}
 	/*****
 	 * 查询组织管理列表
@@ -175,17 +179,86 @@ public class SystemCoreController extends BaseController {
 		JSONObject json = new JSONObject();
 		c.setPaginationEnable("1");
 		List<Company> list = companyDao.getCompanyList(c);
-		for(Company cc:list){
-			TdataDict d = (systemDao.getDictByValue(cc.getCompany_type_cd()));
-			if(d!=null){
-				cc.setCompany_type_name(d.getDict_name());
+		if(list!=null&&list.size()>0){
+			for(Company cc:list){
+				TdataDict d = (systemDao.getDictByValue(cc.getCompany_type_cd()));
+				if(d!=null){
+					cc.setCompany_type_name(d.getDict_name());
+				}
 			}
 		}
 		c.setPaginationEnable("0");
 		List<Company> listTotal = companyDao.getCompanyList(c);
-		json.put("total", listTotal.size()); 
+		if(listTotal!=null&&listTotal.size()>0){
+			json.put("total", listTotal.size()); 
+		}else{
+			json.put("total", 0); 
+		}
 		json.put("rows", JSONObject.toJSON(list));
 		return json ;
 	}
+	/*****
+	 * 获取此用户在此页面的功能权限
+	 * @param BtnPrefixCode
+	 * @param requset
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("getOperationsByMenuId/{BtnPrefixCode}")
+	@ResponseBody
+	public JSONObject getOperationsByMenuId(
+			@PathVariable(value = "BtnPrefixCode") String BtnPrefixCode,
+			HttpServletRequest requset, HttpSession session) {
+		JSONObject json = new JSONObject(); 
+		json = systemService.getOperationsByMenuId(((User) session.getAttribute("CurrentUser")).getFdid(),BtnPrefixCode);
+		return json;
+	} 
+	/****
+	 * 打开新建组织页
+	 * @return
+	 */
+	@RequestMapping("openCreateCompany")
+	public String openCreateCompany(){ 
+		return "system/company/createCompanyPage";
+	}
+	/*****
+	 * 删除组织
+	 * @param fdid
+	 * @return
+	 */
+	@RequestMapping("deleteCompany/{fdid}")
+	@ResponseBody
+	public JSONObject deleteCompany(@PathVariable(value="fdid") String fdid){
+		JSONObject j = new JSONObject(); 
+		returnSuccessJson(j);
+		Company c =  new Company();
+		c.setFdid(fdid);
+		try {
+			companyDao.deleteCompany(c);
+		} catch (RbackException e) {
+			j = new JSONObject(); 
+			returnFailJson(j,e.getMsg());			
+		}finally{
+			return j;
+		}
+	}
 	
+	/****
+	 * 打开数据字典页面
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping("openDataDict/{params}")
+	public String dataDictPage(@PathVariable("params") String params,
+			Model model, @ModelAttribute DataDict c, HttpSession session) { 
+		return "system/app/dataDictPage";
+	}
+	
+	@RequestMapping("getDataDictList/{parent_id}")
+	@ResponseBody
+	public JSONArray getDataDictList(@PathVariable(value="parent_id") String parent_id ){
+				
+		JSONArray array  = systemService.getAllDataDict(parent_id);
+		return array ;
+	}
 }

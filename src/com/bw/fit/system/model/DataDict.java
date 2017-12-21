@@ -1,19 +1,14 @@
-package com.bw.fit.system.entity;
+package com.bw.fit.system.model;
 
-import com.bw.fit.common.entity.BaseEntity;
+import com.bw.fit.common.model.BaseModel;
 
-/****
- * 数据字典实体类
- * @author yangh
- *
- */
-public class TdataDict extends BaseEntity{
+public class DataDict extends BaseModel {
 
 	private String parent_id;
 	private String dict_name;
 	private String dict_value;
 	private String dict_remark;
-	private String num;  //序号
+	private String num;
 	private String can_add;
 	private String can_edit;
 	private String can_del;

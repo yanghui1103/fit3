@@ -511,6 +511,25 @@ public class PubFun {
 			e.printStackTrace();
 		}
 	}
+	/****
+	 * 填充成功返回JSON
+	 * @param j
+	 */
+	public static void returnSuccessJson(JSONObject j){
+		j.put("res", "2");
+		j.put("msg", "执行成功"); 
+	}
+
+	/****
+	 * 填充失败/异常返回JSON
+	 * @param j
+	 * @param errorMsg 失败消息
+	 */
+	public static void returnFailJson(JSONObject j,String errorMsg){
+		j.put("res", "1");
+		j.put("msg", errorMsg); 
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(getUserPasswordShiro("admin","123456","MD5",10));
 	}

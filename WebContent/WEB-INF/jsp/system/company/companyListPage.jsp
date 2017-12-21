@@ -15,13 +15,12 @@
 <body>
 	<table id="companylisttdg"  >
 	</table>
-	<div name="tb" style="padding: 2px 5px;"> 
+	<div name="companylisttb" style="padding: 2px 5px;"> 
 		<form id="companylistFM">
 			<div id="companylist_toolBar" class="easyui-accordion">
 			关键词: <input name="keyWords" class="easyui-textbox"
 				style="width: 200px">
 			<a class="easyui-linkbutton" iconcls="icon-search" onclick="reloadgrid()">查询</a>
-			<a class="easyui-linkbutton" iconcls="icon-search" onclick="dd()">跨域Ajax</a>
 			</div>
 		</form>
 	</div>

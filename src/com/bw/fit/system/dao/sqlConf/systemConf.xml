@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="systemSql">
@@ -7,8 +8,32 @@
 		resultType="menu">
 		select * from menu a where fdid =#{menuId}
 	</select>
-	<select id="getDictByValue" parameterType="String"
-		resultType="tdataDict">
-		select * from data_dict a where a.isdeleted='0' and a.dict_value = #{dict_value}
+	<select id="getDictByValue" parameterType="String" resultType="tdataDict">
+		select * from data_dict a where a.isdeleted='0' and a.dict_value =
+		#{dict_value}
 	</select>
+	<!-- 用户id，菜单id查询拥有功能 -->
+	<select id="getOperationsByMenuId" parameterType="Toperation"
+		resultType="Toperation">
+		select op.*
+		from staff2role sr,roles rl ,role2authority ra ,authority2operation
+		ao,operation op
+		where sr.role_id = rl.fdid and rl.isdeleted='0'
+		and rl.fdid = ra.role_id and ra.authority_id = ao.authority
+		and ao.operation_id = op.fdid and op.isdeleted='0'
+		and sr.user_id = #{creator_id} and op.foreign_id = #{foreign_id}
+	</select>
+
+	<!-- 数据字典tree JSON -->
+	<select id="getDataDictList" parameterType="String"
+		resultType="tdataDict">
+		select a.*
+		from data_dict a
+		where isdeleted='0'
+		connect by
+		a.parent_id = prior a.fdid
+		start with a.parent_id = #{parent_id} order
+		by num asc
+	</select>
+
 </mapper>   

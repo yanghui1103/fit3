@@ -35,6 +35,18 @@ public interface SystemService {
 	 * @return 返回JSONArray
 	 */
 	public JSONArray getMenuTreeJsonByUserId(String user_id);
-	 
+	/****
+	 * 根据用户id,和菜单
+	 * @param user_id
+	 * @param menuId
+	 * @return
+	 */
+	public JSONObject getOperationsByMenuId(String user_id,String menuId);
+	/*****
+	 * 获取这个节点（parnet_id）下所有数据字典信息
+	 * @param parent_id
+	 * @return
+	 */
+	public JSONArray getAllDataDict(String parent_id);
 	
 }

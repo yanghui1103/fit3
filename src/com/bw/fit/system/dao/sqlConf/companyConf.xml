@@ -13,4 +13,8 @@
 			<include refid="paginationSql"></include>
 		</if>
 	</select>
+	<!-- 删除组织 -->
+	<update id="deleteCompany"  parameterType="company">
+		update company set isdeleted='1',version_time=sysdate where fdid = #{fdid}
+	</update>
 </mapper>   

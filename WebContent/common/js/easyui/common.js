@@ -136,6 +136,7 @@ function addExternalTab(title, url) {
 			return selRow ;
 		}else{
 			promptMessage("1","请选择记录!"); 
+			return null ;
 		}
 	}
 	/*****
@@ -194,8 +195,14 @@ function addExternalTab(title, url) {
 	}
 	
 	
-
-	//根据操作前缀编码抽取该用户拥有的操作权限按钮
+	/******
+	 *  根据操作前缀编码抽取该用户拥有的操作权限按钮
+	 * @param obj 放置按钮div
+	 * @param action 
+	 * @param code 
+	 * @param ansy 是否同步
+	 * @param barCss  toolBar:页面上方的工具栏,formBar:页面右下角工具栏
+	 */
 	function renderAuthorityOperateBtnAll(obj, action, code, ansy, barCss) {
 		$.post(action+"/"+code,function(data){
 			var htmlString = ""; 
@@ -204,15 +211,15 @@ function addExternalTab(title, url) {
 				if (barCss.indexOf("toolBar")>-1) {
 					var list = data.list;
 					htmlString = "";
-					for (var i = 0; i < list.length; i++) { 
-						if(""==list[i].operate_address||"-9"==list[i].operate_address){
+					for (var i = 0; i < list.length; i++) {
+						if("jsTodo"==list[i].operate_type){
 							htmlString = htmlString + "<a class='easyui-linkbutton' iconCls="
-									+ list[i].operate_css
-									+ "  href='#' id="+list[i].menuId+list[i].operate_code+"  >"+list[i].operate_name+"</a>";
+									+ list[i].operate_target
+									+ "  href='"+list[i].address+"' id="+list[i].foreign_id+list[i].operate_code+"  >"+list[i].operate_name+"</a>";
 						}else{
 							htmlString = htmlString + "<a class='easyui-linkbutton' iconCls="
-							+ list[i].operate_css
-							+ "   href='javascript:addNewTab(\""+list[i].operate_name+"\",\""+ctx+list[i].operate_address+"\")'   ><span> "+list[i].operate_name+"</span></a>";				
+							+ list[i].operate_target
+							+ "   href='javascript:addNewTab(\""+list[i].operate_name+"\",\""+ctx+list[i].address+"\")'   ><span> "+list[i].operate_name+"</span></a>";				
 						}
 					}
 					obj.append(htmlString);
@@ -222,7 +229,7 @@ function addExternalTab(title, url) {
 					htmlString = "<div style='position:fixed;right:30px;bottom:20px;' >";
 					for (var i = 0; i < list.length; i++) {
 						htmlString = htmlString
-								+ " <a href=# class=easyui-linkbutton id='"+list[i].menuId+list[i].operate_code+"' style='width: 80px'>"+list[i].operate_name+"</a>";
+								+ " <a href=# class=easyui-linkbutton id='"+list[i].foreign_id+list[i].operate_code+"' style='width: 80px'>"+list[i].operate_name+"</a>";
 					}
 					htmlString = htmlString + "</div>";
 					obj.append(htmlString);

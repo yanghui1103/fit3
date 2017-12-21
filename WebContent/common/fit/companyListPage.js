@@ -1,16 +1,29 @@
 $(function() {
 	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
-	//renderAuthorityOperateBtnAll($("#companylist_toolBar"),ctx+"system/getOperationsByMenuId","100",false,"toolBar");
+	renderAuthorityOperateBtnAll($("#companylist_toolBar"),ctx+"system/getOperationsByMenuId","100",false,"toolBar");
  
 	query(); 
+	
+	
+
+	
 });
 
+
+function deleteCompany(){
+	promptMessageCallBack("3","是否确认删除该记录",function(){
+		var row = getSingleGridSelectData($("#companylisttdg"));
+		$.post(ctx+"system/deleteCompany/"+row.fdid,function(data){
+			promptMessage(data.res,data.msg);
+		});
+	});
+}
 function query(){    
 	$('#companylisttdg').datagrid({ 
 		pagination:true,
-	    url:ctx+'system/companyList/all' ,   
+	    url:ctx+'system/companyList/-9' ,   
         queryParams:   serializeFormToJSON($("#companylistFM").serializeArray()),
-	    toolbar:$("div[name='tb']"),
+	    toolbar:$("div[name='companylisttb']"),
 	    remoteSort: false, 
         columns: [[
                    { field: 'fdid', title: 'ID' ,hidden:true  },
@@ -35,9 +48,10 @@ function query(){
 }
 
 //增加查询参数，在页面加载时运行  
-function reloadgrid() {    
+function reloadgrid() {  
+	$('#companylisttdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
     $('#companylisttdg').datagrid('options').queryParams= serializeFormToJSON($("#companylistFM").serializeArray());  
-    $("#companylisttdg").datagrid('reload');  
+    $("#companylisttdg").datagrid('reload');
 }  
 
 

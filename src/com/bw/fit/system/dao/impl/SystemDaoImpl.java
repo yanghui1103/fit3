@@ -1,5 +1,7 @@
 package com.bw.fit.system.dao.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,10 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public TdataDict getDictByValue(String dict_value) {
 		return (TdataDict)daoTemplete.getOneData("systemSql.getDictByValue", dict_value);
+	}
+	@Override
+	public List<TdataDict> getDataDictList(String parent_id) {
+		return daoTemplete.getListData("systemSql.getDataDictList", parent_id);
 	}
 
 }

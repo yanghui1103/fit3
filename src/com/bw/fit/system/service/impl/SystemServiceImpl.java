@@ -18,7 +18,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.util.PropertiesUtil;
 import com.bw.fit.common.util.PubFun;
+import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.dao.UserDao;
+import com.bw.fit.system.entity.TdataDict;
+import com.bw.fit.system.entity.Toperation;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
@@ -33,9 +36,11 @@ import com.bw.fit.system.service.SystemService;
 public class SystemServiceImpl implements SystemService {
 
 	@Autowired
-	private DaoTemplete daoTemplete ; 
+	private SystemDao systemDao;
 	@Autowired
-	private UserDao userDao ; 
+	private DaoTemplete daoTemplete;
+	@Autowired
+	private UserDao userDao;
 
 	@Override
 	public JSONObject getOnLineSituation(HttpSession session, LogUser user,
@@ -65,7 +70,7 @@ public class SystemServiceImpl implements SystemService {
 			json.put("res", "1");
 			json.put("msg", "此帐号已经在别的地方登录");
 			return json;
-		} 
+		}
 		json.put("res", "2");
 		json.put("msg", "此帐号此IP可以登录使用");
 		return json;
@@ -75,25 +80,25 @@ public class SystemServiceImpl implements SystemService {
 	public User getCurrentUserInfo(String user_cd) {
 		User user = new User();
 		String user_id = userDao.getUserIdByCd(user_cd);
-		copyProperties(user, userDao.getUserById(user_id)); 
+		copyProperties(user, userDao.getUserById(user_id));
 		List<Role> roles = new ArrayList<>();
 		List<Trole> rls = userDao.getUserRoleInfo(user_id);
-		for(Trole r:rls){
+		for (Trole r : rls) {
 			Role r1 = new Role();
-			copyProperties(r1, r); 
+			copyProperties(r1, r);
 			roles.add(r1);
 		}
-		if(roles!=null){
+		if (roles != null) {
 			user.setRole_list(roles);
 		}
 		List<Postion> postions1 = new ArrayList<>();
 		List<Tpostion> Postions = userDao.getUserPostionInfo(user_id);
-		for(Tpostion p:Postions){
+		for (Tpostion p : Postions) {
 			Postion r1 = new Postion();
-			copyProperties(r1, p); 
+			copyProperties(r1, p);
 			postions1.add(r1);
 		}
-		if(postions1!=null){
+		if (postions1 != null) {
 			user.setPostion_list(postions1);
 		}
 		return user;
@@ -103,18 +108,20 @@ public class SystemServiceImpl implements SystemService {
 	public JSONArray getMenuTreeJsonByUserId(String user_id) {
 		JSONArray array = new JSONArray();
 		List<Menu> list = userDao.getMenuInfoByUserId(user_id);
-		list = list.stream().sorted((x,y)->(x.getMenu_level().compareTo(y.getMenu_level()))).collect(Collectors.toList());
-		JSONArray json = new JSONArray(); 
-		List<Menu> nodeList = list ;  
+		list = list
+				.stream()
+				.sorted((x, y) -> (x.getMenu_level().compareTo(y
+						.getMenu_level()))).collect(Collectors.toList());
+		JSONArray json = new JSONArray();
+		List<Menu> nodeList = list;
 
 		// start
 		List<Menu> levelList = nodeList.stream()
 				.filter((n) -> "1".equals(n.getMenu_level()))
 				.collect(Collectors.toList());
-		json =   getJSON(nodeList, levelList) ; 
+		json = getJSON(nodeList, levelList);
 		return json;
 	}
-	
 
 	private boolean getExisteNode(List<Menu> list, Menu c) {
 		List ls = list.stream()
@@ -163,6 +170,32 @@ public class SystemServiceImpl implements SystemService {
 		}
 		return array;
 
+	}
+
+	@Override
+	public JSONObject getOperationsByMenuId(String user_id, String menuId) {
+		JSONObject json = new JSONObject();
+		Toperation t = new Toperation();
+		t.setCreator_id(user_id);
+		t.setForeign_id(menuId);
+		List<Toperation> list = daoTemplete.getListData("systemSql.getOperationsByMenuId", t);
+		if (list.size() < 1) {
+			json.put("res", "1");
+			json.put("msg", "无按钮操作权限，请与管理员联系申请");
+			return json;
+		}
+		json.put("res", "2");
+		json.put("msg", "有按钮操作权限");
+		JSONArray array = new JSONArray();
+		array = (JSONArray)JSONArray.toJSON(list);
+		json.put("list", array);
+		return json;
+	}
+
+	@Override
+	public JSONArray getAllDataDict(String parent_id) {
+		List<TdataDict> list = systemDao.getDataDictList(parent_id);
+		return null;
 	}
 
 }

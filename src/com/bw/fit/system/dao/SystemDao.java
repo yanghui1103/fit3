@@ -1,5 +1,7 @@
 package com.bw.fit.system.dao;
 
+import java.util.List;
+
 import com.bw.fit.system.entity.TdataDict;
 
 /****
@@ -15,5 +17,11 @@ public interface SystemDao {
 	 * @return
 	 */
 	public TdataDict getDictByValue(String dict_value);
+	/****
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public List<TdataDict> getDataDictList(String parent_id);
 	
 }

@@ -2,6 +2,7 @@ package com.bw.fit.system.dao;
 
 import java.util.*;
 
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.system.model.Company;
 
 /****
@@ -17,4 +18,10 @@ public interface CompanyDao {
 	 * @return
 	 */
 	public List<Company> getCompanyList(Company c);
+	/***
+	 * 删除组织
+	 * @param c
+	 * @throws RbackException
+	 */
+	public void deleteCompany(Company c) throws RbackException;
 }
