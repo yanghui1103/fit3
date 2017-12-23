@@ -3,12 +3,14 @@ package com.bw.fit.common.model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bw.fit.common.util.Node;
+
 /*****
  * 顶级领域对象
  * @author yangh
  *
  */
-public class BaseModel {
+public class BaseModel{
 
 	private String fdid = getUUID();
 	private String keyWords="";	

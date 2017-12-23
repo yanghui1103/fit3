@@ -1,11 +1,12 @@
-package com.bw.fit.common.util;
+package com.bw.fit.common.util.treeHandler;
 
 import java.util.*;
 
 import com.alibaba.fastjson.JSONArray;
+import com.bw.fit.common.util.Node;
 import com.bw.fit.system.model.DataDict;
 
-public class JsonTreeHelper {
+public class JsonTreeHandler {
 	public static void main(String[] args) {
 		// 读取层次数据结果集列表
 		List dataList = VirtualDataGenerator.getVirtualResult();
@@ -25,6 +26,7 @@ public class JsonTreeHelper {
 		   node.id = (String) dataRecord.get("id");
 		   node.text = (String) dataRecord.get("text");
 		   node.parentId = (String) dataRecord.get("parentId");
+		   node.num = (String) dataRecord.get("num");
 		   nodeList.put(node.id, node);
 		  }
 		  // 构造无序的多叉树
@@ -50,7 +52,7 @@ public class JsonTreeHelper {
 /**
  * 节点类
  */
-class Node {
+class DNode {
 	/**
 	 * 节点编号
 	 */
@@ -97,7 +99,7 @@ class Node {
 /**
  * 孩子列表类
  */
-class Children {
+class DChildren {
 	private List list = new ArrayList();
 
 	public int getSize() {
@@ -135,7 +137,7 @@ class Children {
 /**
  * 节点比较器
  */
-class NodeIDComparator implements Comparator {
+class DNodeIDComparator implements Comparator {
 	// 按照节点编号比较
 	public int compare(Object o1, Object o2) {
 		int j1 = Integer.parseInt(((Node) o1).id);
@@ -147,7 +149,7 @@ class NodeIDComparator implements Comparator {
 /**
  * 构造虚拟的层次数据
  */
-class VirtualDataGenerator {
+class DVirtualDataGenerator {
 	// 构造无序的结果集列表，实际应用中，该数据应该从数据库中查询获得；
 	public static List getVirtualResult() {
 		List dataList = new ArrayList();

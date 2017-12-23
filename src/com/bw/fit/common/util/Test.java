@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bw.fit.common.util.treeHandler.JsonTreeHandler;
 import com.bw.fit.system.model.DataDict;
 
 public class Test { 
@@ -57,9 +58,10 @@ public class Test {
 			dataRecord1.put("id", d.getFdid());
 			dataRecord1.put("text", d.getDict_name());
 			dataRecord1.put("parentId", d.getParent_id());
+			dataRecord1.put("can_add", d.getCan_add());
 			dataList.add(dataRecord1);
 		} 
-		JsonTreeHelper.getJSONTree(dataList);
+		JsonTreeHandler.getJSONTree(dataList);
 	}
 	 
 }

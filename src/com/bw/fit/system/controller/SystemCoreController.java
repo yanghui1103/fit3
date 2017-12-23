@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.controller.BaseController;
 import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.model.RbackException;
+import com.bw.fit.common.util.Node;
 import com.bw.fit.common.util.PropertiesUtil; 
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.CompanyDao;
@@ -258,7 +259,7 @@ public class SystemCoreController extends BaseController {
 	@ResponseBody
 	public JSONArray getDataDictList(@PathVariable(value="parent_id") String parent_id ) throws Exception{
 				
-		JSONArray json  = systemService.getAllDataDict(parent_id);
-		return json ;
+		DataDict json  = systemService.getAllDataDict(parent_id);
+		return (JSONArray)JSONArray.parse("["+json.toString()+"]"); 
 	}
 }

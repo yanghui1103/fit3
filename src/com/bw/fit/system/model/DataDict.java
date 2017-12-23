@@ -1,6 +1,8 @@
 package com.bw.fit.system.model;
 
-import com.bw.fit.common.model.BaseModel;
+import com.bw.fit.common.model.BaseModel; 
+import com.bw.fit.common.util.treeHandler.Children;
+import com.bw.fit.common.util.treeHandler.DataDictChildren;
 
 public class DataDict extends BaseModel {
 
@@ -61,4 +63,46 @@ public class DataDict extends BaseModel {
 		this.can_del = can_del;
 	}
 	
+	
+	
+	
+	
+
+	/**
+	 * 孩子节点列表
+	 */
+	private DataDictChildren children = new DataDictChildren();
+
+	// 先序遍历，拼接JSON字符串
+	public String toString() {
+		String result = "{" + "fdid : '" + getFdid() + "'" + ", dict_value : '" + this.getDict_value() + "'"
+				+ ", dict_remark : '" + this.getDict_remark() + "'"
+				+ ", can_add : '" + this.getCan_add() + "'"
+				+ ", can_edit : '" + this.getCan_edit() + "'"
+				+ ", can_del	 : '" + this.getCan_del() + "'"				
+				+ ", num	 : '" + this.getNum() + "'"							
+				+ ", parent_id	 : '" + this.getParent_id() + "'"
+				+ ", dict_name :'"+this.getDict_name()+"'";
+		
+		if (children != null && children.getSize() != 0) {
+			result += ", children : " + children.toString();
+		} else {
+			result += ", leaf : true";
+		}
+
+		return result + "}";
+	}
+
+	// 兄弟节点横向排序
+	public void sortChildren() {
+		if (children != null && children.getSize() != 0) {
+			children.sortChildren();
+		}
+	}
+
+	// 添加孩子节点
+	public void addChild(DataDict node) {
+		this.children.addChild(node);
+	}
+
 }

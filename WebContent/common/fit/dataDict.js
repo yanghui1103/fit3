@@ -9,7 +9,7 @@ $(function(){
 	
 	$('#dataDictdg').datagrid({ 
 		pagination:true,
-	    url:ctx+'system/companyList/-9' ,   
+	    url:ctx+'system/getDataDictList/1111111111' ,   
         queryParams:   serializeFormToJSON($("#companylistFM").serializeArray()),
 	    toolbar:$("div[name='tb']"),
 	    remoteSort: false, 

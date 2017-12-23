@@ -26,13 +26,14 @@
 	<!-- 数据字典tree JSON -->
 	<select id="getDataDictList" parameterType="String"
 		resultType="tdataDict">
+		select b.* from data_dict b where b.parent_id =#{parent_id}
+		union 
 		select a.*
 		from data_dict a
 		where isdeleted='0'
 		connect by
 		a.parent_id = prior a.fdid
-		start with a.parent_id = #{parent_id} order
-		by num asc
+		start with a.parent_id = #{parent_id} 
 	</select>
 
 </mapper>   

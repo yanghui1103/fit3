@@ -16,9 +16,11 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.dao.DaoTemplete;
-import com.bw.fit.common.util.JsonTreeHelper;
+import com.bw.fit.common.util.Node;
 import com.bw.fit.common.util.PropertiesUtil;
 import com.bw.fit.common.util.PubFun;
+import com.bw.fit.common.util.treeHandler.DataDictJsonTreeHandler;
+import com.bw.fit.common.util.treeHandler.JsonTreeHandler;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.dao.UserDao;
 import com.bw.fit.system.entity.TdataDict;
@@ -195,19 +197,34 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public JSONArray getAllDataDict(String parent_id) throws Exception  {
+	public DataDict getAllDataDict(String parent_id) throws Exception  {
 		List<TdataDict> list = systemDao.getDataDictList(parent_id);
 		List<DataDict> lis = new ArrayList<>();
 		for(TdataDict d :list){ 
 			DataDict dd = new DataDict();
 			PubFun.copyProperties(dd, d);
-			lis.add(dd);
-			dd = null ;
+			if("0".equals(dd.getParent_id())){
+				dd.setParent_id("");
+			}
+			lis.add(dd); 
 		}
-		// 111111 数据字典最顶级的ID
-		// List<DataDict> listLevel1 = lis.stream().filter(x->x.getParent_id().equals("1111111111")).collect(Collectors.toList());
-		JSONArray array =  new JSONArray();
-		return array;
+
+		List dataList = new ArrayList(); 
+		for(DataDict d:lis){
+			HashMap dataRecord1 = new HashMap();
+			dataRecord1.put("fdid", d.getFdid());
+			dataRecord1.put("dict_value", d.getDict_value());
+			dataRecord1.put("dict_remark", d.getDict_remark());
+			dataRecord1.put("dict_name", d.getDict_name());
+			dataRecord1.put("parent_id", d.getParent_id());
+			dataRecord1.put("can_add", d.getCan_add());
+			dataRecord1.put("can_edit", d.getCan_edit());
+			dataRecord1.put("can_del", d.getCan_del());
+			dataRecord1.put("num", d.getNum());
+			dataList.add(dataRecord1);
+		} 
+		DataDict node = DataDictJsonTreeHandler.getJSONTree(dataList); 
+		return node;
 	}
 
 }

@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bw.fit.common.util.Node;
+import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.User;
 
@@ -47,6 +49,6 @@ public interface SystemService {
 	 * @param parent_id
 	 * @return
 	 */
-	public JSONArray getAllDataDict(String parent_id) throws Exception;
+	public DataDict getAllDataDict(String parent_id) throws Exception;
 	
 }
