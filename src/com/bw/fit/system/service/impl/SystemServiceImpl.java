@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.dao.DaoTemplete;
+import com.bw.fit.common.util.JsonTreeHelper;
 import com.bw.fit.common.util.PropertiesUtil;
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
@@ -25,6 +26,7 @@ import com.bw.fit.system.entity.Toperation;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
+import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.Postion;
@@ -193,9 +195,19 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public JSONArray getAllDataDict(String parent_id) {
+	public JSONArray getAllDataDict(String parent_id) throws Exception  {
 		List<TdataDict> list = systemDao.getDataDictList(parent_id);
-		return null;
+		List<DataDict> lis = new ArrayList<>();
+		for(TdataDict d :list){ 
+			DataDict dd = new DataDict();
+			PubFun.copyProperties(dd, d);
+			lis.add(dd);
+			dd = null ;
+		}
+		// 111111 数据字典最顶级的ID
+		// List<DataDict> listLevel1 = lis.stream().filter(x->x.getParent_id().equals("1111111111")).collect(Collectors.toList());
+		JSONArray array =  new JSONArray();
+		return array;
 	}
 
 }

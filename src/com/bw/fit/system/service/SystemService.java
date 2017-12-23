@@ -47,6 +47,6 @@ public interface SystemService {
 	 * @param parent_id
 	 * @return
 	 */
-	public JSONArray getAllDataDict(String parent_id);
+	public JSONArray getAllDataDict(String parent_id) throws Exception;
 	
 }

@@ -254,11 +254,11 @@ public class SystemCoreController extends BaseController {
 		return "system/app/dataDictPage";
 	}
 	
-	@RequestMapping("getDataDictList/{parent_id}")
+	@RequestMapping(value="getDataDictList/{parent_id}",produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public JSONArray getDataDictList(@PathVariable(value="parent_id") String parent_id ){
+	public JSONArray getDataDictList(@PathVariable(value="parent_id") String parent_id ) throws Exception{
 				
-		JSONArray array  = systemService.getAllDataDict(parent_id);
-		return array ;
+		JSONArray json  = systemService.getAllDataDict(parent_id);
+		return json ;
 	}
 }
