@@ -122,6 +122,7 @@ function addExternalTab(title, url) {
 			return row ;
 		}else{
 			promptMessage("1","请选择记录!"); 
+			return null ;
 		}
 	}
 	/*****
@@ -139,6 +140,40 @@ function addExternalTab(title, url) {
 			return null ;
 		}
 	}
+	
+	
+
+	/*****
+	 * 列表选择记录
+	 * 返回行对象
+	 * @param obj 指Treegrid对象
+	 * 只容许选择单条记录
+	 */
+	function getSingleTreeGridSelectData(obj){
+		var row = obj.treegrid('getSelected');  
+		if (row){
+			return row ;
+		}else{
+			promptMessage("1","请选择记录!"); 
+			return null ;
+		}
+	}
+	/*****
+	 * 列表选择记录
+	 * 返回行对象
+	 * @param obj 指Treegrid对象
+	 * 容许选择多条记录
+	 */
+	function getMultipleTreeGridSelectData(obj){
+		var selRow = obj.treegrid('getSelections');  
+		if(selRow.length>0){
+			return selRow ;
+		}else{
+			promptMessage("1","请选择记录!"); 
+			return null ;
+		}
+	}
+	
 	/*****
 	 * 根据后台返回的数据
 	 * 进行提示

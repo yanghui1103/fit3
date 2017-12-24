@@ -35,5 +35,14 @@
 		a.parent_id = prior a.fdid
 		start with a.parent_id = #{parent_id} 
 	</select>
+	
+	<select id="getThisDataDictInfo" parameterType="String"
+		resultType="tdataDict">
+		select * from data_dict a where a.fdid = #{fdid}
+	</select>	
+	<update id="deleteDict" parameterType="String">
+		update data_dict set isdeleted ='1' 
+		where fdid = #{fdid}
+	</update>
 
 </mapper>   

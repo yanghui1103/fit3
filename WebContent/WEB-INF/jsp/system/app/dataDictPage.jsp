@@ -14,11 +14,11 @@
 </head>
 <body>
 	<div name="dataDictTb" style="padding: 2px 5px;"> 
-		<a class="easyui-linkbutton" iconcls="icon-add">增加</a>
-		<a class="easyui-linkbutton" iconcls="icon-edit">修改</a>
-		<a class="easyui-linkbutton" iconcls="icon-remove">删除</a>
+		<a class="easyui-linkbutton" iconcls="icon-add" id="dataDictAdd">增加</a>
+		<a class="easyui-linkbutton" iconcls="icon-edit" id="dataDictEdit">修改</a>
+		<a class="easyui-linkbutton" iconcls="icon-remove" id="dataDictDel">删除</a>
 	</div>
-	<table title="数据字典列表" class="easyui-treegrid" style="width:100%;height:100%"
+	<table title="数据字典列表" id="dataDictTreeGd"  class="easyui-treegrid" style="width:100%;height:100%"
 			data-options="
 				url: '<%=basePath %>system/getDataDictList/0',
 				method: 'get',
@@ -29,6 +29,7 @@
 			">
 		<thead>
 			<tr>
+				<th data-options="field:'fdid'" hidden=true>名称</th>
 				<th data-options="field:'dict_name'" width="30%">名称</th>
 				<th data-options="field:'dict_value'" width="25%" align="right">值</th>
 				<th data-options="field:'num'" width="15%">序号</th>
@@ -39,5 +40,6 @@
 		</thead>
 	</table>
 
+<script type="text/javascript" src="<%=basePath%>common/fit/dataDict.js"></script>
 </body>
 </html>

@@ -262,4 +262,55 @@ public class SystemCoreController extends BaseController {
 		DataDict json  = systemService.getAllDataDict(parent_id);
 		return (JSONArray)JSONArray.parse("["+json.toString()+"]"); 
 	}
+	
+	/***
+	 * 这个节点为父节点，是否可以
+	 * 增加子节点，修改本身，删除本身
+	 * @param fdid
+	 * @return
+	 */
+	@RequestMapping("addNewDict/{fdid}")
+	@ResponseBody
+	public JSONObject addNewDict(@PathVariable(value="fdid") String fdid){
+		TdataDict d = systemDao.getThisDataDictInfo(fdid);
+		DataDict dd = new DataDict();
+		copyProperties(dd, d);
+		
+		return (JSONObject)JSONObject.toJSON(dd) ;
+	} 
+	
+	
+	/*****
+	 * 系统通用Action
+	 * @param path1 模块路径
+	 * @param path2 领域路径
+	 * @param pageName 页面名称(必须含Page)  
+	 * @param param 例如ID等参数
+	 * @return
+	 */
+	@RequestMapping("gotoIframe/{path1}/{path2}/{pageName}/{param}")
+	public String gotoIframe(@PathVariable(value="path1") String path1,
+			@PathVariable(value="path2") String path2
+			,@PathVariable(value="pageName") String pageName,
+			@PathVariable(value="param") String param){
+		
+		return path1+"/"+path2+"/"+pageName;
+	}
+	
+	
+	@RequestMapping("deleteDict/{fdid}")
+	@ResponseBody
+	public JSONObject deleteDict(@PathVariable  String fdid){
+		JSONObject j = new JSONObject();
+		returnSuccessJson(j);
+		try {
+			systemDao.deleteDict(fdid);
+		} catch (RbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnFailJson(j,e.getMsg());
+		}finally{
+			return j;
+		}
+	}
 }

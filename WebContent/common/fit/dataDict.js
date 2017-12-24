@@ -1,35 +1,51 @@
-function dataDictList(event, treeId, treeNode){ 
-	var gotoHref = $("#gotoHref");
-	gotoHref.attr("href","dictlist/" + treeNode.id);
-	gotoHref.trigger("click");
-}
-
-
 $(function(){
 	
-	$('#dataDictdg').datagrid({ 
-		pagination:true,
-	    url:ctx+'system/getDataDictList/1111111111' ,   
-        queryParams:   serializeFormToJSON($("#companylistFM").serializeArray()),
-	    toolbar:$("div[name='tb']"),
-	    remoteSort: false, 
-        columns: [[
-                   { field: 'fdid', title: 'ID' ,hidden:true  },
-                   { field: 'company_name', title: '组织名称', width: '25%',fixed:true  },
-                   { field: 'company_type_name', title: '类型', width: '25%' },
-                   { field: 'company_name', title: '父组织', width: '25%' }, 
-                   { field: 'company_address', title: '地址', width: '25%' }
-               ]],
-             fit: true,    
-             idField: "fdid",
-             pagination: true,
-             singleSelect:true,
-             rownumbers: true, 
-             fitColumns:true,
-             pageNumber: 1,
-             pageSize: 20,
-             pageList: [ 20, 30, 40, 50],
-             striped: true //奇偶行是否区分                    
-	});  
+	$("#dataDictAdd").click(function(){ 
+		var row = getSingleTreeGridSelectData($("#dataDictTreeGd"));
+		if(row !=null){
+			var url = ctx + "system/addNewDict/"+row.fdid ;
+			$.post(url,function(data){
+				if(data.can_add == '1'){
+					addExternalTab("增加_"+data.dict_name+"_子节点",ctx + "system/gotoIframe/system/app/addNewDictPage/"+row.fdid);
+				}else{
+					promptMessage("1","不允许增加子节点");
+				}
+			});
+		}
+	});
+
+	$("#dataDictEdit").click(function(){ 
+		var row = getSingleTreeGridSelectData($("#dataDictTreeGd"));
+		if(row !=null){
+			var url = ctx + "system/addNewDict/"+row.fdid ;
+			$.post(url,function(data){
+				if(data.can_edit == '1'){
+					addExternalTab("修改_"+data.dict_name ,ctx + "system/gotoIframe/system/app/editDictPage/"+row.fdid);
+				}else{
+					promptMessage("1","不允许修改本节点");
+				}
+			});
+		}
+	});
+	
+
+	$("#dataDictDel").click(function(){ 
+		var row = getSingleTreeGridSelectData($("#dataDictTreeGd"));
+		if(row !=null){			
+			var url = ctx + "system/addNewDict/"+row.fdid ;
+			$.post(url,function(data){
+				if(data.can_del=="0"){
+					promptMessage("1","不允许删除本节点");		
+				}	else{
+					promptMessageCallBack("3","是否确认删除该记录",function(){
+
+						$.post(ctx+"system/deleteDict/"+row.fdid ,function(data){
+							promptMessage(data.res,data.msg);		
+						});
+					});
+				}	
+			});
+		}
+	});
 	
 });

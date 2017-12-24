@@ -2,6 +2,8 @@ package com.bw.fit.system.dao;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.system.entity.TdataDict;
 
 /****
@@ -18,10 +20,19 @@ public interface SystemDao {
 	 */
 	public TdataDict getDictByValue(String dict_value);
 	/****
-	 * 
+	 * 获取父节点下所有子孙节点
 	 * @param c
 	 * @return
 	 */
 	public List<TdataDict> getDataDictList(String parent_id);
+	/****
+	 * 此节点信息
+	 * @param fdid
+	 * @return
+	 */
+	public TdataDict getThisDataDictInfo(String fdid);
+	
+	public void deleteDict(String fdid) throws RbackException;
+	
 	
 }
