@@ -33,7 +33,7 @@ public class JsonTreeHandler {
 		  Set entrySet = nodeList.entrySet();
 		  for (Iterator it = entrySet.iterator(); it.hasNext();) {
 		   Node node = (Node) ((Map.Entry) it.next()).getValue();
-		   if (node.parentId == null || node.parentId.equals("")) {
+		   if (node.parentId == null || "".equals(node.parentId)) {
 		    root = node;
 		   } else {
 		    ((Node) nodeList.get(node.parentId)).addChild(node);

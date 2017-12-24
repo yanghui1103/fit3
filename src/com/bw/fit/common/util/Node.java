@@ -26,7 +26,7 @@ public class Node {
 
 	// 先序遍历，拼接JSON字符串
 	public String toString() {
-		String result = "{" + "id : '" + id + "'" + ", text : '" + text + "', num :'"+num+"'";
+		String result = "{" + "id : '" + id + "'" + ", text : '" + text + "', parentId : '" + parentId + "', num :'"+num+"'";
 
 		if (children != null && children.getSize() != 0) {
 			result += ", children : " + children.toString();

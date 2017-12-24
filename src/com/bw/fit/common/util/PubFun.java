@@ -47,6 +47,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.dom4j.Document;
@@ -530,6 +531,14 @@ public class PubFun {
 		j.put("msg", errorMsg); 
 	}
 	
+	/*****
+	 * 获取当前用户的会话
+	 * shrio 方法
+	 * @return
+	 */
+	public static org.apache.shiro.session.Session getCurrentSession(){
+		 return SecurityUtils.getSubject().getSession();
+	}
 	public static void main(String[] args) {
 		System.out.println(getUserPasswordShiro("admin","123456","MD5",10));
 	}

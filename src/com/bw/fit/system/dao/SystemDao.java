@@ -34,5 +34,20 @@ public interface SystemDao {
 	
 	public void deleteDict(String fdid) throws RbackException;
 	
+	/****
+	 * 根据父节点，查询所有子孙的节点
+	 * @param parent_id
+	 * @return
+	 */
+	public List<TdataDict> getChildrenDictList(String parent_id);
 	
+	/****
+	 * 给角色对某个页面进行
+	 * 数据权限分配
+	 * @param role_id 角色
+	 * @param menuId 菜单页面ID
+	 * @param level_code 权限级别
+	 * @throws RbackException
+	 */
+	public void createRoleElementLevel(String role_id,String menuId,String level_code) throws RbackException;
 }

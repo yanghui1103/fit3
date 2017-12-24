@@ -15,34 +15,54 @@
 	<select id="getOperationsByMenuId" parameterType="Toperation"
 		resultType="Toperation">
 		select op.*
-		from staff2role sr,roles rl ,role2authority ra ,authority2operation
+		from staff2role sr,roles rl ,role2authority ra
+		,authority2operation
 		ao,operation op
-		where sr.role_id = rl.fdid and rl.isdeleted='0'
-		and rl.fdid = ra.role_id and ra.authority_id = ao.authority
+		where sr.role_id = rl.fdid and
+		rl.isdeleted='0'
+		and rl.fdid = ra.role_id and ra.authority_id =
+		ao.authority
 		and ao.operation_id = op.fdid and op.isdeleted='0'
-		and sr.user_id = #{creator_id} and op.foreign_id = #{foreign_id}
+		and
+		sr.user_id = #{creator_id} and op.foreign_id = #{foreign_id}
 	</select>
 
 	<!-- 数据字典tree JSON -->
-	<select id="getDataDictList" parameterType="String"
-		resultType="tdataDict">
-		select b.* from data_dict b where b.parent_id =#{parent_id}
-		union 
+	<select id="getDataDictList" parameterType="String" resultType="tdataDict">
 		select a.*
 		from data_dict a
 		where isdeleted='0'
 		connect by
-		a.parent_id = prior a.fdid
-		start with a.parent_id = #{parent_id} 
+		a.parent_id =
+		prior a.fdid
+		start with a.parent_id = #{parent_id}
 	</select>
-	
+
 	<select id="getThisDataDictInfo" parameterType="String"
 		resultType="tdataDict">
 		select * from data_dict a where a.fdid = #{fdid}
-	</select>	
+	</select>
 	<update id="deleteDict" parameterType="String">
-		update data_dict set isdeleted ='1' 
+		update data_dict set
+		isdeleted ='1'
 		where fdid = #{fdid}
 	</update>
+	<!-- 根据父节点，查询子一层节点 -->
+	<select id="getChildrenDictList" parameterType="String"
+		resultType="tdataDict">
+		select a.*
+		from data_dict a
+		where isdeleted='0' and a.fdid !=#{parent_id}
+		connect by
+		a.parent_id = prior a.fdid
+		start with a.parent_id =#{parent_id}
+	</select>
+	<!-- 新建页面元素权级别 -->
+	<insert id="createRoleElementLevel" parameterType="TelementLevel">
+		insert into
+		element_level(fdid,role_id,menu_id,level_code,element_type,creator,create_time,version_time,isdeleted)
+		values
+		(#{fdid},#{role_id},#{menu_id},#{level_code},#{element_type},#{creator},sysdate,sysdate,'0')
+	</insert>
 
 </mapper>   

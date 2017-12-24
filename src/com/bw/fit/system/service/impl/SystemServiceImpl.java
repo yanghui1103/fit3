@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class SystemServiceImpl implements SystemService {
 	private UserDao userDao;
 
 	@Override
-	public JSONObject getOnLineSituation(HttpSession session, LogUser user,
+	public JSONObject getOnLineSituation(Session session, LogUser user,
 			ServletContext servletContext) {
 		List<LogUser> showList = (ArrayList) (servletContext
 				.getAttribute("onLineUserList"));
@@ -182,7 +183,8 @@ public class SystemServiceImpl implements SystemService {
 		Toperation t = new Toperation();
 		t.setCreator_id(user_id);
 		t.setForeign_id(menuId);
-		List<Toperation> list = daoTemplete.getListData("systemSql.getOperationsByMenuId", t);
+		List<Toperation> list = daoTemplete.getListData(
+				"systemSql.getOperationsByMenuId", t);
 		if (list.size() < 1) {
 			json.put("res", "1");
 			json.put("msg", "无按钮操作权限，请与管理员联系申请");
@@ -191,26 +193,26 @@ public class SystemServiceImpl implements SystemService {
 		json.put("res", "2");
 		json.put("msg", "有按钮操作权限");
 		JSONArray array = new JSONArray();
-		array = (JSONArray)JSONArray.toJSON(list);
+		array = (JSONArray) JSONArray.toJSON(list);
 		json.put("list", array);
 		return json;
 	}
 
 	@Override
-	public DataDict getAllDataDict(String parent_id) throws Exception  {
+	public DataDict getAllDataDict(String parent_id) throws Exception {
 		List<TdataDict> list = systemDao.getDataDictList(parent_id);
 		List<DataDict> lis = new ArrayList<>();
-		for(TdataDict d :list){ 
+		for (TdataDict d : list) {
 			DataDict dd = new DataDict();
 			PubFun.copyProperties(dd, d);
-			if("0".equals(dd.getParent_id())){
+			if ("0".equals(dd.getParent_id())) {
 				dd.setParent_id("");
 			}
-			lis.add(dd); 
+			lis.add(dd);
 		}
 
-		List dataList = new ArrayList(); 
-		for(DataDict d:lis){
+		List dataList = new ArrayList();
+		for (DataDict d : lis) {
 			HashMap dataRecord1 = new HashMap();
 			dataRecord1.put("fdid", d.getFdid());
 			dataRecord1.put("dict_value", d.getDict_value());
@@ -222,9 +224,21 @@ public class SystemServiceImpl implements SystemService {
 			dataRecord1.put("can_del", d.getCan_del());
 			dataRecord1.put("num", d.getNum());
 			dataList.add(dataRecord1);
-		} 
-		DataDict node = DataDictJsonTreeHandler.getJSONTree(dataList); 
+		}
+		DataDict node = DataDictJsonTreeHandler.getJSONTree(dataList);
 		return node;
+	}
+
+	@Override
+	public List<DataDict> getChildrenDictList(String parent_id) {
+		List<TdataDict> list = systemDao.getChildrenDictList(parent_id);
+		List<DataDict> lis = new ArrayList<>();
+		for (TdataDict dd : list) {
+			DataDict d2 = new DataDict();
+			PubFun.copyProperties(d2, dd);
+			lis.add(d2);
+		}
+		return lis ;
 	}
 
 }

@@ -3,8 +3,7 @@ package com.bw.fit.system.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest; 
 import javax.validation.Valid;
 
 import static com.bw.fit.common.util.PubFun.*;
@@ -14,6 +13,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,6 +62,8 @@ public class SystemCoreController extends BaseController {
 	private SystemDao systemDao;
 	@Autowired
 	private DaoTemplete daoTemplete ;
+	@Autowired
+	private DefaultWebSecurityManager securityManager ;
 
 	/****
 	 * 登录请求
@@ -73,7 +77,8 @@ public class SystemCoreController extends BaseController {
 	@RequestMapping("/login")
 	public String normalLogin(@Valid @ModelAttribute LogUser user,
 			BindingResult result, HttpServletRequest request,
-			HttpSession session, Model model) {
+			 Model model) {
+		Session session = null ;
 		try {
 			model.addAttribute("user", user);
 			if (result.hasErrors()) {
@@ -98,32 +103,33 @@ public class SystemCoreController extends BaseController {
 			return "common/loginPage";
 		}
 
-		/***
-		 * 是否可以俩处登录
-		 */
-		if ("false".equalsIgnoreCase(PropertiesUtil
-				.getValueByKey("user.multi.login"))) {
-			JSONObject j = systemService.getOnLineSituation(session, user,
-					request.getServletContext());
-			if ("1".equals(j.get("res"))) {
-				model.addAttribute("errorMsg", j.get("msg"));
-				return "common/loginPage";
-			}
-		}
 
 		/****开始shiro登录*****/
 		try {
 			UsernamePasswordToken token = new UsernamePasswordToken(user.getUser_cd(),user.getPasswd());
-			org.apache.shiro.subject.Subject currentUser = SecurityUtils.getSubject();
+			Subject currentUser = SecurityUtils.getSubject();
 			token.setRememberMe(true);
 			currentUser.login(token);
+			session = currentUser.getSession();
 		} catch (AuthenticationException e) {
 			// TODO Auto-generated catch block 
 			e.printStackTrace();
 			model.addAttribute("errorMsg", "登录失败,认证拦截:"+e.getMessage());
 			return "common/loginPage";
 		}
-		
+
+		/***
+		 * 是否可以俩处登录
+		 */
+//		if ("false".equalsIgnoreCase(PropertiesUtil
+//				.getValueByKey("user.multi.login"))) {
+//			JSONObject j = systemService.getOnLineSituation(session, user,
+//					request.getServletContext());
+//			if ("1".equals(j.get("res"))) {
+//				model.addAttribute("errorMsg", j.get("msg"));
+//				return "common/loginPage";
+//			}
+//		}
 		User uu = systemService.getCurrentUserInfo(user.getUser_cd());
 		session.setAttribute("CurrentUser",uu);
 		return  "common/indexPage";
@@ -137,7 +143,8 @@ public class SystemCoreController extends BaseController {
 	 */
 	@RequestMapping(value="getMenuAuthTreeJson",produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public JSONArray getMenuAuthTreeJson(HttpSession session){ 
+	public JSONArray getMenuAuthTreeJson(){ 
+		Session session = PubFun.getCurrentSession();
 		String user_id = ((User)session.getAttribute("CurrentUser")).getFdid() ;
 		return systemService.getMenuTreeJsonByUserId(user_id);
 	}
@@ -175,8 +182,9 @@ public class SystemCoreController extends BaseController {
 	@RequestMapping("companyList/{params}")
 	@ResponseBody
 	public JSONObject companyList(@PathVariable("params") String params,
-			Model model, @ModelAttribute Company c,HttpServletRequest request,
-			HttpSession session) { 
+			Model model, @ModelAttribute Company c,HttpServletRequest request
+			) { 
+		Session session = getCurrentSession();
 		JSONObject json = new JSONObject();
 		c.setPaginationEnable("1");
 		List<Company> list = companyDao.getCompanyList(c);
@@ -209,19 +217,12 @@ public class SystemCoreController extends BaseController {
 	@ResponseBody
 	public JSONObject getOperationsByMenuId(
 			@PathVariable(value = "BtnPrefixCode") String BtnPrefixCode,
-			HttpServletRequest requset, HttpSession session) {
+			HttpServletRequest requset) {
+		Session session = getCurrentSession();
 		JSONObject json = new JSONObject(); 
 		json = systemService.getOperationsByMenuId(((User) session.getAttribute("CurrentUser")).getFdid(),BtnPrefixCode);
 		return json;
 	} 
-	/****
-	 * 打开新建组织页
-	 * @return
-	 */
-	@RequestMapping("openCreateCompany")
-	public String openCreateCompany(){ 
-		return "system/company/createCompanyPage";
-	}
 	/*****
 	 * 删除组织
 	 * @param fdid
@@ -251,7 +252,7 @@ public class SystemCoreController extends BaseController {
 	 */
 	@RequestMapping("openDataDict/{params}")
 	public String dataDictPage(@PathVariable("params") String params,
-			Model model, @ModelAttribute DataDict c, HttpSession session) { 
+			Model model, @ModelAttribute DataDict c) {  
 		return "system/app/dataDictPage";
 	}
 	
@@ -261,6 +262,29 @@ public class SystemCoreController extends BaseController {
 				
 		DataDict json  = systemService.getAllDataDict(parent_id);
 		return (JSONArray)JSONArray.parse("["+json.toString()+"]"); 
+	}
+
+	/****
+	 * 用于页面获取下拉菜单(统一口径)
+	 * @param parent_id 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="getDataDict/{parent_id}",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public JSONArray getDataDict(@PathVariable(value="parent_id") String parent_id ) throws Exception{				
+		List<DataDict> list = systemService.getChildrenDictList(parent_id);
+		return (JSONArray)JSONArray.toJSON(list); 
+	}
+
+	/****
+	 * 打开新建组织页
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("openCreateCompany")
+	public String openCreateCompany(Model model) throws Exception{  
+		return "system/company/createCompanyPage";
 	}
 	
 	/***

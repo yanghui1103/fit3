@@ -1,6 +1,6 @@
 $(function() {
 	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
-	renderAuthorityOperateBtnAll($("#companylist_toolBar"),ctx+"system/getOperationsByMenuId","100",false,"toolBar");
+	renderAuthorityOperateBtnAll($("#companylist_toolBar"),ctx+"system/getOperationsByMenuId","900",false,"toolBar");
  
 	query(); 
 	

@@ -1,7 +1,11 @@
 package com.bw.fit.system.service;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
+import org.apache.shiro.session.Session;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -24,7 +28,7 @@ public interface SystemService {
 	 * @param servletContext 上下文
 	 * @return
 	 */
-	public JSONObject getOnLineSituation(HttpSession session,LogUser user,ServletContext servletContext);
+	public JSONObject getOnLineSituation(Session session,LogUser user,ServletContext servletContext);
 	/*****
 	 * 查询用户（领域模型）所有信息
 	 * @param user_id
@@ -50,5 +54,12 @@ public interface SystemService {
 	 * @return
 	 */
 	public DataDict getAllDataDict(String parent_id) throws Exception;
+	
+	/****
+	 * 根据父节点，查询所有子孙的节点
+	 * @param parent_id
+	 * @return
+	 */
+	public List<DataDict> getChildrenDictList(String parent_id);
 	
 }
