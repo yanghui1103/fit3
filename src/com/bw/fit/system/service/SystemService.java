@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.util.Node;
 import com.bw.fit.system.model.DataDict;
+import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.User;
 
@@ -61,5 +62,11 @@ public interface SystemService {
 	 * @return
 	 */
 	public List<DataDict> getChildrenDictList(String parent_id);
+	/***
+	 * 查询，菜单页面相关的权限的配置情况
+	 * @param e
+	 * @return
+	 */
+	public List<ElementLevel> getElementLevelList(ElementLevel e);
 	
 }

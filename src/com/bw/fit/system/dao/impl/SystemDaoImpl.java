@@ -12,6 +12,7 @@ import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.TelementLevel;
+import com.bw.fit.system.model.ElementLevel;
 @Repository
 public class SystemDaoImpl implements SystemDao {
 
@@ -48,5 +49,21 @@ public class SystemDaoImpl implements SystemDao {
 		e.setMenu_id(menuId);
 		e.setLevel_code(level_code);
 		daoTemplete.insert("systemSql.createRoleElementLevel", e);
+	}
+	@Override
+	public List<ElementLevel> getElementLevelList(ElementLevel e) {
+		return daoTemplete.getListData("systemSql.getElementLevelList", e);
+	}
+	@Override
+	public TdataDict getThisDataDictByValue(String dict_value) {
+		return (TdataDict)daoTemplete.getOneData("systemSql.getThisDataDictByValue", dict_value);
+	}
+	@Override
+	public void createDataDict(TdataDict d) throws RbackException {
+		daoTemplete.insert("systemSql.createDataDict", d); 
+	}
+	@Override
+	public void updateDataDict(TdataDict d) throws RbackException {
+		daoTemplete.update("systemSql.updateDataDict", d); 
 	}
 }

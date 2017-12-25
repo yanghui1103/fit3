@@ -216,7 +216,7 @@ function addExternalTab(title, url) {
 	 * 并让当前tab做action动作
 	 * @param data
 	 * @param res
-	 * @param dgId
+	 * @param dgId datagrid对象
 	 * @param action
 	 */
 	function completeSubmitCall(data,res,dgId,action){
@@ -224,7 +224,29 @@ function addExternalTab(title, url) {
 			 var tab =  getCurrentTab();
 			 var mainTab = getMainFrameTab();
 			 var index = mainTab.tabs('getTabIndex',tab);  
+			 mainTab.find("#"+dgId+"").datagrid('loadData',{total:0,rows:[]}); 
 			 mainTab.find("#"+dgId+"").datagrid('reload'); 
+			 mainTab.tabs(action,index );  
+	  }
+	}
+	
+
+	/*****
+	 * 表单提交后返回数据，
+	 * 需要根据res值，刷新dgid页的datagrid重新加载
+	 * 并让当前tab做action动作
+	 * @param data
+	 * @param res
+	 * @param dgId treegrid对象
+	 * @param action
+	 */
+	function completeSubmitCallTreeGd(data,res,dgId,action){
+		if(data.res == res ){
+			 var tab =  getCurrentTab();
+			 var mainTab = getMainFrameTab();
+			 var index = mainTab.tabs('getTabIndex',tab);  
+			 mainTab.find("#"+dgId+"").treegrid('loadData',{total:0,rows:[]}); 
+			 mainTab.find("#"+dgId+"").treegrid('reload'); 
 			 mainTab.tabs(action,index );  
 	  }
 	}

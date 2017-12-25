@@ -1,21 +1,51 @@
 package com.bw.fit.system.model;
 
+import com.bw.fit.common.model.BaseModel;
+
 /****
  * 页面元素权限级别领域类
  * @author yangh
  *
  */
-public class ElementLevel {
+public class ElementLevel extends BaseModel{
 
 	private String role_id;
+	private String role_name;
 	private String menu_id;
+	private String menu_name;
 	/****
 	 * 来自数据字典表
 	 */
 	private String level_code; 
 	private String element_type ;// 页面数据权限分配类；页面字段可视权限；页面某个附件下载/预览；
+	private String element_type_name ;
 	private String element_type_remark ;
+	private String level_desp;
 	
+	public String getRole_name() {
+		return role_name;
+	}
+	public void setRole_name(String role_name) {
+		this.role_name = role_name;
+	}
+	public String getMenu_name() {
+		return menu_name;
+	}
+	public void setMenu_name(String menu_name) {
+		this.menu_name = menu_name;
+	}
+	public String getElement_type_name() {
+		return element_type_name;
+	}
+	public void setElement_type_name(String element_type_name) {
+		this.element_type_name = element_type_name;
+	}
+	public String getLevel_desp() {
+		return level_desp;
+	}
+	public void setLevel_desp(String level_desp) {
+		this.level_desp = level_desp;
+	}
 	public String getElement_type_remark() {
 		return element_type_remark;
 	}

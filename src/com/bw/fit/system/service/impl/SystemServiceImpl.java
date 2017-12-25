@@ -30,6 +30,7 @@ import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.DataDict;
+import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.Postion;
@@ -185,7 +186,7 @@ public class SystemServiceImpl implements SystemService {
 		t.setForeign_id(menuId);
 		List<Toperation> list = daoTemplete.getListData(
 				"systemSql.getOperationsByMenuId", t);
-		if (list.size() < 1) {
+		if (list==null) {
 			json.put("res", "1");
 			json.put("msg", "无按钮操作权限，请与管理员联系申请");
 			return json;
@@ -239,6 +240,27 @@ public class SystemServiceImpl implements SystemService {
 			lis.add(d2);
 		}
 		return lis ;
+	}
+
+	@Override
+	public List<ElementLevel> getElementLevelList(ElementLevel e) {
+		List<ElementLevel> lis = systemDao.getElementLevelList(e);
+		List<ElementLevel> list = new ArrayList<>();
+		if(lis == null)
+			return null ;
+		for(ElementLevel el:lis){
+			TdataDict d = systemDao.getThisDataDictByValue(el.getLevel_code());
+			if(d!=null){
+				el.setLevel_desp(d.getDict_name());
+			}
+			d = systemDao.getThisDataDictByValue(el.getElement_type());
+			if(d!=null){
+				el.setElement_type_name(d.getDict_name());
+			}
+			
+			list.add(el);
+		}
+		return list ;
 	}
 
 }

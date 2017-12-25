@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="systemSql">
 
+	<sql id="paginationSql">
+		<![CDATA[ and rownum >#{start_num} and rownum <= #{end_num} ]]>   
+	</sql>
 	<!-- 菜单id查询其url -->
 	<select id="getFrameUrlByMenuId" parameterType="String"
 		resultType="menu">
@@ -29,18 +32,24 @@
 
 	<!-- 数据字典tree JSON -->
 	<select id="getDataDictList" parameterType="String" resultType="tdataDict">
-		select a.*
-		from data_dict a
-		where isdeleted='0'
-		connect by
-		a.parent_id =
-		prior a.fdid
-		start with a.parent_id = #{parent_id}
+		select a.fdid,a.parent_id,a.dict_name,a.dict_value,a.dict_remark,a.num,(case can_add when '0' then '否' else '是' end) can_add
+		,(case can_edit when '0' then '否' else '是' end) can_edit
+		,(case can_del when '0' then '否' else '是' end) can_del
+    	from data_dict a
+    	where isdeleted='0'
+    	connect by
+    	a.parent_id =
+    	prior a.fdid
+    	start with a.parent_id = #{parent_id}
 	</select>
 
 	<select id="getThisDataDictInfo" parameterType="String"
 		resultType="tdataDict">
 		select * from data_dict a where a.fdid = #{fdid}
+	</select>
+	<select id="getThisDataDictByValue" parameterType="String"
+		resultType="tdataDict">
+		select * from data_dict a where a.dict_value = #{dict_value}
 	</select>
 	<update id="deleteDict" parameterType="String">
 		update data_dict set
@@ -64,5 +73,27 @@
 		values
 		(#{fdid},#{role_id},#{menu_id},#{level_code},#{element_type},#{creator},sysdate,sysdate,'0')
 	</insert>
-
+	<!-- 获取功能相关权限级别列表 -->
+	<select id="getElementLevelList" parameterType="ElementLevel" resultType="ElementLevel">
+		select * from (
+    	select el.fdid,rl.role_name,mm.menu_name,el.level_code,el.element_type,st.user_name,el.version_time
+     	from element_level el,roles rl,menu mm ,staff st 
+    	where  el.role_id = rl.fdid and el.menu_id = mm.fdid and el.creator = st.fdid
+    	and el.isdeleted='0'
+    	and ( rl.role_name like  '%'||#{keyWords}||'%' or  menu_name like '%'||#{keyWords}||'%' )
+    	 order by el.version_time desc )  where 1=1 
+		<if test="paginationEnable!='0'">		
+			<include refid="paginationSql"></include>
+		</if>
+	</select>
+	
+	<!-- 新建一个数据字典记录 -->
+	<insert id="createDataDict" parameterType="tdataDict">
+	insert into data_dict (fdid,parent_id,dict_name,dict_value,dict_remark,num,can_add,can_edit,can_del,isdeleted)
+	values (#{fdid},#{parent_id},#{dict_name},#{dict_value},#{dict_remark,jdbcType=VARCHAR},#{num},#{can_add},#{can_edit},#{can_del},'0')
+	</insert>
+	<update id="updateDataDict" parameterType="tdataDict">
+		update data_dict set dict_name=#{dict_name},dict_value=#{dict_value},num=#{num},
+		can_add=#{can_add},can_edit=#{can_edit},can_del=#{can_del} where fdid = #{fdid}
+	</update>
 </mapper>   

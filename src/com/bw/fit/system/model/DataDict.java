@@ -1,11 +1,14 @@
 package com.bw.fit.system.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bw.fit.common.model.BaseModel; 
 import com.bw.fit.common.util.treeHandler.Children;
 import com.bw.fit.common.util.treeHandler.DataDictChildren;
 
 public class DataDict extends BaseModel {
 
+	@NotEmpty(message="请先选中记录")
 	private String parent_id;
 	private String dict_name;
 	private String dict_value;

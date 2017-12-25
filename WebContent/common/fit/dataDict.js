@@ -3,7 +3,7 @@ $(function(){
 	$("#dataDictAdd").click(function(){ 
 		var row = getSingleTreeGridSelectData($("#dataDictTreeGd"));
 		if(row !=null){
-			var url = ctx + "system/addNewDict/"+row.fdid ;
+			var url = ctx + "system/getThisDataDictInfo/"+row.fdid ; 
 			$.post(url,function(data){
 				if(data.can_add == '1'){
 					addExternalTab("增加_"+data.dict_name+"_子节点",ctx + "system/gotoIframe/system/app/addNewDictPage/"+row.fdid);
@@ -17,7 +17,7 @@ $(function(){
 	$("#dataDictEdit").click(function(){ 
 		var row = getSingleTreeGridSelectData($("#dataDictTreeGd"));
 		if(row !=null){
-			var url = ctx + "system/addNewDict/"+row.fdid ;
+			var url = ctx + "system/getThisDataDictInfo/"+row.fdid ;
 			$.post(url,function(data){
 				if(data.can_edit == '1'){
 					addExternalTab("修改_"+data.dict_name ,ctx + "system/gotoIframe/system/app/editDictPage/"+row.fdid);
@@ -32,7 +32,7 @@ $(function(){
 	$("#dataDictDel").click(function(){ 
 		var row = getSingleTreeGridSelectData($("#dataDictTreeGd"));
 		if(row !=null){			
-			var url = ctx + "system/addNewDict/"+row.fdid ;
+			var url = ctx + "system/getThisDataDictInfo/"+row.fdid ;
 			$.post(url,function(data){
 				if(data.can_del=="0"){
 					promptMessage("1","不允许删除本节点");		

@@ -36,6 +36,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.activiti.engine.form.FormProperty;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -506,6 +508,7 @@ public class PubFun {
 	
 	public static void copyProperties(Object dest,Object orig){
 		try {
+			ConvertUtils.register(new DateConverter(null), java.util.Date.class);
 			BeanUtils.copyProperties(dest, orig);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

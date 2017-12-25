@@ -38,8 +38,10 @@ import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.CompanyDao;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.entity.TdataDict;
+import com.bw.fit.system.entity.TelementLevel;
 import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.DataDict;
+import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.User;
@@ -184,7 +186,6 @@ public class SystemCoreController extends BaseController {
 	public JSONObject companyList(@PathVariable("params") String params,
 			Model model, @ModelAttribute Company c,HttpServletRequest request
 			) { 
-		Session session = getCurrentSession();
 		JSONObject json = new JSONObject();
 		c.setPaginationEnable("1");
 		List<Company> list = companyDao.getCompanyList(c);
@@ -293,14 +294,39 @@ public class SystemCoreController extends BaseController {
 	 * @param fdid
 	 * @return
 	 */
-	@RequestMapping("addNewDict/{fdid}")
+	@RequestMapping("addNewDict")
 	@ResponseBody
-	public JSONObject addNewDict(@PathVariable(value="fdid") String fdid){
-		TdataDict d = systemDao.getThisDataDictInfo(fdid);
-		DataDict dd = new DataDict();
-		copyProperties(dd, d);
-		
-		return (JSONObject)JSONObject.toJSON(dd) ;
+	public JSONObject addNewDict(@Valid @ModelAttribute DataDict d,BindingResult result, Model model){
+		JSONObject json = new JSONObject();
+		if (result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			json.put("res", "1");
+			returnFailJson(json,error.getDefaultMessage());
+		}
+		returnSuccessJson(json);
+		TdataDict dd = new TdataDict(); 
+		PubFun.copyProperties(dd, d);
+		if(!"".equals(dd.getFdid())){
+			try {
+				systemDao.updateDataDict(dd);
+			} catch (RbackException e) {
+				json = new JSONObject();
+				json.put("res", "1");
+				returnFailJson(json,e.getMsg());
+			}finally{
+				return  json ;
+			}
+			
+		}
+		dd.setFdid(getUUID());
+		try {
+			systemDao.createDataDict(dd);
+		} catch (RbackException e) {
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json,e.getMsg());
+		}
+		return  json ;
 	} 
 	
 	
@@ -316,12 +342,29 @@ public class SystemCoreController extends BaseController {
 	public String gotoIframe(@PathVariable(value="path1") String path1,
 			@PathVariable(value="path2") String path2
 			,@PathVariable(value="pageName") String pageName,
-			@PathVariable(value="param") String param){
+			@PathVariable(value="param") String param,Model model){
+		
+		if("addNewDictPage".equalsIgnoreCase(pageName)||"editDictPage".equalsIgnoreCase(pageName)){
+			DataDict d = new DataDict();
+			PubFun.copyProperties(d, systemDao.getThisDataDictInfo(param));
+			d.setFdid(param); 
+			model.addAttribute("model", d);
+		}
 		
 		return path1+"/"+path2+"/"+pageName;
 	}
 	
+	@RequestMapping("getThisDataDictInfo/{fdid}")
+	@ResponseBody
+	public JSONObject getThisDataDictInfo(@PathVariable(value="fdid") String fdid){
+		return (JSONObject)JSONObject.toJSON(systemDao.getThisDataDictInfo(fdid));
+	}
 	
+	/****
+	 * 删除数据字典数据
+	 * @param fdid 记录ID
+	 * @return
+	 */
 	@RequestMapping("deleteDict/{fdid}")
 	@ResponseBody
 	public JSONObject deleteDict(@PathVariable  String fdid){
@@ -336,5 +379,23 @@ public class SystemCoreController extends BaseController {
 		}finally{
 			return j;
 		}
+	}
+	
+	@RequestMapping("elementLevelList/{param}")
+	@ResponseBody
+	public JSONObject elementLevelList(@PathVariable("param") String param,
+			Model model, @ModelAttribute ElementLevel e,HttpServletRequest request){
+		JSONObject json = new JSONObject(); 
+		e.setPaginationEnable("1");
+		List<ElementLevel> list = systemService.getElementLevelList(e);
+		e.setPaginationEnable("0");
+		List<ElementLevel> listTotal = systemService.getElementLevelList(e); 
+		if(listTotal!=null&&listTotal.size()>0){
+			json.put("total", listTotal.size()); 
+		}else{
+			json.put("total", 0); 
+		}
+		json.put("rows", JSONObject.toJSON(list));
+		return json ;
 	}
 }

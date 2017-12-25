@@ -2,19 +2,14 @@
  * 权限相关级别
  */
 $(function() {
-	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
 	renderAuthorityOperateBtnAll($("#elementLevellis_toolBar"),ctx+"system/getOperationsByMenuId","908",false,"toolBar");
- 
-	query(); 
-	
-	
-
-	
+	elementListQuery(); 
+		
 });
 
 
 
-function query(){    
+function elementListQuery(){    
 	$('#elementLevellisdg').datagrid({ 
 		pagination:true,
 	    url:ctx+'system/elementLevelList/-9' ,   
@@ -23,10 +18,11 @@ function query(){
 	    remoteSort: false, 
         columns: [[
                    { field: 'fdid', title: 'ID' ,hidden:true  },
-                   { field: 'company_name', title: '组织名称', width: '25%',fixed:true  },
-                   { field: 'company_type_name', title: '类型', width: '25%' },
-                   { field: 'company_name', title: '父组织', width: '25%' }, 
-                   { field: 'company_address', title: '地址', width: '25%' }
+                   { field: 'role_name', title: '角色名称', width: '20%',fixed:true  },
+                   { field: 'menu_name', title: '菜单名称', width: '20%' },
+                   { field: 'level_desp', title: '级别描述', width: '20%' }, 
+                   { field: 'element_type_name', title: '权限类型', width: '20%' }, 
+                   { field: 'version_time', title: '分配时间', width: '20%' }
                ]],
              fit: true,    
              idField: "fdid",

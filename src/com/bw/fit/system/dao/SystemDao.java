@@ -5,6 +5,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.system.entity.TdataDict;
+import com.bw.fit.system.model.ElementLevel;
 
 /****
  * 系统基础持久层
@@ -12,6 +13,13 @@ import com.bw.fit.system.entity.TdataDict;
  *
  */
 public interface SystemDao {
+	 
+	/****
+	 * 新建一个数据字典记录
+	 * @param d 
+	 */
+	public void createDataDict(TdataDict d)  throws RbackException ;
+	public void updateDataDict(TdataDict d)  throws RbackException ;
 
 	/****
 	 * 根据值获取数据字典对象
@@ -26,11 +34,17 @@ public interface SystemDao {
 	 */
 	public List<TdataDict> getDataDictList(String parent_id);
 	/****
-	 * 此节点信息
+	 * 此节点信息(数据字典)
 	 * @param fdid
 	 * @return
 	 */
 	public TdataDict getThisDataDictInfo(String fdid);
+	/****
+	 * 此节点信息(数据字典)
+	 * @param dict_value 值
+	 * @return
+	 */
+	public TdataDict getThisDataDictByValue(String dict_value);
 	
 	public void deleteDict(String fdid) throws RbackException;
 	
@@ -50,4 +64,10 @@ public interface SystemDao {
 	 * @throws RbackException
 	 */
 	public void createRoleElementLevel(String role_id,String menuId,String level_code) throws RbackException;
+	/****
+	 * 查询数据库功能权限级别列表
+	 * @param e
+	 * @return
+	 */
+	public List<ElementLevel> getElementLevelList(ElementLevel e);
 }
