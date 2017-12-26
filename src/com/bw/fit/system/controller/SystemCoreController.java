@@ -381,6 +381,14 @@ public class SystemCoreController extends BaseController {
 		}
 	}
 	
+	/****
+	 * 页面相关权限列表
+	 * @param param 其他参数
+	 * @param model UIModel
+	 * @param e 传入对象
+	 * @param request 请求
+	 * @return
+	 */
 	@RequestMapping("elementLevelList/{param}")
 	@ResponseBody
 	public JSONObject elementLevelList(@PathVariable("param") String param,

@@ -42,20 +42,20 @@
 				data-options="label:'父数据名称:',required:true">
 		</div>
 		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="dict_value" style="width: 50%"
-				data-options="label:'数据值:',required:true">
+			<input class="easyui-numberbox" name="dict_value" style="width: 50%"
+				data-options="min:0,label:'数据值:',required:true">
 		</div>
 		<div style="margin-bottom: 20px">
 			<input class="easyui-textbox" name="dict_name" style="width: 50%"
 				data-options="label:'数据名称:',required:true">
 		</div>
 		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="num" style="width: 50%"
-				data-options="label:'序号:',required:true">
+			<input class="easyui-numberbox" name="num" style="width: 50%"
+				data-options="min:0,label:'序号:',required:true">
 		</div>
 		
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="required:true">
+			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="required:true,value:[0,1]">
 				<option value="1">是</option>
 				<option value="0">否</option>
 			</select>	

@@ -20,7 +20,7 @@
 			<div id="companylist_toolBar" class="easyui-accordion">
 			关键词: <input name="keyWords" class="easyui-textbox"
 				style="width: 200px">
-			<a class="easyui-linkbutton" iconcls="icon-search" onclick="reloadgrid()">查询</a>
+			<a class="easyui-linkbutton" iconcls="icon-search" onclick="cpListreloadgrid()">查询</a>
 			</div>
 		</form>
 	</div>

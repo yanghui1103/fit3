@@ -71,8 +71,7 @@
 					method: 'get', 
 					columns: [[
 						{field:'dict_value',title:'值',width:80},
-						{field:'dict_name',title:'名称',width:120},
-						{field:'dict_remark',title:'说明',width:120}
+						{field:'dict_name',title:'名称',width:120} 
 					]],
 					fitColumns: true, 
 					required:true,
@@ -89,7 +88,6 @@
 			<input class="easyui-textbox" name="company_order" style="width: 50%"
 				data-options="label:'序号:',required:true">
 		</div>
-		<input name="fdid" type="hidden" value="${uuid }" />
 	</form>
 	<div style="position: fixed; right: 30px; bottom: 20px;">
 		<button class="easyui-linkbutton" type=button

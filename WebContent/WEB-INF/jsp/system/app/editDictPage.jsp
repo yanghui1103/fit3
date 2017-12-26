@@ -33,38 +33,61 @@
 </script>
 </head>
 <body>
-	<form 
-		id="editDictFm" class="easyui-form" method="post"
+	<form  id="editDictFm" class="easyui-form" method="post"
 		data-options="novalidate:false"> 
 		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="dict_value"  value="${model.dict_value }" style="width: 50%"
-				data-options="label:'数据值:',required:true">
+			<input class="easyui-numberbox" name="dict_value"  value="${model.dict_value }" style="width: 50%"
+				data-options="min:0,label:'数据值:',required:true">
 		</div>
 		<div style="margin-bottom: 20px">
 			<input class="easyui-textbox" name="dict_name"  value="${model.dict_name }" style="width: 50%"
 				data-options="label:'数据名称:',required:true">
 		</div>
 		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="num" style="width: 50%" value="${model.num }" 
-				data-options="label:'序号:',required:true">
+			<input class="easyui-numberbox" name="num" style="width: 50%" value="${model.num }" 
+				data-options="min:0,label:'序号:',required:true">
 		</div>
 		
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="required:true">
-				<option value="1">是</option>
+			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="limitToList:true,required:true">
+			<c:choose>
+				<c:when test="${model.can_add=='1' }">
+				<option value="1" selected>是</option>
 				<option value="0">否</option>
+				</c:when>
+				<c:otherwise>
+				<option value="1" >是</option>
+				<option value="0" selected>否</option>
+				</c:otherwise>
+			</c:choose>
 			</select>	
 		</div>
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_edit" label="可修改:"   style="width:50%;" data-options="required:true">
-				<option value="1">是</option>
+			<select class="easyui-combobox" name="can_edit" label="可修改:"   style="width:50%;" data-options="limitToList:true,required:true">
+				<c:choose>
+				<c:when test="${model.can_edit=='1' }">
+				<option value="1" selected>是</option>
 				<option value="0">否</option>
+				</c:when>
+				<c:otherwise>
+				<option value="1" >是</option>
+				<option value="0" selected>否</option>
+				</c:otherwise>
+			</c:choose>
 			</select>	
 		</div>
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_del" label="可删除:"   style="width:50%;" data-options="required:true">
+			<select class="easyui-combobox" name="can_del" label="可删除:"   style="width:50%;" data-options="limitToList:true,required:true">
+				<c:choose>
+				<c:when test="${model.can_del=='1' }">
+				<option value="1" selected>是</option>
 				<option value="0">否</option>
-				<option value="1">是</option>
+				</c:when>
+				<c:otherwise>
+				<option value="1" >是</option>
+				<option value="0" selected>否</option>
+				</c:otherwise>
+			</c:choose>
 			</select>	
 		</div>
 		<input name="fdid" type="hidden" value="${model.fdid }" />

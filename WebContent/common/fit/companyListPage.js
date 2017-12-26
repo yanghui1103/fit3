@@ -15,6 +15,7 @@ function deleteCompany(){
 		var row = getSingleGridSelectData($("#companylisttdg"));
 		$.post(ctx+"system/deleteCompany/"+row.fdid,function(data){
 			promptMessage(data.res,data.msg);
+			cpListreloadgrid()(); 
 		});
 	});
 }
@@ -48,7 +49,7 @@ function query(){
 }
 
 //增加查询参数，在页面加载时运行  
-function reloadgrid() {  
+function cpListreloadgrid() {  
 	$('#companylisttdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
     $('#companylisttdg').datagrid('options').queryParams= serializeFormToJSON($("#companylistFM").serializeArray());  
     $("#companylisttdg").datagrid('reload');
