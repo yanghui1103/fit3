@@ -5,7 +5,11 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.system.entity.TdataDict;
+import com.bw.fit.system.entity.Tpostion;
+import com.bw.fit.system.entity.Trole;
+import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
+import com.bw.fit.system.model.Postion;
 
 /****
  * 系统基础持久层
@@ -70,4 +74,16 @@ public interface SystemDao {
 	 * @return
 	 */
 	public List<ElementLevel> getElementLevelList(ElementLevel e);
+
+	/***
+	 * 获取岗位列表
+	 * @param e
+	 * @return
+	 */
+	public List<Tpostion> getPostionList(Tpostion e);
+	
+	public List<Trole> getRoleList(Trole t);
+	public List<Tuser> getUserList(Tuser t);
+	
+	
 }

@@ -13,6 +13,7 @@ import com.bw.fit.common.util.Node;
 import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
+import com.bw.fit.system.model.Postion;
 import com.bw.fit.system.model.User;
 
 /****
@@ -68,5 +69,10 @@ public interface SystemService {
 	 * @return
 	 */
 	public List<ElementLevel> getElementLevelList(ElementLevel e);
-	
+	/***
+	 * 获取岗位列表
+	 * @param e
+	 * @return
+	 */
+	public List<Postion> getPostionList(Postion e);
 }

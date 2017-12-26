@@ -55,19 +55,19 @@
 		</div>
 		
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="required:true,value:[0,1]">
+			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="limitToList:true,required:true,value:[0,1]">
 				<option value="1">是</option>
 				<option value="0">否</option>
 			</select>	
 		</div>
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_edit" label="可修改:"   style="width:50%;" data-options="required:true">
+			<select class="easyui-combobox" name="can_edit" label="可修改:"   style="width:50%;" data-options="limitToList:true,required:true">
 				<option value="1">是</option>
 				<option value="0">否</option>
 			</select>	
 		</div>
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_del" label="可删除:"   style="width:50%;" data-options="required:true">
+			<select class="easyui-combobox" name="can_del" label="可删除:"   style="width:50%;" data-options="limitToList:true,required:true">
 				<option value="0">否</option>
 				<option value="1">是</option>
 			</select>	

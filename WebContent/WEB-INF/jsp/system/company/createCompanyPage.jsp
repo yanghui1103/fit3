@@ -63,7 +63,7 @@
 				style="width: 50%" data-options="label:'组织地址:',required:true">
 		</div>
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combogrid" style="width:50%" data-options="
+			<select class="easyui-combogrid" style="width:50%" data-options="limitToList:true,
 					panelWidth: 500,
 					idField: 'dict_value',
 					textField: 'dict_name',

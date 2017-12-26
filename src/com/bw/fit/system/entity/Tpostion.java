@@ -1,6 +1,8 @@
 package com.bw.fit.system.entity;
 
-public class Tpostion {
+import com.bw.fit.common.entity.BaseEntity;
+
+public class Tpostion extends BaseEntity{
 
 	private String postion_name;
 	private String desp ;

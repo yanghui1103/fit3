@@ -12,6 +12,9 @@ import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.TelementLevel;
+import com.bw.fit.system.entity.Tpostion;
+import com.bw.fit.system.entity.Trole;
+import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
 @Repository
 public class SystemDaoImpl implements SystemDao {
@@ -65,5 +68,17 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public void updateDataDict(TdataDict d) throws RbackException {
 		daoTemplete.update("systemSql.updateDataDict", d); 
+	}
+	@Override
+	public List<Tpostion> getPostionList(Tpostion e) {
+		return daoTemplete.getListData("postionSql.getPostionList", e);
+	}
+	@Override
+	public List<Trole> getRoleList(Trole t) {
+		return daoTemplete.getListData("roleSql.getRoleList", t);
+	}
+	@Override
+	public List<Tuser> getUserList(Tuser t) {
+		return daoTemplete.getListData("userSql.getUserList", t);
 	}
 }

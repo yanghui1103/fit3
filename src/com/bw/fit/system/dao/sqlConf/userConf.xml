@@ -31,4 +31,18 @@
 	where sr.role_id = ra.role_id and ra.authority_id = am.authority
 	and am.menu_id = mm.fdid and sr.user_id = #{user_id}
 	</select>
+	
+	
+	<sql id="paginationSql">
+		<![CDATA[ and rownum >#{start_num} and rownum <= #{end_num} ]]>   
+	</sql>
+	<!-- 用户列表 -->
+	<select id="getUserList" parameterType="tuser" resultType="tuser">
+		select * from (
+		select * from staff where user_name like  '%'||#{keyWords}||'%'  order by version_time desc ) 
+		where 1=1  
+		<if test="paginationEnable!='0'">		
+			<include refid="paginationSql"></include>
+		</if>
+	</select> 
 </mapper>   

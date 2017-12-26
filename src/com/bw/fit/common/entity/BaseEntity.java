@@ -1,7 +1,6 @@
 package com.bw.fit.common.entity;
 import static com.bw.fit.common.util.PubFun.*;
 
-
 import java.util.Date;
 /*****
  * 父实体类
@@ -12,14 +11,57 @@ public class BaseEntity {
 
 
 	private String fdid = getUUID(); 
+	private String keyWords ;
 	private Date create_time ;
 	private Date version_time ;
 	private String operator_id;
 	private String creator_id; 
 	private String isdeleted ="0" ; // 默认未删除
+
+	/***
+	 * 翻页使用
+	 */
+	private Integer page =1;
+	private Integer rows =20;
+	private Integer start_num;
+	private Integer end_num;
+	private String paginationEnable;
 	
 	
 	
+	
+	public String getPaginationEnable() {
+		return paginationEnable;
+	}
+	public void setPaginationEnable(String paginationEnable) {
+		this.paginationEnable = paginationEnable;
+	}
+	public Integer getPage() {
+		return page;
+	}
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+	public Integer getRows() {
+		return rows;
+	}
+	public void setRows(Integer rows) {
+		this.rows = rows;
+	}
+	public Integer getStart_num() {
+		return (page-1)*rows;
+	} 
+	public Integer getEnd_num() {
+		return (page-1)*rows + rows;
+	} 
+	
+	
+	public String getKeyWords() {
+		return keyWords;
+	}
+	public void setKeyWords(String keyWords) {
+		this.keyWords = keyWords;
+	}
 	public String getIsdeleted() {
 		return isdeleted;
 	}

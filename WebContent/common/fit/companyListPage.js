@@ -1,12 +1,8 @@
 $(function() {
 	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
 	renderAuthorityOperateBtnAll($("#companylist_toolBar"),ctx+"system/getOperationsByMenuId","900",false,"toolBar");
- 
-	query(); 
-	
-	
-
-	
+  
+	cmpquery();
 });
 
 
@@ -19,7 +15,7 @@ function deleteCompany(){
 		});
 	});
 }
-function query(){    
+function cmpquery(){    
 	$('#companylisttdg').datagrid({ 
 		pagination:true,
 	    url:ctx+'system/companyList/-9' ,   

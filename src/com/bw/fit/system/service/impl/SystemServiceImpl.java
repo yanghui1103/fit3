@@ -40,7 +40,6 @@ import com.bw.fit.system.service.SystemService;
 
 @Service
 public class SystemServiceImpl implements SystemService {
-
 	@Autowired
 	private SystemDao systemDao;
 	@Autowired
@@ -259,6 +258,20 @@ public class SystemServiceImpl implements SystemService {
 			}
 			
 			list.add(el);
+		}
+		return list ;
+	}
+
+	@Override
+	public List<Postion> getPostionList(Postion e) {
+		Tpostion t =new Tpostion();
+		copyProperties(t, e);
+		List<Tpostion> lis = systemDao.getPostionList(t);
+		List<Postion> list = new ArrayList<>();
+		for(Tpostion p:lis){
+			Postion pp = new Postion();
+			copyProperties(pp,p);
+			list.add(pp);
 		}
 		return list ;
 	}

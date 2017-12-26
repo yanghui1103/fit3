@@ -39,11 +39,14 @@ import com.bw.fit.system.dao.CompanyDao;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.TelementLevel;
-import com.bw.fit.system.model.Company;
+import com.bw.fit.system.entity.*;
+import com.bw.fit.system.model.*;
 import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Menu;
+import com.bw.fit.system.model.Postion;
+import com.bw.fit.system.model.Role;
 import com.bw.fit.system.model.User;
 import com.bw.fit.system.service.SystemService;
 
@@ -406,4 +409,67 @@ public class SystemCoreController extends BaseController {
 		json.put("rows", JSONObject.toJSON(list));
 		return json ;
 	}
+	
+	@RequestMapping("postionList/{params}")
+	@ResponseBody
+	public JSONObject postionList(@PathVariable String params){
+		JSONObject json = new JSONObject(); 
+		Postion e = new Postion();
+		e.setPaginationEnable("1");
+		List<Postion> list = systemService.getPostionList(e);
+		e.setPaginationEnable("0");
+		List<Postion> listTotal = systemService.getPostionList(e); 
+		if(listTotal!=null&&listTotal.size()>0){
+			json.put("total", listTotal.size()); 
+		}else{
+			json.put("total", 0); 
+		}
+		json.put("rows", JSONObject.toJSON(list));
+		return json ;
+	}
+	/***
+	 * 角色列表请求
+	 * @param params
+	 * @param r
+	 * @return
+	 */
+	@RequestMapping("roleList/{params}")
+	@ResponseBody
+	public JSONObject roleList(@PathVariable String params,@ModelAttribute Role r){
+		JSONObject json = new JSONObject(); 
+		Trole e = new Trole();
+		copyProperties(e, r);
+		e.setPaginationEnable("1");
+		List<Trole> list = systemDao.getRoleList(e);
+		e.setPaginationEnable("0");
+		List<Trole> listTotal = systemDao.getRoleList(e); 
+		if(listTotal!=null&&listTotal.size()>0){
+			json.put("total", listTotal.size()); 
+		}else{
+			json.put("total", 0); 
+		}
+		json.put("rows", JSONObject.toJSON(list));
+		return json ;
+	}
+	
+
+	@RequestMapping("userList/{params}")
+	@ResponseBody
+	public JSONObject userList(@PathVariable String params,@ModelAttribute User u){
+		JSONObject json = new JSONObject(); 
+		Tuser e = new Tuser();
+		copyProperties(e, u);
+		e.setPaginationEnable("1");
+		List<Tuser> list = systemDao.getUserList(e);
+		e.setPaginationEnable("0");
+		List<Tuser> listTotal = systemDao.getUserList(e); 
+		if(listTotal!=null&&listTotal.size()>0){
+			json.put("total", listTotal.size()); 
+		}else{
+			json.put("total", 0); 
+		}
+		json.put("rows", JSONObject.toJSON(list));
+		return json ;
+	}
+	 
 }
