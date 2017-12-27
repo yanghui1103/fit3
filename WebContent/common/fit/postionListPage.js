@@ -23,7 +23,8 @@ function postionListquery(){
         columns: [[
                    { field: 'fdid', title: 'ID' ,hidden:true  },
                    { field: 'postion_name', title: '岗位名称', width: '30%',fixed:true  },
-                   { field: 'desp', title: '说明', width: '70%' } 
+                   { field: 'desp', title: '说明', width: '50%' },
+                   { field: 'user_count', title: '使用人数', width: '20%',fixed:true  }, 
                ]],
              fit: true,    
              idField: "fdid",
@@ -41,10 +42,23 @@ function postionListquery(){
 }
 
 //增加查询参数，在页面加载时运行  
-function cpListreloadgrid() {  
+function postionListreloadgrid() {  
 	$('#postionlisttdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
     $('#postionlisttdg').datagrid('options').queryParams= serializeFormToJSON($("#postionlistFM").serializeArray());  
     $("#postionlisttdg").datagrid('reload');
 }  
 
+
+function deletePostion(){
+
+	promptMessageCallBack("3","是否确认删除该记录",function(){
+		var row = getSingleGridSelectData($("#postionlisttdg"));
+		if(row==null) return ;
+		$.post(ctx+"system/deletePostion/"+row.fdid,function(data){
+			promptMessage(data.res,data.msg);
+			if(data.res == '2')
+				postionListreloadgrid(); 
+		});
+	});
+}
  

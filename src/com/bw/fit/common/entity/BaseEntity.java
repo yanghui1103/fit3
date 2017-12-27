@@ -12,6 +12,8 @@ public class BaseEntity {
 
 	private String fdid = getUUID(); 
 	private String keyWords ;
+	private String creator;
+	private String creator_name;
 	private Date create_time ;
 	private Date version_time ;
 	private String operator_id;
@@ -30,6 +32,18 @@ public class BaseEntity {
 	
 	
 	
+	public String getCreator() {
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	public String getCreator_name() {
+		return creator_name;
+	}
+	public void setCreator_name(String creator_name) {
+		this.creator_name = creator_name;
+	}
 	public String getPaginationEnable() {
 		return paginationEnable;
 	}

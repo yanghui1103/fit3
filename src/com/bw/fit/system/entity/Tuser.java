@@ -13,10 +13,19 @@ import com.bw.fit.common.model.BaseModel;
 public class Tuser extends BaseEntity{
 
 	private String user_cd ;
+	private String company_id ;
 	private String user_name; 
 	private String password;
 	private String phone;
 	private String state;
+	
+	
+	public String getCompany_id() {
+		return company_id;
+	}
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
 	public String getUser_cd() {
 		return user_cd;
 	}

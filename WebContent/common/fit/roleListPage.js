@@ -36,8 +36,6 @@ function roleListquery(){
              pageList: [ 20, 30, 40, 50],
              striped: true //奇偶行是否区分                    
 	});  
-
-
 }
 
 //增加查询参数，在页面加载时运行  

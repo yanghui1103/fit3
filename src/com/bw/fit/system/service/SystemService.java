@@ -10,6 +10,7 @@ import org.apache.shiro.session.Session;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.util.Node;
+import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
@@ -56,6 +57,12 @@ public interface SystemService {
 	 * @return
 	 */
 	public DataDict getAllDataDict(String parent_id) throws Exception;
+	/*****
+	 * 获取这个节点（parnet_id）下所有子孙机构tree
+	 * @param parent_id
+	 * @return
+	 */
+	public Company getCompanyTree(String parent_id) throws Exception;
 	
 	/****
 	 * 根据父节点，查询所有子孙的节点

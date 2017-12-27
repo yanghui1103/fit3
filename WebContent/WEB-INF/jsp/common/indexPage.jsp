@@ -46,7 +46,7 @@ $(function(){
 	</div>
 	<!-- 	<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region</div> -->
 	<!-- 	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">south region</div> -->
-	<div data-options="region:'',title:' '">
+	<div data-options="region:'',title:' ' ">
 		<div id="mainFrame" class="easyui-tabs"
 			data-options="fit:true,border:false,plain:true">
 			<div title="我的主页" data-options="href:''"

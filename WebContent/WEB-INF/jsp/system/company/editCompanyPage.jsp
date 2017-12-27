@@ -11,20 +11,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript">
-	function clearForm2() {
-		$('#createCompanyPageFm').form('clear');
-	}
-
-	function createCMPSubmitFm() {
-		if (!$("#createCompanyPageFm").form('enableValidation')
+<script type="text/javascript"> 
+	function editCMPSubmitFm() {
+		if (!$("#editCompanyPageFm").form('enableValidation')
 				.form('validate')) {
 			return;
 		}
 		$.ajax({
 			type : 'POST',
-			url : ctx + "system/createCompany",
-			data : serializeFormToJSON($("#createCompanyPageFm")
+			url : ctx + "system/updateCompany",
+			data : serializeFormToJSON($("#editCompanyPageFm")
 					.serializeArray()),
 			success : function(data) {
 				promptMessageCallBack(data.res, data.msg, function() {
@@ -37,8 +33,7 @@
 </script>
 </head>
 <body>
-	<form action="<%=basePath%>system/createCompany"
-		id="createCompanyPageFm" class="easyui-form" method="post"
+	<form  id="editCompanyPageFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
 		<div style="margin-bottom: 20px">
 			<input class="easyui-textbox" name="company_name" style="width: 50%"
@@ -77,7 +72,7 @@
 	</form>
 	<div style="position: fixed; right: 30px; bottom: 20px;">
 		<button class="easyui-linkbutton" type=button
-			onclick="createCMPSubmitFm()" style="width: 80px">保存</button>
+			onclick="editCMPSubmitFm()" style="width: 80px">保存</button>
 	</div>
 </body>
 </html>

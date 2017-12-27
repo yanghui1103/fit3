@@ -7,8 +7,9 @@ $(function() {
 
 
 function deleteCompany(){
+	var row = getSingleGridSelectData($("#companylisttdg"));
+	if(row==null)	return ;
 	promptMessageCallBack("3","是否确认删除该记录",function(){
-		var row = getSingleGridSelectData($("#companylisttdg"));
 		$.post(ctx+"system/deleteCompany/"+row.fdid,function(data){
 			promptMessage(data.res,data.msg);
 			cpListreloadgrid()(); 
@@ -52,8 +53,12 @@ function cpListreloadgrid() {
 }  
 
 
-function clk(){
-	 getSingleGridSelectData($("#companylisttdg")); 
-	addExternalTab("baidu","http://mba.shisu.edu.cn/content/83")
+function openEditCompany(){
+	var row = getSingleGridSelectData($("#companylisttdg"));
+	if(row !=null){
+		$.post(ctx+"system/openEditCompany/"+row.fdid,function(data){ 
+			addNewTab("",data.url);
+		});
+	}
 
 }

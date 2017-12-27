@@ -10,6 +10,7 @@ import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
+import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.TelementLevel;
 import com.bw.fit.system.entity.Tpostion;
@@ -80,5 +81,25 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public List<Tuser> getUserList(Tuser t) {
 		return daoTemplete.getListData("userSql.getUserList", t);
+	}
+	@Override
+	public void createPostion(Tpostion p) throws RbackException {
+		daoTemplete.insert("postionSql.createPostion", p);
+	}
+	@Override
+	public void deletePostion(String fdid) throws RbackException {
+		daoTemplete.delete("postionSql.deletePostion", fdid);
+	}
+	@Override
+	public Tpostion getPostion(String fdid) {
+		return (Tpostion)daoTemplete.getOneData("postionSql.getPostion", fdid);
+	}
+	@Override
+	public List<Tcompany> getCompanyTreeList(String parent_id) {
+		return daoTemplete.getListData("companySql.getCompanyTreeList", parent_id);
+	}
+	@Override
+	public void createCompany(Tcompany c) throws RbackException {
+		daoTemplete.insert("companySql.createCompany", c);
 	}
 }

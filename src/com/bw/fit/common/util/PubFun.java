@@ -57,7 +57,9 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import com.alibaba.fastjson.*;
+import com.bw.fit.common.model.BaseModel;
 import com.bw.fit.system.model.LogUser;
+import com.bw.fit.system.model.User;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
@@ -541,6 +543,15 @@ public class PubFun {
 	 */
 	public static org.apache.shiro.session.Session getCurrentSession(){
 		 return SecurityUtils.getSubject().getSession();
+	}
+	
+	public  static void fillCommonProptities(BaseModel b,boolean isFillFdid){
+		b.setCreator(((User)getCurrentSession().getAttribute("CurrentUser")).getFdid());
+		b.setVersion_time(getSysDate());
+		b.setCreate_time(getSysDate());
+		if(isFillFdid){
+			b.setFdid(getUUID());
+		}
 	}
 	public static void main(String[] args) {
 		System.out.println(getUserPasswordShiro("admin","123456","MD5",10));

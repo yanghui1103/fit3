@@ -1,12 +1,18 @@
 package com.bw.fit.system.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bw.fit.common.model.BaseModel;
+import com.bw.fit.common.util.treeHandler.CompanyChildren;
+import com.bw.fit.common.util.treeHandler.DataDictChildren;
 
 public class Company  extends BaseModel{
 
 	private String company_name;
+	@NotEmpty(message="请选择组织类型")
 	private String company_type_cd ;
 	private String company_type_name ;
+	@NotEmpty(message="请选择父组织")
 	private String parent_id;
 	private String company_address;
 	private String company_order;
@@ -48,4 +54,43 @@ public class Company  extends BaseModel{
 	public void setCompany_address(String company_address) {
 		this.company_address = company_address;
 	}
+	
+	
+	
+	
+	
+	
+	
+
+	/**
+	 * 孩子节点列表
+	 */
+	private CompanyChildren children = new CompanyChildren();
+
+	// 先序遍历，拼接JSON字符串
+	public String toString() {
+		String result = "{" + "id : '" + getFdid() + "'" + ", text : '" + this.getCompany_name() + "'" 					
+				+ ", parentId	 : '" + this.getParent_id() + "'" ; 
+		
+		if (children != null && children.getSize() != 0) {
+			result += ", children : " + children.toString();
+		} else {
+			result += ", leaf : true";
+		}
+
+		return result + "}";
+	}
+
+	// 兄弟节点横向排序
+	public void sortChildren() {
+		if (children != null && children.getSize() != 0) {
+			children.sortChildren();
+		}
+	}
+
+	// 添加孩子节点
+	public void addChild(Company node) {
+		this.children.addChild(node);
+	}
+
 }

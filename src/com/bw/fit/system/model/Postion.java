@@ -1,11 +1,22 @@
 package com.bw.fit.system.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bw.fit.common.model.BaseModel;
 
 public class Postion extends BaseModel {
 
+	@NotEmpty(message="岗位名称不得为空")
 	private String postion_name;
 	private String desp ;
+	private int user_count;
+	
+	public int getUser_count() {
+		return user_count;
+	}
+	public void setUser_count(int user_count) {
+		this.user_count = user_count;
+	}
 	public String getPostion_name() {
 		return postion_name;
 	}

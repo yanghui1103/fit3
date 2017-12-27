@@ -20,15 +20,18 @@ import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.util.Node;
 import com.bw.fit.common.util.PropertiesUtil;
 import com.bw.fit.common.util.PubFun;
+import com.bw.fit.common.util.treeHandler.CompanyJsonTreeHandler;
 import com.bw.fit.common.util.treeHandler.DataDictJsonTreeHandler;
 import com.bw.fit.common.util.treeHandler.JsonTreeHandler;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.dao.UserDao;
+import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.Toperation;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
+import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
@@ -85,7 +88,8 @@ public class SystemServiceImpl implements SystemService {
 	public User getCurrentUserInfo(String user_cd) {
 		User user = new User();
 		String user_id = userDao.getUserIdByCd(user_cd);
-		copyProperties(user, userDao.getUserById(user_id));
+		Tuser t = userDao.getUserById(user_id);
+		copyProperties(user,t );
 		List<Role> roles = new ArrayList<>();
 		List<Trole> rls = userDao.getUserRoleInfo(user_id);
 		for (Trole r : rls) {
@@ -197,6 +201,32 @@ public class SystemServiceImpl implements SystemService {
 		json.put("list", array);
 		return json;
 	}
+	
+
+	@Override
+	public Company getCompanyTree(String parent_id) throws Exception {
+		List<Tcompany> list = systemDao.getCompanyTreeList(parent_id);
+		List<Company> lis = new ArrayList<>();
+		for (Tcompany d : list) {
+			Company dd = new Company();
+			PubFun.copyProperties(dd, d);
+			if ("0".equals(dd.getParent_id())) {
+				dd.setParent_id("");
+			}
+			lis.add(dd);
+		}
+
+		List dataList = new ArrayList();
+		for (Company d : lis) {
+			HashMap dataRecord1 = new HashMap();
+			dataRecord1.put("id", d.getFdid());
+			dataRecord1.put("text", d.getCompany_name()); 
+			dataRecord1.put("parentId", d.getParent_id()); 
+			dataList.add(dataRecord1);
+		}
+		Company node = CompanyJsonTreeHandler.getJSONTree(dataList);
+		return node;
+	}
 
 	@Override
 	public DataDict getAllDataDict(String parent_id) throws Exception {
@@ -275,5 +305,6 @@ public class SystemServiceImpl implements SystemService {
 		}
 		return list ;
 	}
+
 
 }

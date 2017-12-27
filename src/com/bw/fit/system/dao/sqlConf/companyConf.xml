@@ -17,4 +17,20 @@
 	<update id="deleteCompany"  parameterType="company">
 		update company set isdeleted='1',version_time=sysdate where fdid = #{fdid}
 	</update>
+		
+	<!-- 组织tree JSON -->
+	<select id="getCompanyTreeList" parameterType="String" resultType="tcompany">
+		select a.*
+    	from company a
+    	where isdeleted='0'
+    	connect by
+    	a.parent_id =
+    	prior a.fdid
+    	start with a.parent_id =#{parent_id}
+	</select>	
+	<!-- 新建组织 -->
+	<insert id="createCompany"  parameterType= "tcompany">
+		insert into company (fdid,company_name,parent_id,company_type_cd,company_address,company_order,creator,create_time,version_time,isdeleted)
+    	values (#{fdid},#{company_name,jdbcType=VARCHAR},#{parent_id,jdbcType=VARCHAR},#{company_type_cd,jdbcType=VARCHAR},#{company_address,jdbcType=VARCHAR},#{company_order,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},sysdate,sysdate,'0')
+	</insert>
 </mapper>   

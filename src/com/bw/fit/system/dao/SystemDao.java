@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
+import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
@@ -37,6 +38,7 @@ public interface SystemDao {
 	 * @return
 	 */
 	public List<TdataDict> getDataDictList(String parent_id);
+	public List<Tcompany> getCompanyTreeList(String parent_id);
 	/****
 	 * 此节点信息(数据字典)
 	 * @param fdid
@@ -84,6 +86,29 @@ public interface SystemDao {
 	
 	public List<Trole> getRoleList(Trole t);
 	public List<Tuser> getUserList(Tuser t);
-	
+	/****
+	 * 保存岗位
+	 * @param p
+	 * @throws RbackException
+	 */
+	public void createPostion(Tpostion p) throws RbackException;
+	/***
+	 * 删除岗位
+	 * @param fdid 岗位ID
+	 * @throws RbackException
+	 */
+	public void deletePostion(String fdid) throws RbackException;
+	/***
+	 * 获取岗位
+	 * @param fdid id
+	 * @return
+	 */
+	public Tpostion getPostion(String fdid)  ;
+	/***
+	 * 保存新组织
+	 * @param c
+	 * @throws RbackException
+	 */
+	public void createCompany(Tcompany c)  throws RbackException;
 	
 }

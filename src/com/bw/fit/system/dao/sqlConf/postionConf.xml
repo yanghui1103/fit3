@@ -6,10 +6,28 @@
 	</sql>
 	<select id="getPostionList" parameterType="tpostion" resultType="tpostion">
 		select * from (
-		select * from postion where postion_name like  '%'||#{keyWords}||'%'  order by create_time desc ) 
-		where 1=1  
+		    select p.*,
+    		(select count(1) from staff2postion sp,staff st where st.fdid = sp.user_id and st.isdeleted='0' and sp.postion_id=p.fdid)
+   			user_count  from postion p where postion_name like  '%'||#{keyWords,jdbcType=VARCHAR}||'%'  order by create_time desc ) 
+			where 1=1 
 		<if test="paginationEnable!='0'">		
 			<include refid="paginationSql"></include>
 		</if>
 	</select> 
+	
+	<!-- 新建岗位 -->
+	<insert id="createPostion" parameterType="tpostion">
+		insert into postion (fdid,postion_name,desp,creator,create_time) values
+		(#{fdid,jdbcType=VARCHAR},#{postion_name,jdbcType=VARCHAR},#{desp,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},sysdate)
+	</insert>
+	<!-- 删除岗位 -->
+	<delete id="deletePostion" parameterType="String">
+		delete postion   where fdid = #{fdid}
+	</delete>
+	<select id="getPostion" parameterType="String" resultType="tpostion">
+		select p.*,
+    		(select count(1) from staff2postion sp,staff st where st.fdid = sp.user_id and st.isdeleted='0' and sp.postion_id=p.fdid)
+   			user_count  from postion p where   p.fdid = #{fdid}
+	</select>
+	
 </mapper>   
