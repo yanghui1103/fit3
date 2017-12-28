@@ -153,12 +153,18 @@ public class BaseModel{
 		this.end_date = end_date;
 	}
 	public String getCreate_time() {
+		if(!"".equals(create_time)&&create_time!=null&&create_time.contains(".0")){
+			create_time = create_time.replace(".0", "");
+		}
 		return create_time;
 	}
 	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
 	}
 	public String getVersion_time() {
+		if(!"".equals(version_time)&&version_time!=null&&version_time.contains(".0")){
+			version_time = version_time.replace(".0", "");
+		}
 		return version_time;
 	}
 	public void setVersion_time(String version_time) {

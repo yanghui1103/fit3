@@ -82,4 +82,6 @@ public interface SystemService {
 	 * @return
 	 */
 	public List<Postion> getPostionList(Postion e);
+	
+	
 }

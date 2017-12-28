@@ -102,4 +102,15 @@ public class SystemDaoImpl implements SystemDao {
 	public void createCompany(Tcompany c) throws RbackException {
 		daoTemplete.insert("companySql.createCompany", c);
 	}
+	@Override
+	public Tcompany getCompany(String fdid) {
+		return (Tcompany)daoTemplete.getOneData("companySql.getCompany", fdid);
+	}
+	@Override
+	public void updateCompany(Tcompany p) throws RbackException {
+		daoTemplete.update("companySql.updateCompany", p);
+	}
+	
+	
+	
 }

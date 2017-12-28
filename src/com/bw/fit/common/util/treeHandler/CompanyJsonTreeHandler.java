@@ -25,6 +25,7 @@ public class CompanyJsonTreeHandler {
 		   node.setFdid((String)dataRecord.get("id")); 
 		   node.setCompany_name((String)dataRecord.get("text"));  
 		   node.setParent_id((String)dataRecord.get("parentId"));
+		   node.setCompany_order((String)dataRecord.get("company_order"));
 		   nodeList.put(node.getFdid(), node);
 		  }
 		  // 构造无序的多叉树

@@ -33,4 +33,16 @@
 		insert into company (fdid,company_name,parent_id,company_type_cd,company_address,company_order,creator,create_time,version_time,isdeleted)
     	values (#{fdid},#{company_name,jdbcType=VARCHAR},#{parent_id,jdbcType=VARCHAR},#{company_type_cd,jdbcType=VARCHAR},#{company_address,jdbcType=VARCHAR},#{company_order,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},sysdate,sysdate,'0')
 	</insert>
+	<!-- 获取组织信息 -->
+	<select id="getCompany" parameterType="String" resultType="tcompany">
+		select * from company a where a.fdid = #{fdid,jdbcType=VARCHAR}
+	</select>
+	<!-- 保存更新组织 -->
+	<update id="updateCompany" parameterType= "tcompany">
+		update  company  set company_name=#{company_name,jdbcType=VARCHAR},
+		parent_id=#{parent_id,jdbcType=VARCHAR},company_type_cd=#{company_type_cd,jdbcType=VARCHAR},
+		company_address=#{company_address,jdbcType=VARCHAR},company_order=#{company_order,jdbcType=VARCHAR},
+		version_time=sysdate where fdid = #{fdid}
+	</update>
+	
 </mapper>   

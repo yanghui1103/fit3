@@ -37,17 +37,9 @@ import com.bw.fit.common.util.PropertiesUtil;
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.CompanyDao;
 import com.bw.fit.system.dao.SystemDao;
-import com.bw.fit.system.entity.TdataDict;
-import com.bw.fit.system.entity.TelementLevel;
+import com.bw.fit.system.dao.UserDao;
 import com.bw.fit.system.entity.*;
 import com.bw.fit.system.model.*;
-import com.bw.fit.system.model.DataDict;
-import com.bw.fit.system.model.ElementLevel;
-import com.bw.fit.system.model.LogUser;
-import com.bw.fit.system.model.Menu;
-import com.bw.fit.system.model.Postion;
-import com.bw.fit.system.model.Role;
-import com.bw.fit.system.model.User;
 import com.bw.fit.system.service.SystemService;
 
 /*****
@@ -67,6 +59,8 @@ public class SystemCoreController extends BaseController {
 	private SystemDao systemDao;
 	@Autowired
 	private DaoTemplete daoTemplete ;
+	@Autowired
+	private UserDao userDao;
 	@Autowired
 	private DefaultWebSecurityManager securityManager ;
 
@@ -210,6 +204,10 @@ public class SystemCoreController extends BaseController {
 				if (d != null) {
 					cc.setCompany_type_name(d.getDict_name());
 				}
+				Tcompany tc = (systemDao.getCompany(cc.getParent_id())) ;
+				if(tc !=null){
+					cc.setParent_company_name(tc.getCompany_name()) ;	
+				}			
 			}
 		}
 		c.setPaginationEnable("0");
@@ -607,6 +605,7 @@ public class SystemCoreController extends BaseController {
 			FieldError error = result.getFieldError();
 			json.put("res", "1");
 			returnFailJson(json, error.getDefaultMessage());
+			return json;
 		}
 		returnSuccessJson(json);
 		Tcompany cc = new Tcompany();
@@ -621,4 +620,57 @@ public class SystemCoreController extends BaseController {
 		return json;
 	}
 
+	/****
+	 * 打开编辑页
+	 * @return
+	 */
+	@RequestMapping("openEditCompany/{fdid}")
+	public String openEditCompany(@PathVariable String fdid,Model model){
+		model.addAttribute("company",systemDao.getCompany(fdid));
+		return "system/company/editCompanyPage";
+	}
+	
+	/****
+	 * 保存更新组织信息
+	 * @param c
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping("updateCompany")
+	@ResponseBody
+	public JSONObject updateCompany(@Valid @ModelAttribute Company c,BindingResult result){
+		fillCommonProptities(c,false);
+		JSONObject json = new JSONObject();
+		if (result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			json.put("res", "1");
+			returnFailJson(json, error.getDefaultMessage());
+			return json;
+		}
+		returnSuccessJson(json);
+		Tcompany cc = new Tcompany();
+		PubFun.copyProperties(cc,c);
+		try {
+			systemDao.updateCompany(cc);
+		} catch (RbackException e) {
+			e.printStackTrace();
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, e.getMsg());
+		}
+		return json;
+	}
+	
+	/****
+	 * 请求，获取当前用户的所有角色
+	 * @return
+	 */
+	@RequestMapping("getMyRoles")
+	@ResponseBody
+	public JSONArray getMyRoles(){
+		Session session = getCurrentSession();
+		String user_id = ((User) session.getAttribute("CurrentUser")).getFdid();
+		List<Trole> rls = userDao.getUserRoleInfo(user_id);
+		return (JSONArray)JSONArray.toJSON(rls);
+	}
 }

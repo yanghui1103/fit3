@@ -26,8 +26,8 @@ function cmpquery(){
         columns: [[
                    { field: 'fdid', title: 'ID' ,hidden:true  },
                    { field: 'company_name', title: '组织名称', width: '25%',fixed:true  },
-                   { field: 'company_type_name', title: '类型', width: '25%' },
-                   { field: 'company_name', title: '父组织', width: '25%' }, 
+                   { field: 'company_type_name', title: '类型', width: '25%' }, 
+                   { field: 'parent_company_name', title: '父组织', width: '25%' }, 
                    { field: 'company_address', title: '地址', width: '25%' }
                ]],
              fit: true,    
@@ -55,10 +55,7 @@ function cpListreloadgrid() {
 
 function openEditCompany(){
 	var row = getSingleGridSelectData($("#companylisttdg"));
-	if(row !=null){
-		$.post(ctx+"system/openEditCompany/"+row.fdid,function(data){ 
-			addNewTab("",data.url);
-		});
+	if(row !=null){ 
+			addNewTab("修改",ctx+"system/openEditCompany/"+row.fdid); 
 	}
-
 }

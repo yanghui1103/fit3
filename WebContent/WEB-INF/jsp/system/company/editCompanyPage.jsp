@@ -12,6 +12,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript"> 
+$(function(){
+	$("#edit_company_type_cd").combogrid('setValue', ${company.company_type_cd});
+	$("#edit_parent_id").combotree('setValue', ${company.parent_id});
+});
+
+
 	function editCMPSubmitFm() {
 		if (!$("#editCompanyPageFm").form('enableValidation')
 				.form('validate')) {
@@ -29,22 +35,22 @@
 			},
 			dataType : "JSON"
 		});
-	}
+	} 
 </script>
 </head>
 <body>
 	<form  id="editCompanyPageFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
 		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="company_name" style="width: 50%"
+			<input class="easyui-textbox" name="company_name" style="width: 50%" value="${company.company_name }"
 				data-options="label:'组织名称:',required:true">
 		</div>
 		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="company_address"
+			<input class="easyui-textbox" name="company_address" value="${company.company_address }"
 				style="width: 50%" data-options="label:'组织地址:'">
 		</div>
 		<div style="margin-bottom: 20px">
-			<select class="easyui-combogrid"  name="company_type_cd" style="width:50%" data-options="limitToList:true,
+			<select class="easyui-combogrid" id="edit_company_type_cd"  name="company_type_cd" style="width:50%" data-options="limitToList:true,
 					panelWidth: 500,
 					idField: 'dict_value',
 					textField: 'dict_name',
@@ -61,14 +67,15 @@
 			</select>
 		</div>
 		<div style="margin-bottom: 20px">
-			<input class="easyui-combotree" name="parent_id"
+			<input class="easyui-combotree" name="parent_id" id="edit_parent_id"
 				data-options="url:'<%=basePath%>system/getCompanyTree/0',method:'get',label:'上级组织:',required:true"
 				style="width: 50%">
 		</div>
 		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="company_order" style="width: 50%"
+			<input class="easyui-textbox" name="company_order" style="width: 50%"  value="${company.company_order }"
 				data-options="label:'序号:',required:true">
 		</div>
+		<input type="hidden" name="fdid" value="${company.fdid }" />
 	</form>
 	<div style="position: fixed; right: 30px; bottom: 20px;">
 		<button class="easyui-linkbutton" type=button

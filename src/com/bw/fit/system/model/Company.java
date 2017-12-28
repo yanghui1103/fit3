@@ -1,6 +1,7 @@
 package com.bw.fit.system.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import com.bw.fit.common.model.BaseModel;
 import com.bw.fit.common.util.treeHandler.CompanyChildren;
@@ -14,10 +15,17 @@ public class Company  extends BaseModel{
 	private String company_type_name ;
 	@NotEmpty(message="请选择父组织")
 	private String parent_id;
+	private String parent_company_name;
 	private String company_address;
 	private String company_order;
 	
 	
+	public String getParent_company_name() {
+		return parent_company_name;
+	}
+	public void setParent_company_name(String parent_company_name) {
+		this.parent_company_name = parent_company_name;
+	}
 	public String getCompany_type_name() {
 		return company_type_name;
 	}
@@ -70,7 +78,8 @@ public class Company  extends BaseModel{
 	// 先序遍历，拼接JSON字符串
 	public String toString() {
 		String result = "{" + "id : '" + getFdid() + "'" + ", text : '" + this.getCompany_name() + "'" 					
-				+ ", parentId	 : '" + this.getParent_id() + "'" ; 
+				+ ", parentId: '" + this.getParent_id() + "'"
+				+ ", company_order: '" + this.getCompany_order() + "'"; 
 		
 		if (children != null && children.getSize() != 0) {
 			result += ", children : " + children.toString();

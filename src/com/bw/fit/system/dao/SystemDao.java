@@ -111,4 +111,7 @@ public interface SystemDao {
 	 */
 	public void createCompany(Tcompany c)  throws RbackException;
 	
+	public Tcompany getCompany(String fdid);
+	public void updateCompany(Tcompany p)  throws RbackException;
+	
 }

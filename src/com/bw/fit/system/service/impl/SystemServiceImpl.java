@@ -210,7 +210,7 @@ public class SystemServiceImpl implements SystemService {
 		for (Tcompany d : list) {
 			Company dd = new Company();
 			PubFun.copyProperties(dd, d);
-			if ("0".equals(dd.getParent_id())) {
+			if (parent_id.equals(dd.getParent_id())) {
 				dd.setParent_id("");
 			}
 			lis.add(dd);
@@ -222,6 +222,7 @@ public class SystemServiceImpl implements SystemService {
 			dataRecord1.put("id", d.getFdid());
 			dataRecord1.put("text", d.getCompany_name()); 
 			dataRecord1.put("parentId", d.getParent_id()); 
+			dataRecord1.put("company_order", d.getCompany_order()); 
 			dataList.add(dataRecord1);
 		}
 		Company node = CompanyJsonTreeHandler.getJSONTree(dataList);
