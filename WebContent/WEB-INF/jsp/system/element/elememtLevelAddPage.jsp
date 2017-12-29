@@ -63,7 +63,7 @@
 		<div  style="margin-bottom: 20px">
 			<input  id="elelevel_code" class="easyui-combobox" name="level_code"
 				style="width: 50%"
-				data-options="fitColumns: true, required:true,limitToList:true,label: '权限值:' ,valueField:'parent_id',textField:'num'"  />
+				data-options="fitColumns: true, required:true,limitToList:true,label: '权限值:' ,valueField:'dict_value',textField:'dict_name'"  />
 		</div>
 	</form>
 	<div style="position: fixed; right: 30px; bottom: 20px;">

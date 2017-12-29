@@ -497,6 +497,10 @@ public class SystemCoreController extends BaseController {
 		copyProperties(e, r);
 		e.setPaginationEnable("1");
 		List<Trole> list = systemDao.getRoleList(e);
+		for(Trole t:list){
+			Trole trole = systemDao.getRole(t.getParent_id());
+			t.setParent_role_name(trole!=null?trole.getRole_name():"无");
+		}
 		e.setPaginationEnable("0");
 		List<Trole> listTotal = systemDao.getRoleList(e);
 		if (listTotal != null && listTotal.size() > 0) {
@@ -716,8 +720,92 @@ public class SystemCoreController extends BaseController {
 	 */
 	@RequestMapping("getDictNameByValue/{value}")
 	@ResponseBody
-	public JSONObject getDictNameByValue(@PathVariable String value) {
+	public JSONArray getDictNameByValue(@PathVariable String value) {
 		TdataDict dd = systemDao.getDictByValue(value);
-		return (JSONObject)JSONObject.toJSON(dd);
+		List<TdataDict> list = systemDao.getDataDictList(dd.getFdid()); 
+		return (JSONArray)JSONArray.toJSON(list);
+	}
+	/****
+	 * 新建页面权限
+	 * @param e
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping("createElementLevel")
+	@ResponseBody
+	public JSONObject createElementLevel(@Valid @ModelAttribute ElementLevel e,BindingResult result){
+		fillCommonProptities(e,true);
+		JSONObject json = new JSONObject();
+		if (result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			json.put("res", "1");
+			returnFailJson(json, error.getDefaultMessage());
+			return json;
+		}
+		returnSuccessJson(json);
+		TelementLevel cc = new TelementLevel();
+		PubFun.copyProperties(cc,e);
+		try {
+			systemDao.createElementLevel(cc);
+		} catch (RbackException ee) {
+			ee.printStackTrace();
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, ee.getMsg());
+		}
+		return json;
+	}
+	
+	/***
+	 * 请求，删除页面权限
+	 * @param fdid
+	 * @return
+	 */
+	@RequestMapping("deleteELE/{fdid}")
+	@ResponseBody
+	public JSONObject deleteELE(@PathVariable String fdid){
+		JSONObject json = new JSONObject();
+		returnSuccessJson(json);
+		if (StringUtils.isEmpty(fdid)) {
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, "请选择记录");
+			return json;
+		}
+		try {
+			systemDao.deleteELE(fdid);
+		} catch (RbackException e) {
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, e.getMsg());
+		} finally {
+			return json;
+		}
+	}
+	
+	
+	@RequestMapping("createRole")
+	@ResponseBody
+	public JSONObject createRole(@Valid @ModelAttribute Role role,BindingResult result){
+		fillCommonProptities(role,true);
+		JSONObject json = new JSONObject();
+		if (result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			json.put("res", "1");
+			returnFailJson(json, error.getDefaultMessage());
+			return json;
+		}
+		returnSuccessJson(json);
+		Trole cc = new Trole();
+		PubFun.copyProperties(cc,role);
+		try {
+			systemDao.createRole(cc);
+		} catch (RbackException e) {
+			e.printStackTrace();
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, e.getMsg());
+		}
+		return json;
 	}
 }

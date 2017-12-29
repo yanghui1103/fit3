@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
+import com.bw.fit.system.entity.TelementLevel;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
@@ -122,5 +123,23 @@ public interface SystemDao {
 	 * @return
 	 */
 	public List<TdataDict> getALLPageAuths(String dict_remark);
-	
+	/****
+	 * 保存页面权限
+	 * @param t
+	 * @throws RbackException
+	 */
+	public void createElementLevel(TelementLevel t)   throws RbackException;
+	/****
+	 * 删除页面权限 （真删）
+	 * @param fdid
+	 * @throws RbackException
+	 */
+	public void deleteELE(String fdid)  throws RbackException;
+	/***
+	 * 增加一个新角色
+	 * @param role
+	 * @throws RbackException
+	 */
+	public void createRole(Trole role) throws RbackException;
+	public Trole getRole(String fdid) ;
 }

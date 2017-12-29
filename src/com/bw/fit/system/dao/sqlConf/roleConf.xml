@@ -15,4 +15,12 @@
 			<include refid="paginationSql"></include>
 		</if>
 	</select>
+	<!-- 增加新角色 -->
+	<insert id="createRole" parameterType="trole" >
+		insert into roles (fdid,role_name,isdeleted,parent_id,creator) values
+		(#{fdid,jdbcType=VARCHAR},#{role_name,jdbcType=VARCHAR},'0',#{parent_id,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR})
+	</insert>
+	<select id="getRole" parameterType="String" resultType="trole">
+		select * from roles where fdid = #{fdid}
+	</select>
 </mapper>   

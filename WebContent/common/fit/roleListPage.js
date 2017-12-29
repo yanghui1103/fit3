@@ -23,7 +23,9 @@ function roleListquery(){
         columns: [[
                    { field: 'fdid', title: 'ID' ,hidden:true  },
                    { field: 'role_name', title: '角色名称', width: '30%',fixed:true  },
-                   { field: 'user_count', title: '使用人数', width: '70%' } 
+                   { field: 'user_count', title: '使用人数', width: '30%' } ,
+                   { field: 'parent_role_name', title: '父角色', width: '40%' } 
+                   
                ]],
              fit: true,    
              idField: "fdid",

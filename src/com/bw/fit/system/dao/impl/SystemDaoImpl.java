@@ -119,6 +119,22 @@ public class SystemDaoImpl implements SystemDao {
 	public List<TdataDict> getALLPageAuths(String dict_remark) {
 		return daoTemplete.getListData("systemSql.getALLPageAuths", dict_remark);
 	}
+	@Override
+	public void createElementLevel(TelementLevel t) throws RbackException {
+		daoTemplete.insert("systemSql.createElementLevel", t);
+	}
+	@Override
+	public void deleteELE(String fdid) throws RbackException {
+		daoTemplete.delete("systemSql.deleteELE", fdid);
+	}
+	@Override
+	public void createRole(Trole role) throws RbackException {
+		daoTemplete.insert("roleSql.createRole", role);
+	}
+	@Override
+	public Trole getRole(String fdid) {
+		return (Trole)daoTemplete.getOneData("roleSql.getRole", fdid);
+	}
 	
 	
 	

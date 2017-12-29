@@ -46,3 +46,18 @@ function eleLevelLisReloadgrid() {
     $("#elementLevellisdg").datagrid('reload');
 }  
  
+
+function deleteELE(){
+	var row = getSingleGridSelectData($("#elementLevellisdg"));
+	if(row==null)	return ;
+	promptMessageCallBack("3","是否确认删除该记录",function(){
+		$.post(ctx+"system/deleteELE/"+row.fdid,function(data){
+			promptMessage(data.res,data.msg);
+			if(data.res =='2'){
+				elementListQuery(); 
+			}
+		});
+	});
+
+	
+}

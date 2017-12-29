@@ -7,7 +7,14 @@ public class Role extends BaseModel{
 	private String role_name;
 	private String parent_id; 
 	private int user_count;
+	private String parent_role_name;
 	
+	public String getParent_role_name() {
+		return parent_role_name;
+	}
+	public void setParent_role_name(String parent_role_name) {
+		this.parent_role_name = parent_role_name;
+	}
 	public int getUser_count() {
 		return user_count;
 	}

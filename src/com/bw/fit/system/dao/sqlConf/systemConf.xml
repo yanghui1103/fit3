@@ -106,5 +106,15 @@
 	<select id="getALLPageAuths" parameterType="String" resultType="tdataDict">
 		select * from data_dict where isdeleted='0' and dict_remark = #{dict_remark,jdbcType=VARCHAR}
 	</select>
+	<!-- 新建页面权限保存 -->
+	<insert id="createElementLevel" parameterType="TelementLevel" >
+		insert into element_level(fdid,role_id,menu_id,element_type,level_code,creator,create_time,version_time,isdeleted) values 
+		(#{fdid},#{role_id},#{menu_id},#{element_type},#{level_code},#{creator},sysdate,sysdate,'0')
+	</insert>
+	<!-- 删除页面权限 -->
+	<delete id="deleteELE" parameterType="String" >
+		delete from element_level where fdid = #{fdid}
+	</delete>
+	
 	
 </mapper>   
