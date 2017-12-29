@@ -20,8 +20,8 @@ function elementListQuery(){
                    { field: 'fdid', title: 'ID' ,hidden:true  },
                    { field: 'role_name', title: '角色名称', width: '20%',fixed:true  },
                    { field: 'menu_name', title: '菜单名称', width: '20%' },
-                   { field: 'level_desp', title: '级别描述', width: '20%' }, 
                    { field: 'element_type_name', title: '权限类型', width: '20%' }, 
+                   { field: 'level_desp', title: '级别描述', width: '20%' }, 
                    { field: 'version_time', title: '分配时间', width: '20%' }
                ]],
              fit: true,    

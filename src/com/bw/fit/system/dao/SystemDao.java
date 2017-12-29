@@ -10,6 +10,7 @@ import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
+import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.Postion;
 
 /****
@@ -113,5 +114,13 @@ public interface SystemDao {
 	
 	public Tcompany getCompany(String fdid);
 	public void updateCompany(Tcompany p)  throws RbackException;
+	public List<Menu> getMenuListByRoleId(String role_id);
+	/****
+	 * 查询这组数据字典
+	 * 的所有值
+	 * @param dict_remark
+	 * @return
+	 */
+	public List<TdataDict> getALLPageAuths(String dict_remark);
 	
 }

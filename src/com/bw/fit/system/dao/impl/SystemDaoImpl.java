@@ -17,6 +17,7 @@ import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
+import com.bw.fit.system.model.Menu;
 @Repository
 public class SystemDaoImpl implements SystemDao {
 
@@ -109,6 +110,14 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public void updateCompany(Tcompany p) throws RbackException {
 		daoTemplete.update("companySql.updateCompany", p);
+	}
+	@Override
+	public List<Menu> getMenuListByRoleId(String role_id) {
+		return daoTemplete.getListData("systemSql.getMenuListByRoleId", role_id);
+	}
+	@Override
+	public List<TdataDict> getALLPageAuths(String dict_remark) {
+		return daoTemplete.getListData("systemSql.getALLPageAuths", dict_remark);
 	}
 	
 	

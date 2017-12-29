@@ -673,4 +673,51 @@ public class SystemCoreController extends BaseController {
 		List<Trole> rls = userDao.getUserRoleInfo(user_id);
 		return (JSONArray)JSONArray.toJSON(rls);
 	}
+	
+	/****
+	 * (请求)根据角色id获取其拥有的所有菜单
+	 * @param fdid
+	 * @return
+	 */
+	@RequestMapping("getMenuListByRoleId/{fdid}")
+	@ResponseBody
+	public JSONArray getMenuListByRoleId(@PathVariable String fdid){
+		String role_id =  fdid;
+		List<Menu> rls = systemDao.getMenuListByRoleId(role_id);
+		List<Menu> rls2 = new ArrayList<>();
+		for(Menu mm:rls){
+			for(Menu mm2:rls){
+				if(mm.getFdid().equalsIgnoreCase(mm2.getParent_id()))
+					rls2.add(mm);
+			}
+		}
+		for(Menu m:rls2){
+			rls.remove(m);
+		}
+		return (JSONArray)JSONArray.toJSON(rls);
+	}
+	/***
+	 * 获取到系统中数据字典里配置的所有相关于
+	 * 页面权限的类型
+	 * @param type(传入到dict_remark) PageAuth 指页面权限类型,
+	 * @return
+	 */
+	@RequestMapping("getALLAuths/{type}")
+	@ResponseBody
+	public JSONArray getALLAuths(@PathVariable String type){
+		List<TdataDict> rls = systemDao.getALLPageAuths(type);
+		return (JSONArray)JSONArray.toJSON(rls);	 
+	}
+	
+	/****
+	 * 根据值获取数据字典记录
+	 * @param value
+	 * @return
+	 */
+	@RequestMapping("getDictNameByValue/{value}")
+	@ResponseBody
+	public JSONObject getDictNameByValue(@PathVariable String value) {
+		TdataDict dd = systemDao.getDictByValue(value);
+		return (JSONObject)JSONObject.toJSON(dd);
+	}
 }

@@ -17,19 +17,19 @@
 	}
 
 	function createELESubmitFm() {
-		if (!$("#createELEPageFm").form('enableValidation')
-				.form('validate')) {
+		if (!$("#createELEPageFm").form('enableValidation').form('validate')) {
 			return;
 		}
 		$.ajax({
 			type : 'POST',
 			url : ctx + "system/createElementLevel",
-			data : serializeFormToJSON($("#createELEPageFm")
-					.serializeArray()),
+			data : serializeFormToJSON($("#createELEPageFm").serializeArray()),
 			success : function(data) {
-				promptMessageCallBack(data.res, data.msg, function() {
-					completeSubmitCall(data, "2", "elementLevellisdg", "close");
-				});
+				promptMessageCallBack(data.res, data.msg,
+						function() {
+							completeSubmitCall(data, "2", "elementLevellisdg",
+									"close");
+						});
 			},
 			dataType : "JSON"
 		});
@@ -39,9 +39,31 @@
 <body>
 	<form id="createELEPageFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
+		<div style="margin-bottom: 20px">
+			<input id="cc_ele" class="easyui-combobox" name="role_id"
+				style="width: 50%"
+				data-options="fitColumns: true, required:true,limitToList:true,label: '角色:' ,valueField:'fdid',textField:'role_name',url: '<%=basePath%>system/getMyRoles',
+				onSelect: function(rec){    
+            		var url = '<%=basePath%>system/getMenuListByRoleId/'+rec.fdid;    
+            		$('#cc2_ele').combobox('reload', url);    
+        		}"  />
+		</div>
 		<div  style="margin-bottom: 20px">
-			<input id="cc" class="easyui-combobox" name="role_id"   style="width:50%" 
-    	data-options="fitColumns: true, required:true,limitToList:true,label: '角色:' ,valueField:'fdid',textField:'role_name',url: '<%=basePath%>system/getMyRoles'" />  
+			<input id="cc2_ele" name="menu_id" 
+				style="width: 50%" class="easyui-combobox" data-options="fitColumns: true, required:true,limitToList:true,label: '菜单:' ,valueField:'fdid',textField:'menu_name'" />  
+		</div>
+		<div  style="margin-bottom: 20px">
+			<input  class="easyui-combobox" name="element_type"
+				style="width: 50%"
+				data-options="fitColumns: true, required:true,limitToList:true,label: '权限类型:' ,valueField:'dict_value',textField:'dict_name',url: '<%=basePath%>system/getALLAuths/PageAuth',onSelect: function(rec){    
+            		var url = '<%=basePath%>system/getDictNameByValue/'+rec.dict_value;    
+            		$('#elelevel_code').combobox('reload', url);    
+        		}"   />
+		</div>
+		<div  style="margin-bottom: 20px">
+			<input  id="elelevel_code" class="easyui-combobox" name="level_code"
+				style="width: 50%"
+				data-options="fitColumns: true, required:true,limitToList:true,label: '权限值:' ,valueField:'parent_id',textField:'num'"  />
 		</div>
 	</form>
 	<div style="position: fixed; right: 30px; bottom: 20px;">
