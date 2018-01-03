@@ -1,16 +1,11 @@
 /**
  * 角色列表
  */
-
 $(function() { 
 	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
 	renderAuthorityOperateBtnAll($("#rolelist_toolBar"),ctx+"system/getOperationsByMenuId","901",false,"toolBar");
  
 	roleListquery(); 
-	
-	
-
-	
 });
 
 function roleListquery(){    
@@ -46,3 +41,33 @@ function cpListreloadgrid() {
     $('#rolelisttdg').datagrid('options').queryParams= serializeFormToJSON($("#rolelistFM").serializeArray());  
     $("#rolelisttdg").datagrid('reload');
 }  
+
+
+function deleteRole(){
+	var row = getSingleGridSelectData($("#rolelisttdg"));
+	if(row==null) return ;
+	promptMessageCallBack("3","是否确认删除该记录",function(){
+		$.post(ctx+"system/deleteRole/"+row.fdid,function(data){
+			promptMessage(data.res,data.msg);
+			if(data.res == '2')
+				postionListreloadgrid(); 
+		});
+	});
+
+	
+}
+
+
+function openEditRole(){
+	var row = getSingleGridSelectData($("#rolelisttdg"));
+	if(row==null)
+		return ;
+	var role_name ="";
+	$.ajax({
+		url:ctx+"system/getRoleDetail/"+row.fdid ,
+		success:function(data){
+			role_name = data.role_name ;
+			addNewTab("修改("+role_name+")资料",ctx+"system/openEditRole/"+row.fdid); 
+		}
+	});
+}

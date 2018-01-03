@@ -2,11 +2,14 @@ package com.bw.fit.system.dao;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.TelementLevel;
+import com.bw.fit.system.entity.Toperation;
+import com.bw.fit.system.entity.TpageElement;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
@@ -142,4 +145,30 @@ public interface SystemDao {
 	 */
 	public void createRole(Trole role) throws RbackException;
 	public Trole getRole(String fdid) ;
+	/****
+	 * 删除角色
+	 * @param fdid 记录id
+	 * @throws RbackException
+	 */
+	public void deleteRole(String  fdid) throws RbackException;
+	/***
+	 * 根据角色id查询其菜单
+	 * @param role_id
+	 * @return
+	 */
+	public List<Menu> getMenuAuthTreeJsonByRoleId(String role_id);
+	/****
+	 * 根据角色，菜单获取拥有的功能
+	 * @param menu_id
+	 * @param role_id 
+	 * @return
+	 */
+	public List<Toperation> getOperationsByMenuId(String menu_id,String role_id);
+	/****
+	 * 根据角色，菜单获取拥有的页面元素权限
+	 * @param menu_id
+	 * @param role_id
+	 * @return
+	 */
+	public List<TpageElement> getElementsByMenuId(String menu_id,String role_id);
 }

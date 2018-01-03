@@ -21,6 +21,36 @@
 		(#{fdid,jdbcType=VARCHAR},#{role_name,jdbcType=VARCHAR},'0',#{parent_id,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR})
 	</insert>
 	<select id="getRole" parameterType="String" resultType="trole">
-		select * from roles where fdid = #{fdid}
+		select rl.*,(
+		select count(1) from staff2role sr,staff st where st.fdid = sr.user_id and sr.role_id = rl.fdid and st.isdeleted='0'
+			) user_count
+		from roles rl where fdid = #{fdid} 
+	</select>
+	<!-- 作废角色 -->
+	<update id="deleteRole"  parameterType="String">
+		update roles set isdeleted='1' where fdid = #{fdid}
+	</update>
+	
+	
+	<!--角色的所有的菜单 -->
+	<select id="getMenuAuthTreeJsonByRoleId" parameterType="String"
+		resultType="menu">
+	select mm.* from  role2authority ra,authority2menu am,menu mm
+	where  ra.authority_id = am.authority
+	and am.menu_id = mm.fdid and ra.role_id = #{role_id}
+	</select>
+	
+	<!-- 根据角色和菜单获取功能权限 -->
+	<select id="getOperationsByMenuId" parameterType="trole"
+		resultType="toperation">
+		select op.* from authority2operation ap,operation op
+		where ap.operation_id = op.fdid and op.foreign_id = #{keyWords}
+		and ap.authority = #{fdid}
+	</select>
+	<select id="getElementsByMenuId"   parameterType="trole"
+		resultType="toperation">
+		select pe.*,am.* from authority2element am,page_element pe
+		where am.element_id = pe.fdid and am.menu_id = #{keyWords}
+		and am.authority = #{fdid}	
 	</select>
 </mapper>   

@@ -114,6 +114,27 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
+	public JSONArray getMenuAuthTreeJsonByRoleId(String role_id) {
+		JSONArray array = new JSONArray();
+		List<Menu> list = systemDao.getMenuAuthTreeJsonByRoleId(role_id);
+		if(list==null)
+			return null ;
+		list = list
+				.stream()
+				.sorted((x, y) -> (x.getMenu_level().compareTo(y
+						.getMenu_level()))).collect(Collectors.toList());
+		JSONArray json = new JSONArray();
+		List<Menu> nodeList = list;
+
+		// start
+		List<Menu> levelList = nodeList.stream()
+				.filter((n) -> "1".equals(n.getMenu_level()))
+				.collect(Collectors.toList());
+		json = getJSON(nodeList, levelList);
+		return json;
+	}
+
+	@Override
 	public JSONArray getMenuTreeJsonByUserId(String user_id) {
 		JSONArray array = new JSONArray();
 		List<Menu> list = userDao.getMenuInfoByUserId(user_id);

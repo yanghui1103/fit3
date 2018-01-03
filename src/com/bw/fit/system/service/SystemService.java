@@ -44,6 +44,13 @@ public interface SystemService {
 	 * @return 返回JSONArray
 	 */
 	public JSONArray getMenuTreeJsonByUserId(String user_id);
+
+	/****
+	 * 根据角色id查询其拥有的菜单
+	 * @param role_id
+	 * @return 返回JSONArray
+	 */
+	public JSONArray getMenuAuthTreeJsonByRoleId(String role_id);
 	/****
 	 * 根据用户id,和菜单
 	 * @param user_id

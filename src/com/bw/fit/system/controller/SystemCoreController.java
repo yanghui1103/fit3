@@ -2,6 +2,7 @@ package com.bw.fit.system.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest; 
 import javax.validation.Valid;
@@ -600,6 +601,35 @@ public class SystemCoreController extends BaseController {
 		}
 	}
 
+	@RequestMapping("deleteRole/{fdid}")
+	@ResponseBody
+	public JSONObject deleteRole(@PathVariable String fdid) {
+		JSONObject json = new JSONObject();
+		returnSuccessJson(json);
+		if (StringUtils.isEmpty(fdid)) {
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, "请选择记录");
+			return json;
+		}
+		try {
+			if (systemDao.getRole(fdid).getUser_count() > 0) { // 岗位上有人
+				json = new JSONObject();
+				json.put("res", "1");
+				returnFailJson(json, "此角色有用户正在使用");
+				return json;
+			}
+			systemDao.deleteRole(fdid);
+		} catch (RbackException e) {
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, e.getMsg());
+		} finally {
+			return json;
+		}
+		
+	}
+	
 	@RequestMapping("createCompany")
 	@ResponseBody
 	public JSONObject createCompany(@Valid @ModelAttribute Company c,BindingResult result) {
@@ -807,5 +837,82 @@ public class SystemCoreController extends BaseController {
 			returnFailJson(json, e.getMsg());
 		}
 		return json;
+	}
+	
+	@RequestMapping("getRoleDetail/{fdid}")
+	@ResponseBody
+	public JSONObject getRole(@PathVariable String fdid,Model model){
+		return (JSONObject)JSONObject.toJSON(systemDao.getRole(fdid)); 
+	}
+	/***
+	 * 打开角色编辑页
+	 * @param fdid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("openEditRole/{fdid}")
+	public String openEditRole(@PathVariable String fdid,Model model){
+		model.addAttribute("role",systemDao.getRole(fdid));
+		return "system/role/roleEditPage";
+	}
+	
+	/***
+	 * 根据角色id查询其菜单树
+	 * @param role_id
+	 * @return
+	 */
+	@RequestMapping("getMenuAuthTreeJsonByRoleId/{role_id}")
+	@ResponseBody
+	public JSONArray getMenuAuthTreeJsonByRoleId(@PathVariable String role_id){
+		
+		return systemService.getMenuAuthTreeJsonByRoleId(role_id);
+	}
+	
+	@RequestMapping("getOperationsByMenuId/{menu_id}/{role_id}/{parent_id}")
+	@ResponseBody
+	public JSONObject getOperationsByMenuId(@PathVariable(value="menu_id") String menu_id,@PathVariable(value="parent_id") String parent_id,
+			@PathVariable(value="role_id") String role_id){
+		JSONObject json = new  JSONObject();
+		List<Toperation> oplist_p = systemDao.getOperationsByMenuId(menu_id, parent_id);
+		List<Toperation> oplist = systemDao.getOperationsByMenuId(menu_id, role_id);
+		if(oplist_p==null||oplist_p.size()<1){
+			json.put("res", "1");
+			json.put("msg", "无数据");
+			return json ;
+		}
+		json.put("res", "2");
+		json.put("msg", "存在数据");
+		for(Toperation t:oplist_p){
+			if(oplist!=null&&oplist.contains(t)){
+				t.setChecked("1");
+			}else{t.setChecked("0");}
+		}
+		json.put("list", JSONArray.toJSON(oplist_p));
+		
+		return json ;
+	}
+	
+	@RequestMapping("getElementsByMenuId/{menu_id}/{role_id}/{parent_id}")
+	@ResponseBody
+	public JSONObject getElementsByMenuId(@PathVariable(value="menu_id") String menu_id,@PathVariable(value="parent_id") String parent_id,
+			@PathVariable(value="role_id") String role_id){
+		JSONObject json = new  JSONObject();
+		List<TpageElement> elelist_p = systemDao.getElementsByMenuId(menu_id, parent_id);
+		List<TpageElement> elelist = systemDao.getElementsByMenuId(menu_id, role_id);
+		if(elelist==null||elelist.size()<1){
+			json.put("res", "1");
+			json.put("msg", "无数据");
+			return json ;
+		}
+		json.put("res", "2");
+		json.put("msg", "存在数据");
+		for(TpageElement t:elelist_p){
+			if(elelist!=null&&elelist.contains(t)){
+				t.setChecked("1");
+			}else{t.setChecked("0");}
+		}
+		json.put("list", JSONArray.toJSON(elelist));
+		
+		return json ;
 	}
 }

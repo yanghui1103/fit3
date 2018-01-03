@@ -4,6 +4,7 @@ import com.bw.fit.common.entity.BaseEntity;
 
 public class Toperation extends BaseEntity {
 	
+	private String checked;
 	private String operate_name ;
 	private String operate_code ;
 	private String operate_type ;
@@ -11,6 +12,13 @@ public class Toperation extends BaseEntity {
 	private String foreign_id ;
 	private String address ;
 	private String action_name ;
+	
+	public String getChecked() {
+		return checked;
+	}
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
 	public String getOperate_name() {
 		return operate_name;
 	}
