@@ -32,8 +32,7 @@
 	</div>
 	<div class="div-b">
 	<div class="easyui-panel " id="editRolePageMenuArea"
-		style="height: 200px; padding: 10px;"
-		data-options="region:'east',title:'菜单区域'""></div>
+		style="height: 200px; padding: 10px;"   		data-options="region:'east',title:'菜单区域'""></div>
 		</div>
 	<div class="div-b">
 	<div class="easyui-panel " id="editRolePageOperationArea"
