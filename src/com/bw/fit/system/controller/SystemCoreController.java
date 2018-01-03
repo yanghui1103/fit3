@@ -867,6 +867,12 @@ public class SystemCoreController extends BaseController {
 		
 		return systemService.getMenuAuthTreeJsonByRoleId(role_id);
 	}
+	@RequestMapping("getMenuArrayByRoleId/{role_id}")
+	@ResponseBody
+	public JSONArray getMenuArrayByRoleId(@PathVariable String role_id){
+		List<Menu> list = systemDao.getMenuAuthTreeJsonByRoleId(role_id);
+		return (JSONArray)JSONArray.toJSON(list);
+	}
 	
 	@RequestMapping("getOperationsByMenuId/{menu_id}/{role_id}/{parent_id}")
 	@ResponseBody
@@ -883,9 +889,11 @@ public class SystemCoreController extends BaseController {
 		json.put("res", "2");
 		json.put("msg", "存在数据");
 		for(Toperation t:oplist_p){
-			if(oplist!=null&&oplist.contains(t)){
-				t.setChecked("1");
-			}else{t.setChecked("0");}
+			for(Toperation p:oplist){
+				if(p.getFdid().equals(t.getFdid())){
+					t.setChecked("1");
+				}
+			}
 		}
 		json.put("list", JSONArray.toJSON(oplist_p));
 		
@@ -907,9 +915,11 @@ public class SystemCoreController extends BaseController {
 		json.put("res", "2");
 		json.put("msg", "存在数据");
 		for(TpageElement t:elelist_p){
-			if(elelist!=null&&elelist.contains(t)){
-				t.setChecked("1");
-			}else{t.setChecked("0");}
+			for(TpageElement p:elelist){
+				if(p.getFdid().equals(t.getFdid())){
+					t.setChecked("1");
+				}
+			}
 		}
 		json.put("list", JSONArray.toJSON(elelist));
 		

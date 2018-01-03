@@ -32,7 +32,8 @@
 	</div>
 	<div class="div-b">
 	<div class="easyui-panel " id="editRolePageMenuArea"
-		style="height: 200px; padding: 10px;"   		data-options="region:'east',title:'菜单区域'""></div>
+		style="height: 200px; padding: 10px;"   		
+		data-options="region:'east',title:'菜单区域'""></div>
 		</div>
 	<div class="div-b">
 	<div class="easyui-panel " id="editRolePageOperationArea"
@@ -53,15 +54,16 @@ $(function(){
 			$("#editRolePageMenuArea").empty();
 			$("#editRolePageOperationArea").empty();
 			$("#editRolePageEleArea").empty();
-			$.post(ctx+"system/getMenuAuthTreeJsonByRoleId/"+editRoleRoleId,function(data){
+			$.post(ctx+"system/getMenuArrayByRoleId/"+editRoleRoleId,function(data){
 				if(data.length<1){
-					var $input = $("<input type=checkbox name=menu_id onchange='editRolePageClk(this)' value='"+node.id+"'  /><label>"+node.text+"</label>  ");
+					var $input = $("<input type=checkbox id=editRole_menu_id onchange='editRolePageClk(this)' value='"+node.id+"'  /><label>"+node.text+"</label>  ");
 					$("#editRolePageMenuArea").append($input);
 				}else{
 					$.each(data,function(index){
 						if(data[index].fdid == node.id){
-							var $input = $("<input type=checkbox name=menu_id onchange='editRolePageClk(this)' checked=checked value='"+node.id+"'  /><label>"+node.text+"</label>  ");
+							var $input = $("<input type=checkbox id=editRole_menu_id onchange='editRolePageClk(this)' checked=checked value='"+node.id+"'  /><label>"+node.text+"</label>  ");
 							$("#editRolePageMenuArea").append($input);
+							editRolePageClk(document.getElementById("editRole_menu_id"));
 						}
 					});
 				}
