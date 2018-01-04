@@ -181,6 +181,22 @@ public class SystemDaoImpl implements SystemDao {
 	public void deleteUser(String fdid) throws RbackException {
 		daoTemplete.update("userSql.deleteUser", fdid);
 	}
+	@Override
+	public void createUser(Tuser user) throws RbackException {
+		daoTemplete.insert("userSql.createUser", user);
+	}
+	@Override
+	public void createUser2Company(Tuser user) throws RbackException {
+		daoTemplete.insert("userSql.createUser2Company", user);
+	}
+	@Override
+	public void createUser2Postion(Tuser user) throws RbackException {
+		daoTemplete.insert("userSql.createUser2Postion", user);
+	}
+	@Override
+	public void createUser2Role(Tuser user) throws RbackException {
+		daoTemplete.insert("userSql.createUser2Role", user);
+	}
 	
 	
 	

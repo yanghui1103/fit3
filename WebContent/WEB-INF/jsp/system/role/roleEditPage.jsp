@@ -19,8 +19,8 @@
 </head>
 <body>
 
-	<form action="<%=basePath%>system/updateRole"
-		id="createCompanyPageFm" class="easyui-form" method="post"
+	<form 
+		id="roleEditPageFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
 	<div style="margin: 2px 0;">
 		<input type="hidden" name="role_id" id="editRoleRoleId" data-options="required:true" value="${role.fdid }" />
@@ -51,7 +51,7 @@
 		</div>
 		
 	<div style="position: fixed; right: 30px; bottom: 20px;">
-		<button class="easyui-linkbutton" type=submit
+		<button class="easyui-linkbutton" type=button onclick="roleEditSubmitFm()"
 			style="width: 80px">保存</button>
 	</div>
 	</form>
@@ -130,5 +130,24 @@ function editRolePageClk(obj){
 	}
 }
 
+
+function roleEditSubmitFm() {
+	if (!$("#roleEditPageFm").form('enableValidation')
+			.form('validate')) {
+		return;
+	}
+	$.ajax({
+		type : 'POST',
+		url : ctx + "system/updateRole",
+		data : serializeFormToJSON($("#roleEditPageFm")
+				.serializeArray()),
+		success : function(data) {
+			promptMessageCallBack(data.res, data.msg, function() {
+				completeSubmitCall(data, "2", "rolelisttdg", "close");
+			});
+		},
+		dataType : "JSON"
+	});
+}
 </script>
 </html>

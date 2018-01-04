@@ -18,9 +18,29 @@ public class User extends BaseModel{
 	private String phone;
 	private String user_order ;
 	private String company_id ;
+	private String[] role_ids;
+	private String[] postion_ids;
+	private String password ;
 	
 	
-	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String[] getRole_ids() {
+		return role_ids;
+	}
+	public void setRole_ids(String[] role_ids) {
+		this.role_ids = role_ids;
+	}
+	public String[] getPostion_ids() {
+		return postion_ids;
+	}
+	public void setPostion_ids(String[] postion_ids) {
+		this.postion_ids = postion_ids;
+	}
 	public String getCompany_id() {
 		return company_id;
 	}

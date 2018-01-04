@@ -190,6 +190,15 @@ public interface SystemDao {
 	 * @throws RbackException
 	 */
 	public void deleteUser(String fdid) throws RbackException;
+	/***
+	 * 新建用户
+	 * @param user
+	 * @throws RbackException
+	 */
+	public void createUser(Tuser user) throws RbackException;
+	public void createUser2Company(Tuser user) throws RbackException;
+	public void createUser2Postion(Tuser user) throws RbackException;
+	public void createUser2Role(Tuser user) throws RbackException;
 	
 	
 }

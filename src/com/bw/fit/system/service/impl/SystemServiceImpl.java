@@ -345,9 +345,25 @@ public class SystemServiceImpl implements SystemService {
 			List<RoleAllot> roleAllots = systemDao.getChildRoleAllotsByRoleId(item);
 		}
 		
-		
-		
 	}
+
+	@Override
+	public void createUser(User user) throws RbackException {
+		Tuser tuser = new Tuser();
+		copyProperties(tuser, user);
+		systemDao.createUser(tuser);
+		systemDao.createUser2Company(tuser);
+		for(String role_id:user.getRole_ids()){
+			tuser.setRole_id(role_id);
+			systemDao.createUser2Role(tuser);
+		}
+		for(String postion_id:user.getPostion_ids()){
+			tuser.setPostion_id(postion_id);
+			systemDao.createUser2Postion(tuser);
+		}
+	}
+	
+	
 
 
 }

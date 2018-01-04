@@ -18,8 +18,30 @@ public class Tuser extends BaseEntity{
 	private String password;
 	private String phone;
 	private String state;
+	private String user_order;
 	
 	
+	private String role_id;
+	private String postion_id;
+	
+	public String getRole_id() {
+		return role_id;
+	}
+	public void setRole_id(String role_id) {
+		this.role_id = role_id;
+	}
+	public String getPostion_id() {
+		return postion_id;
+	}
+	public void setPostion_id(String postion_id) {
+		this.postion_id = postion_id;
+	}
+	public String getUser_order() {
+		return user_order;
+	}
+	public void setUser_order(String user_order) {
+		this.user_order = user_order;
+	}
 	public String getCompany_id() {
 		return company_id;
 	}

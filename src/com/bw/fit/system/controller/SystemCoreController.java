@@ -464,6 +464,15 @@ public class SystemCoreController extends BaseController {
 		return json;
 	}
 
+	@RequestMapping("getPostionList")
+	@ResponseBody
+	public JSONArray getallpostion(){
+		Postion e  = new Postion();
+		e.setPaginationEnable("0");
+		List<Postion> listTotal = systemService.getPostionList(e);
+		return (JSONArray)JSONArray.toJSON(listTotal);
+	}
+	
 	@RequestMapping("postionList/{params}")
 	@ResponseBody
 	public JSONObject postionList(@PathVariable String params,
@@ -513,6 +522,19 @@ public class SystemCoreController extends BaseController {
 		return json;
 	}
 
+	/***
+	 * 获取所有的角色
+	 * @return
+	 */
+	@RequestMapping("getAllRoles")
+	@ResponseBody
+	public JSONArray getAllRoles(){
+		Trole e = new Trole();
+		e.setPaginationEnable("0");
+		List<Trole> listTotal = systemDao.getRoleList(e);
+		return (JSONArray)JSONArray.toJSON(listTotal);
+	}
+	
 	@RequestMapping("userList/{params}")
 	@ResponseBody
 	public JSONObject userList(@PathVariable String params,
@@ -986,4 +1008,29 @@ public class SystemCoreController extends BaseController {
 		}
 		
 	}
+	
+	@RequestMapping("createUser")
+	@ResponseBody
+	public JSONObject createUser(@Valid @ModelAttribute User user,BindingResult result){
+		fillCommonProptities(user,true);
+		JSONObject json = new JSONObject();
+		if (result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			json.put("res", "1");
+			returnFailJson(json, error.getDefaultMessage());
+			return json;
+		}
+		returnSuccessJson(json); 
+		try {
+			user.setPassword(getUserPasswordShiro(user.getUser_cd(),PropertiesUtil.getValueByKey("system.passwd"),"MD5",10));
+			systemService.createUser(user);
+		} catch (RbackException e) {
+			e.printStackTrace();
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, e.getMsg());
+		}
+		return json;
+	}
+		
 }

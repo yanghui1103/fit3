@@ -99,6 +99,11 @@ public interface SystemService {
 	 * @throws RbackException
 	 */
 	public void allotOrUpdateRole(RoleAllot roleAllot) throws RbackException;
-	
+	/****
+	 * 新建一个用户
+	 * @param user
+	 * @throws RbackException
+	 */
+	public void createUser(User user) throws RbackException;
 	
 }

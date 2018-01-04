@@ -9,7 +9,7 @@
 		select rl.*,(
 		select count(1) from staff2role a,staff st where st.fdid = a.user_id and st.isdeleted='0' and a.role_id = rl.fdid 
 		) user_count
-		 from roles rl where role_name like  '%'||#{keyWords}||'%' and isdeleted='0'  ) 
+		 from roles rl where role_name like  '%'||#{keyWords,jdbcType=VARCHAR}||'%' and isdeleted='0'  ) 
 		where 1=1  
 		<if test="paginationEnable!='0'">		
 			<include refid="paginationSql"></include>

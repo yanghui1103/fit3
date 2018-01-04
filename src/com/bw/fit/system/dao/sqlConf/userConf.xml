@@ -49,4 +49,18 @@
 	<update id="deleteUser" parameterType="String">
 		update staff set version_time=sysdate,isdeleted='1' where fdid = #{fdid}
 	</update>
+	<!-- 新建用户 -->
+	<insert id="createUser"  parameterType="tuser">
+		insert into staff(fdid,user_cd,user_name,user_order,password,phone,state,isdeleted,create_time,creator,version_time) values
+		(#{fdid},#{user_cd},#{user_name},#{user_order},#{password},#{phone},'2','0',sysdate,#{creator},sysdate)
+	</insert>
+	<insert id="createUser2Company"  parameterType="tuser">
+		insert into staff2company (user_id,company_id) values (#{fdid},#{company_id})
+	</insert>
+	<insert id="createUser2Postion" parameterType="tuser">
+		insert into staff2postion(user_id,postion_id) values (#{fdid},#{postion_id})
+	</insert>
+	<insert id="createUser2Role" parameterType="tuser">
+		insert into staff2postion(user_id,role_id) values (#{fdid},#{role_id})
+	</insert>
 </mapper>   

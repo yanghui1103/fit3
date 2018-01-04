@@ -1,6 +1,6 @@
 $(function() {
 	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
-	renderAuthorityOperateBtnAll($("#userlist_toolBar"),ctx+"system/getOperationsByMenuId","901",false,"toolBar");
+	renderAuthorityOperateBtnAll($("#userlist_toolBar"),ctx+"system/getOperationsByMenuId","902",false,"toolBar");
 
 	userlistquery(); 
 });
@@ -16,9 +16,9 @@ function userlistquery(){
                    { field: 'fdid', title: 'ID' ,hidden:true  },
                    { field: 'user_name', title: '名称', width: '20%',fixed:true  },
                    { field: 'user_cd', title: '帐号', width: '20%' },
-                   { field: 'user_name', title: '联系电话', width: '20%' }, 
-                   { field: 'user_name', title: '岗位', width: '20%' }, 
-                   { field: 'user_name', title: '所属公司', width: '20%',sortable:true }
+                   { field: 'phone', title: '联系电话', width: '20%' }, 
+                   { field: 'postion_name', title: '岗位', width: '20%' }, 
+                   { field: 'company_name', title: '所属公司', width: '20%',sortable:true }
                ]],
              fit: true,    
              idField: "fdid",
