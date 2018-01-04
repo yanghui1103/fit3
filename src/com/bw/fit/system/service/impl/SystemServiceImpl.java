@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.dao.DaoTemplete;
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.Node;
 import com.bw.fit.common.util.PropertiesUtil;
 import com.bw.fit.common.util.PubFun;
@@ -38,6 +39,7 @@ import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.Postion;
 import com.bw.fit.system.model.Role;
+import com.bw.fit.system.model.RoleAllot;
 import com.bw.fit.system.model.User;
 import com.bw.fit.system.service.SystemService;
 
@@ -225,7 +227,7 @@ public class SystemServiceImpl implements SystemService {
 	
 
 	@Override
-	public Company getCompanyTree(String parent_id) throws Exception {
+	public Company getCompanyTree(String parent_id) {
 		List<Tcompany> list = systemDao.getCompanyTreeList(parent_id);
 		List<Company> lis = new ArrayList<>();
 		for (Tcompany d : list) {
@@ -251,7 +253,7 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public DataDict getAllDataDict(String parent_id) throws Exception {
+	public DataDict getAllDataDict(String parent_id){
 		List<TdataDict> list = systemDao.getDataDictList(parent_id);
 		List<DataDict> lis = new ArrayList<>();
 		for (TdataDict d : list) {
@@ -326,6 +328,25 @@ public class SystemServiceImpl implements SystemService {
 			list.add(pp);
 		}
 		return list ;
+	}
+
+	@Override
+	public void allotOrUpdateRole(RoleAllot roleAllot) throws RbackException {
+		//角色下原有的权限
+		
+		//角色下现有的权限
+		
+		List<Trole> roles_child = systemDao.getChildrenRoles(roleAllot.getFdid());
+		if(roles_child!=null){// 有子孙角色
+			List<String> item = new ArrayList<>();
+			for(Trole r:roles_child){
+				item.add(r.getFdid());
+			}
+			List<RoleAllot> roleAllots = systemDao.getChildRoleAllotsByRoleId(item);
+		}
+		
+		
+		
 	}
 
 

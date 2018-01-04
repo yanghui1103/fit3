@@ -16,6 +16,7 @@ import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.Postion;
+import com.bw.fit.system.model.RoleAllot;
 
 /****
  * 系统基础持久层
@@ -171,4 +172,24 @@ public interface SystemDao {
 	 * @return
 	 */
 	public List<TpageElement> getElementsByMenuId(String menu_id,String role_id);
+	/*****
+	 * 根据角色id查询出所有子孙
+	 * 的授权情况列表
+	 * @return
+	 */
+	public List<RoleAllot> getChildRoleAllotsByRoleId(List item);
+	/***
+	 * 获取此角色id下所有子孙角色
+	 * @param role_id
+	 * @return
+	 */
+	public List<Trole> getChildrenRoles(String role_id);
+	/****
+	 * 删除用户
+	 * @param fdid
+	 * @throws RbackException
+	 */
+	public void deleteUser(String fdid) throws RbackException;
+	
+	
 }

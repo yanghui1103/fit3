@@ -9,12 +9,14 @@ import org.apache.shiro.session.Session;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.Node;
 import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.LogUser;
 import com.bw.fit.system.model.Postion;
+import com.bw.fit.system.model.RoleAllot;
 import com.bw.fit.system.model.User;
 
 /****
@@ -63,13 +65,13 @@ public interface SystemService {
 	 * @param parent_id
 	 * @return
 	 */
-	public DataDict getAllDataDict(String parent_id) throws Exception;
+	public DataDict getAllDataDict(String parent_id) ;
 	/*****
 	 * 获取这个节点（parnet_id）下所有子孙机构tree
 	 * @param parent_id
 	 * @return
 	 */
-	public Company getCompanyTree(String parent_id) throws Exception;
+	public Company getCompanyTree(String parent_id)  ;
 	
 	/****
 	 * 根据父节点，查询所有子孙的节点
@@ -89,6 +91,14 @@ public interface SystemService {
 	 * @return
 	 */
 	public List<Postion> getPostionList(Postion e);
+	/****
+	 * 给一个角色，分配权限
+	 * 如果此角色如果有子孙角色
+	 * 且如果取消权限，就会将子孙角色上对应的这个权限也一并取消
+	 * @param roleAllot
+	 * @throws RbackException
+	 */
+	public void allotOrUpdateRole(RoleAllot roleAllot) throws RbackException;
 	
 	
 }

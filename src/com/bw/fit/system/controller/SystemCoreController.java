@@ -889,9 +889,11 @@ public class SystemCoreController extends BaseController {
 		json.put("res", "2");
 		json.put("msg", "存在数据");
 		for(Toperation t:oplist_p){
-			for(Toperation p:oplist){
-				if(p.getFdid().equals(t.getFdid())){
-					t.setChecked("1");
+			if(oplist!=null){
+				for(Toperation p:oplist){
+					if(p.getFdid().equals(t.getFdid())){
+						t.setChecked("1");
+					}
 				}
 			}
 		}
@@ -924,5 +926,64 @@ public class SystemCoreController extends BaseController {
 		json.put("list", JSONArray.toJSON(elelist));
 		
 		return json ;
+	}
+	
+	/****
+	 * 角色列表，修改角色
+	 * 即为新角色分配权限
+	 * @param role
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping("updateRole")
+	@ResponseBody
+	public JSONObject updateRole(@Valid @ModelAttribute RoleAllot roleAllot,BindingResult result){
+		fillCommonProptities(roleAllot,true);
+		JSONObject json = new JSONObject();
+		if (result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			json.put("res", "1");
+			returnFailJson(json, error.getDefaultMessage());
+			return json;
+		}
+		returnSuccessJson(json); 
+		try {
+			systemService.allotOrUpdateRole(roleAllot);
+		} catch (RbackException e) {
+			e.printStackTrace();
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, e.getMsg());
+		}
+		return json;
+		
+	}
+	
+	/****
+	 * 删除用户
+	 * @param fdid
+	 * @return
+	 */
+	@RequestMapping("deleteUser/{fdid}")
+	@ResponseBody
+	public JSONObject deleteUser(@PathVariable String fdid){
+		JSONObject json = new JSONObject();
+		returnSuccessJson(json);
+		if (StringUtils.isEmpty(fdid)) {
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, "请选择记录");
+			return json;
+		}
+		try {
+			systemDao.deleteUser(fdid);
+		} catch (RbackException e) {
+			json = new JSONObject();
+			json.put("res", "1");
+			returnFailJson(json, e.getMsg());
+		} finally {
+			return json;
+		}
+		
 	}
 }

@@ -18,8 +18,12 @@
 </style> 
 </head>
 <body>
+
+	<form action="<%=basePath%>system/updateRole"
+		id="createCompanyPageFm" class="easyui-form" method="post"
+		data-options="novalidate:false">
 	<div style="margin: 2px 0;">
-		<input type="hidden"  id="editRoleRoleId"  value="${role.fdid }" />
+		<input type="hidden" name="role_id" id="editRoleRoleId" data-options="required:true" value="${role.fdid }" />
 		<input type="hidden"  id="editRoleParentRoleId"  value="${role.parent_id }" />
 	</div>
 	<div class="div-a">
@@ -45,6 +49,12 @@
 		style="height: 220px; padding: 10px;" id="editRolePageEleArea"
 		data-options="region:'east',title:'其他元素区域'""></div>
 		</div>
+		
+	<div style="position: fixed; right: 30px; bottom: 20px;">
+		<button class="easyui-linkbutton" type=submit
+			style="width: 80px">保存</button>
+	</div>
+	</form>
 </body>
 <script type="text/javascript">
 $(function(){	
@@ -55,15 +65,19 @@ $(function(){
 			$("#editRolePageOperationArea").empty();
 			$("#editRolePageEleArea").empty();
 			$.post(ctx+"system/getMenuArrayByRoleId/"+editRoleRoleId,function(data){
-				if(data.length<1){
-					var $input = $("<input type=checkbox id=editRole_menu_id onchange='editRolePageClk(this)' value='"+node.id+"'  /><label>"+node.text+"</label>  ");
+				
+				if(data.length<1){// if data is null 
+					var $input = $("<input type=checkbox id=editRole_menu_id name=menu_id onchange='editRolePageClk(this)' value='"+node.id+"'  /><label>"+node.text+"</label>  ");
 					$("#editRolePageMenuArea").append($input);
 				}else{
 					$.each(data,function(index){
 						if(data[index].fdid == node.id){
-							var $input = $("<input type=checkbox id=editRole_menu_id onchange='editRolePageClk(this)' checked=checked value='"+node.id+"'  /><label>"+node.text+"</label>  ");
+							var $input = $("<input type=checkbox id=editRole_menu_id name=menu_id  onchange='editRolePageClk(this)' checked=checked value='"+node.id+"'  /><label>"+node.text+"</label>  ");
 							$("#editRolePageMenuArea").append($input);
 							editRolePageClk(document.getElementById("editRole_menu_id"));
+						}else{
+							var $input = $("<input type=checkbox id=editRole_menu_id name=menu_id  onchange='editRolePageClk(this)' value='"+node.id+"'  /><label>"+node.text+"</label>  ");
+							$("#editRolePageMenuArea").append($input);
 						}
 					});
 				}
@@ -72,6 +86,9 @@ $(function(){
 		}
 	});
 });
+/****
+ * 菜单区域，选中时候触发
+ */
 function editRolePageClk(obj){
 	var editRoleRoleId = (document.getElementById("editRoleRoleId").value);
 	var editRoleParentRoleId = (document.getElementById("editRoleParentRoleId").value);

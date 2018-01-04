@@ -12,7 +12,7 @@ function deleteCompany(){
 	promptMessageCallBack("3","是否确认删除该记录",function(){
 		$.post(ctx+"system/deleteCompany/"+row.fdid,function(data){
 			promptMessage(data.res,data.msg);
-			cpListreloadgrid()(); 
+			cpListreloadgrid(); 
 		});
 	});
 }

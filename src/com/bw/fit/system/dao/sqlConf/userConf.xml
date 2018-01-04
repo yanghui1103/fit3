@@ -39,10 +39,14 @@
 	<!-- 用户列表 -->
 	<select id="getUserList" parameterType="tuser" resultType="tuser">
 		select * from (
-		select * from staff where user_name like  '%'||#{keyWords}||'%'  order by version_time desc ) 
+		select * from staff where user_name like  '%'||#{keyWords}||'%' and isdeleted='0'  order by version_time desc ) 
 		where 1=1  
 		<if test="paginationEnable!='0'">		
 			<include refid="paginationSql"></include>
 		</if>
 	</select> 
+	<!-- 删除用户 -->
+	<update id="deleteUser" parameterType="String">
+		update staff set version_time=sysdate,isdeleted='1' where fdid = #{fdid}
+	</update>
 </mapper>   

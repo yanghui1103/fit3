@@ -53,4 +53,27 @@
 		where am.element_id = pe.fdid and am.menu_id = #{keyWords}
 		and am.authority = #{fdid}	
 	</select>
+	<!-- 查询这些角色下拥有授权情况列表 -->
+	<select id="getChildRoleAllotsByRoleId"  parameterType="java.util.List" resultType="roleAllot">
+		select am.authority role_id,op.fdid operation_id,mm.fdid menu_id,pe.fdid element_id
+ 		from authority2menu am ,authority2operation ao,authority2element ae,
+		menu mm ,operation op,page_element pe
+		where am.authority = ao.authority and ao.authority = ae.authority 
+		and mm.fdid = am.menu_id and op.fdid = ao.operation_id and pe.fdid = ae.element_id
+		and am.authority in 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}       
+        </foreach>   
+	</select>
+	<!-- 获取这角色下的所有子孙 -->
+	<select id="getChildrenRoles"  parameterType="String"
+		resultType="trole">
+		select *
+      from roles a
+      where isdeleted='0'
+      connect by
+      a.parent_id =
+      prior a.fdid
+      start with a.parent_id =#{role_id}
+	</select>
 </mapper>   

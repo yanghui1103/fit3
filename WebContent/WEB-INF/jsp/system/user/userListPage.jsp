@@ -20,7 +20,7 @@
 			<div id="userlist_toolBar" class="easyui-accordion">
 			关键词: <input name="keyWords" class="easyui-textbox"
 				style="width: 200px">
-			<a class="easyui-linkbutton" iconcls="icon-search" onclick="userListreloadgrid()">查询</a>
+			<a class="easyui-linkbutton" iconcls="icon-search" onclick="userListPage_query()">查询</a>
 			</div>
 		</form>
 	</div>

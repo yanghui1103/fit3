@@ -1,11 +1,11 @@
 $(function() {
 	// var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of
-	renderAuthorityOperateBtnAll($("#userlist_toolBar"),ctx+"system/getOperationsByMenuId","101",false,"toolBar");
+	renderAuthorityOperateBtnAll($("#userlist_toolBar"),ctx+"system/getOperationsByMenuId","901",false,"toolBar");
 
-	query(); 
+	userlistquery(); 
 });
 
-function query(){    
+function userlistquery(){    
 	$('#userlisttdg').datagrid({ 
 		pagination:true,
 	    url:ctx+'system/userList/all' ,   
@@ -38,6 +38,7 @@ function query(){
 
 //增加查询参数，在页面加载时运行  
 function userListPage_query() {     
+	$('#userlisttdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
     $('#userlisttdg').datagrid('options').queryParams= serializeFormToJSON($("#userlistFM").serializeArray());  
     $("#userlisttdg").datagrid('reload');  
 }  
@@ -47,4 +48,15 @@ function clk(){
 	 getSingleGridSelectData($("#userlisttdg")); 
 	addExternalTab("baidu","http://mba.shisu.edu.cn/content/83")
 
+}
+
+function deleteUser(){
+	var row = getSingleGridSelectData($("#userlisttdg"));
+	if(row==null)	return ;
+	promptMessageCallBack("3","是否确认删除该记录",function(){
+		$.post(ctx+"system/deleteUser/"+row.fdid,function(data){
+			promptMessage(data.res,data.msg);
+			userListPage_query(); 
+		});
+	});	
 }

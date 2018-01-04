@@ -21,6 +21,7 @@ import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.Menu;
+import com.bw.fit.system.model.RoleAllot;
 @Repository
 public class SystemDaoImpl implements SystemDao {
 
@@ -167,6 +168,18 @@ public class SystemDaoImpl implements SystemDao {
 		t.setFdid(role_id);
 		t.setKeyWords(menu_id);
 		return daoTemplete.getListData("roleSql.getElementsByMenuId", t);
+	}
+	@Override
+	public List<RoleAllot> getChildRoleAllotsByRoleId(List item) {
+		return daoTemplete.getListData("roleSql.getChildRoleAllotsByRoleId", item);
+	}
+	@Override
+	public List<Trole> getChildrenRoles(String role_id) {
+		return daoTemplete.getListData("roleSql.getChildrenRoles", role_id);
+	}
+	@Override
+	public void deleteUser(String fdid) throws RbackException {
+		daoTemplete.update("userSql.deleteUser", fdid);
 	}
 	
 	
