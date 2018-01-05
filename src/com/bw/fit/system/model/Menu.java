@@ -15,6 +15,14 @@ public class Menu extends BaseModel{
 	private String menu_url;
 	private String menu_level;
 	private String params;
+	private String state;
+	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public String getMenu_name() {
 		return menu_name;
 	}

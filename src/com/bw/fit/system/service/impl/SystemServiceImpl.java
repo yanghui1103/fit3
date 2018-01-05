@@ -169,6 +169,8 @@ public class SystemServiceImpl implements SystemService {
 		for (Menu cc : list) {
 			JSONObject json2 = new JSONObject();
 			json2.put("text", cc.getMenu_name());
+			json2.put("state", cc.getState());
+			
 			String fdid = cc.getFdid();
 			List<Menu> childs = list2.stream()
 					.filter((n) -> (n.getParent_id()).equals(fdid))
@@ -191,7 +193,8 @@ public class SystemServiceImpl implements SystemService {
 		for (Menu cc : list2) {
 			JSONObject json2 = new JSONObject();
 			json2.put("id", cc.getFdid());
-			json2.put("text", cc.getMenu_name());
+			json2.put("text", cc.getMenu_name()); 
+			json2.put("state", cc.getState());
 			JSONArray arra2 = getChildJSON(list, cc.getFdid(), alllist);
 			if (arra2.size() > 0) {
 				json2.put("children", arra2);
