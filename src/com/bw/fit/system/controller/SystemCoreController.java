@@ -348,7 +348,7 @@ public class SystemCoreController extends BaseController {
 		returnSuccessJson(json);
 		TdataDict dd = new TdataDict();
 		PubFun.copyProperties(dd, d);
-		if (!"".equals(dd.getFdid())) {
+		if (StringUtils.isNotEmpty(dd.getFdid())) {
 			try {
 				systemDao.updateDataDict(dd);
 			} catch (RbackException e) {
@@ -1009,10 +1009,16 @@ public class SystemCoreController extends BaseController {
 		
 	}
 	
+	/****
+	 * 新建用户，请求
+	 * @param user
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping("createUser")
 	@ResponseBody
 	public JSONObject createUser(@Valid @ModelAttribute User user,BindingResult result){
-		fillCommonProptities(user,true);
+		fillCommonProptities(user,false);
 		JSONObject json = new JSONObject();
 		if (result.hasErrors()) {
 			FieldError error = result.getFieldError();

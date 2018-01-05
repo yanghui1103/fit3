@@ -53,7 +53,7 @@
 				data-options="label:'联系电话:',required:true">
 		</div>
 		<div style="margin-bottom:20px">
-			<input class="easyui-combobox" name="postion_id" style="width:50%;" data-options="
+			<input class="easyui-combobox" name="postion_ids" style="width:50%;" data-options="
 					url:'<%=basePath%>system/getPostionList',limitToList:true,
 					method:'get',
 					valueField:'fdid',
@@ -63,7 +63,7 @@
 					">
 		</div>
 		<div style="margin-bottom:20px">
-			<input class="easyui-combobox" name="role_id" style="width:50%;" data-options="
+			<input class="easyui-combobox" name="role_ids" style="width:50%;" data-options="
 					url:'<%=basePath%>system/getAllRoles',limitToList:true,
 					method:'get',
 					valueField:'fdid',

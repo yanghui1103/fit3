@@ -23,5 +23,7 @@
 	src="<%=basePath%>common/js/jquery.easyui.min.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>common/js/easyui/common.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>common/lodop/LodopFuncs.js"></script>
 </head> 
 </html>

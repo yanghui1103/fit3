@@ -24,7 +24,7 @@ public class RmdbDataSourceImpl implements RmdbDataSource {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new RbackException("1", "数据层执行失败，请联系系统管理员");
+			throw new RbackException("1", "数据层执行失败，请联系系统管理员"+e.getMessage());
 		}
 		if (res < 1)
 			throw new RbackException("1", "数据层执行失败，请联系系统管理员");
@@ -38,7 +38,7 @@ public class RmdbDataSourceImpl implements RmdbDataSource {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new RbackException("1", "数据层执行失败，请联系系统管理员");
+			throw new RbackException("1", "数据层执行失败，请联系系统管理员"+e.getMessage());
 		}
 		if (res < 1)
 			throw new RbackException("1", "数据层执行失败，请联系系统管理员");
@@ -52,7 +52,7 @@ public class RmdbDataSourceImpl implements RmdbDataSource {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new RbackException("1", "数据层执行失败，请联系系统管理员");
+			throw new RbackException("1", "数据层执行失败，请联系系统管理员"+e.getMessage());
 		}
 		if (res < 1)
 			throw new RbackException("1", "数据层执行失败，请联系系统管理员");

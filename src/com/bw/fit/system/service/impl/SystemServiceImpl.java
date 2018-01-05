@@ -349,6 +349,7 @@ public class SystemServiceImpl implements SystemService {
 
 	@Override
 	public void createUser(User user) throws RbackException {
+		user.setFdid(getUUID());
 		Tuser tuser = new Tuser();
 		copyProperties(tuser, user);
 		systemDao.createUser(tuser);

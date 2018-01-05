@@ -10,7 +10,7 @@ import java.util.Date;
 public class BaseEntity {
 
 
-	private String fdid = getUUID(); 
+	private String fdid  ; 
 	private String keyWords ;
 	private String creator;
 	private String creator_name;

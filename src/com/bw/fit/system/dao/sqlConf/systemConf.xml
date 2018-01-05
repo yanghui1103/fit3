@@ -90,7 +90,7 @@
 	<!-- 新建一个数据字典记录 -->
 	<insert id="createDataDict" parameterType="tdataDict">
 	insert into data_dict (fdid,parent_id,dict_name,dict_value,dict_remark,num,can_add,can_edit,can_del,isdeleted)
-	values (#{fdid},#{parent_id},#{dict_name},#{dict_value},#{dict_remark,jdbcType=VARCHAR},#{num},#{can_add},#{can_edit},#{can_del},'0')
+	values (#{fdid},#{parent_id},#{dict_name},#{dict_value},#{dict_remark,jdbcType=VARCHAR},#{num},#{can_add,jdbcType=VARCHAR},#{can_edit,jdbcType=VARCHAR},#{can_del,jdbcType=VARCHAR},'0')
 	</insert>
 	<update id="updateDataDict" parameterType="tdataDict">
 		update data_dict set dict_name=#{dict_name},dict_value=#{dict_value},num=#{num},

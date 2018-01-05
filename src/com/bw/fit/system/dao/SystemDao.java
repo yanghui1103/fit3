@@ -12,6 +12,8 @@ import com.bw.fit.system.entity.Toperation;
 import com.bw.fit.system.entity.TpageElement;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
+import com.bw.fit.system.entity.TtoDo;
+import com.bw.fit.system.entity.TtoRead;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.Menu;
@@ -199,6 +201,16 @@ public interface SystemDao {
 	public void createUser2Company(Tuser user) throws RbackException;
 	public void createUser2Postion(Tuser user) throws RbackException;
 	public void createUser2Role(Tuser user) throws RbackException;
-	
-	
+	/****
+	 * 分页获取待阅列表
+	 * @param dog 查询条件
+	 * @return
+	 */
+	public List<TtoRead> getToReadList(TtoRead dog);
+	/****
+	 * 分页获取待办列表
+	 * @param dog 查询条件
+	 * @return
+	 */
+	public List<TtoDo> getToDoList(TtoDo dog);
 }

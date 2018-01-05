@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -16,14 +17,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Decoder.BASE64Decoder;
 
+import com.bw.fit.common.model.RbackException;
+import com.bw.fit.common.util.SmsSender;
 import com.bw.fit.common.util.service.PubFun;
+import com.bw.fit.system.dao.SystemDao;
+import com.bw.fit.system.entity.TdataDict;
 
 @Service
 public class PubFunImpl implements PubFun {
+	@Autowired
+	private SystemDao systemDao;
 	//应用过程中使用到的K-V配置,而非实施级别的配置。
 	private static String fileName ="com/bw/fit/common/conf/keyValuePropConf" ;
 	private static final double PI = 3.1415926535898;
@@ -192,6 +200,32 @@ public class PubFunImpl implements PubFun {
 					+ name)); // 将其保存在C:/imageSort/targetPIC/下
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean getSMSIsOpen(String sms_dict_fdid) {
+		List<TdataDict> list = systemDao.getDataDictList(sms_dict_fdid);
+		if(list==null){
+			return false;
+		}
+		if(list.size()>1){
+			return false;
+		}
+		if(list.get(0).getDict_name().equalsIgnoreCase("OPEN")){
+			return true;
+		}else{
+			return false ;
+		}
+	}
+
+	@Override
+	public void sendSMSString(String phone, String content)
+			throws RbackException {
+		if(getSMSIsOpen("fe6261a8c88c4d54ba97302b182742ee")){
+			SmsSender.SendSMSString(phone, content);
+		}else{
+			return ;
 		}
 	}
 	

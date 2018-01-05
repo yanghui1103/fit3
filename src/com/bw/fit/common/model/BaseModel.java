@@ -12,7 +12,7 @@ import com.bw.fit.common.util.Node;
  */
 public class BaseModel{
 
-	private String fdid = getUUID();
+	private String fdid ;
 	private String keyWords="";	
 	private String start_date="1900-01-01" ;
 	private String end_date="2099-12-31" ;

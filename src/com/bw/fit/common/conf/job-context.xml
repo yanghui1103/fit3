@@ -15,6 +15,7 @@
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
 	<!-- 定时任务，ref是那个bean，method是执行的方法 -->
+	<!-- 在项目开发过程中做好备注说明，以便以后修改 -->
 <!-- 	<task:annotation-driven/> -->
 <!-- 	<task:scheduled-tasks> -->
 <!-- 		<task:scheduled ref="iJobService" method="test" cron="0/3 * * * * ?"/> -->

@@ -18,6 +18,8 @@ import com.bw.fit.system.entity.Toperation;
 import com.bw.fit.system.entity.TpageElement;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
+import com.bw.fit.system.entity.TtoDo;
+import com.bw.fit.system.entity.TtoRead;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.Menu;
@@ -196,6 +198,14 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public void createUser2Role(Tuser user) throws RbackException {
 		daoTemplete.insert("userSql.createUser2Role", user);
+	}
+	@Override
+	public List<TtoDo> getToDoList(TtoDo dog) {
+		return daoTemplete.getListData("toDoSql.getToDoList", dog);
+	}
+	@Override
+	public List<TtoRead> getToReadList(TtoRead dog) {
+		return daoTemplete.getListData("toReadSql.getToReadList", dog);
 	}
 	
 	

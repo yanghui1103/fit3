@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="toReadSql">
+	<sql id="paginationSql">
+		<![CDATA[ and rownum >#{start_num} and rownum <= #{end_num} ]]>   
+	</sql>
+	<!-- 获取待办信息 -->
+	<select id="getToReadList" parameterType="ttoRead" resultType="ttoRead">
+		select * from (
+		select * from to_read where subject like  '%'||#{keyWords,jdbcType=VARCHAR}||'%' and isdeleted='0' order by create_time desc ) 
+		where 1=1  
+		<if test="paginationEnable!='0'">		
+			<include refid="paginationSql"></include>
+		</if>
+	</select>
+</mapper>   

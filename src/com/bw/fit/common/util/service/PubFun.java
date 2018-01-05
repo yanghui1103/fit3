@@ -2,6 +2,8 @@ package com.bw.fit.common.util.service;
 
 import java.util.Date;
 
+import com.bw.fit.common.model.RbackException;
+
 /****
  * 系统级工具组件 
  * @version v3.0
@@ -86,5 +88,18 @@ public interface PubFun {
 	 * @param length 高
 	 */
 	public void targetZoomOut(String sourcePath,int width,int length) ;
+	/****
+	 * 查看短信功能开关状态
+	 * @param sms_dict_fdid 数据字典里短信开关记录fdid
+	 * @return
+	 */
+	public boolean getSMSIsOpen(String sms_dict_fdid);
+	/***
+	 * 发送短信
+	 * @param phone
+	 * @param content
+	 * @throws RbackException
+	 */
+	public void sendSMSString(String phone,String content) throws RbackException;
 	
 }

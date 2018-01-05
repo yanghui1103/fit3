@@ -23,7 +23,7 @@ public class SmsSender {
 	private static final String UserPsw = "12345";
 
 	/**
-	 * 调用伊泰短信平台接口发送短信，手机号多个时用加,分割;成功返回true
+	 * 调用短信平台接口发送短信，手机号多个时用加,分割;成功返回true
 	 * @param PhoneNumber
 	 * @param Content
 	 * @return boolean
