@@ -27,19 +27,20 @@
     </bean>  
   
     <!-- 集群配置 -->  
-    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">  
-        <constructor-arg>  
+    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">   
+        <constructor-arg index="0">  
             <set>  
                 <bean class="redis.clients.jedis.HostAndPort">  
                 	<constructor-arg name="host" value="${redis.host1}"/>  
-                	<constructor-arg name="port" value="${redis.port1}"/>  
+                	<constructor-arg name="port" value="${redis.port1}"/>   
             	</bean>  
-                <bean class="redis.clients.jedis.HostAndPort">  
-                	<constructor-arg name="host" value="${redis.host2}"/>  
-                	<constructor-arg name="port" value="${redis.port2}"/>  
-            	</bean>  
+<!--                 <bean class="redis.clients.jedis.HostAndPort">   -->
+<!--                 	<constructor-arg name="host" value="${redis.host2}"/>   -->
+<!--                 	<constructor-arg name="port" value="${redis.port2}"/>   -->
+<!--             	</bean>   -->
             </set>  
-        </constructor-arg>  
-        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>  
+        </constructor-arg>
+        <constructor-arg index="4" value="${redis.password1}"></constructor-arg>  
+        <constructor-arg index="5"  ref="jedisPoolConfig"/>  
     </bean>  
 </beans> 

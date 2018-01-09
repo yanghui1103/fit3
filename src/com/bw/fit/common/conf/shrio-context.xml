@@ -58,7 +58,20 @@
 		<property name="sessionMode" value="native" />
 		<!-- 注入缓存管理器 -->
 		<!-- <property name="cacheManager" ref="cacheManager1" /> -->
+        <property name="sessionManager" ref="sessionManager"/>
 	</bean>
+	 <!--simpleCookie,不定义在集群环境下会出现There is no session with id ....-->
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="custom.session"/>
+        <property name="path" value="/"/>
+    </bean>
+
+    <!--sessionManager-->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="redisSessionDAO"/>
+        <property name="sessionIdCookie" ref="simpleCookie"/>
+    </bean>
+	 
 	<bean id="modelAuthricator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
 		<property name="authenticationStrategy">
 			<bean class="org.apache.shiro.authc.pam.AllSuccessfulStrategy">

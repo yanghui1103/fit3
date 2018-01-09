@@ -18,8 +18,7 @@ public class DaoTempleteImpl  implements DaoTemplete{
 	@Autowired
 	private MqDataSource mqDataSource ;
 	@Autowired
-	private KvdbDataSource kvdbDataSource;
-	
+	private KvdbDataSource kvdbDataSource; 
 	@Autowired
 	private RmdbDataSource rmdbDataSource ;
 	
