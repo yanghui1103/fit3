@@ -10,8 +10,13 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisCluster;
 
 import com.bw.fit.common.data.source.NoSQLDataSource;
+import com.bw.fit.common.model.RbackException;
+/****
+ * K-V 数据库集群模式下使用(组件)
+ * @author yangh
+ *
+ */
 
-@Component
 public class NoSQLDataSourceImpl implements NoSQLDataSource {
 
 	@Autowired
@@ -35,32 +40,37 @@ public class NoSQLDataSourceImpl implements NoSQLDataSource {
 	}
 
 	@Override
-	public void rPush(String listName,String str) {
+	public void rPush(String listName,String str) throws RbackException {
 		// TODO Auto-generated method stub
-		jedisCluster.rpush(listName, str);
+		try {
+			jedisCluster.rpush(listName, str);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RbackException("1",e.getMessage());
+		}
 	}
 
 	@Override
 	public void lRemove(String listName, long index) {
-		// TODO Auto-generated method stub 
+		// TODO Auto-generated method stub  
 	}
 
 	@Override
-	public void lIndex(String listName, long index) {
+	public String lIndex(String listName, long index) {
 		// TODO Auto-generated method stub
-		jedisCluster.lindex(listName, index);
+		return jedisCluster.lindex(listName, index);
 	}
 
 	@Override
-	public void lPop(String listName) {
+	public String lPop(String listName) {
 		// TODO Auto-generated method stub
-		jedisCluster.lpop(listName);
+		return jedisCluster.lpop(listName);
 	}
 
 	@Override
-	public void rPop(String listName) {
+	public String rPop(String listName) {
 		// TODO Auto-generated method stub
-		jedisCluster.rpop(listName);
+		return jedisCluster.rpop(listName);
 	}
 
 	@Override

@@ -3,7 +3,11 @@ package com.bw.fit.system.dao.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -26,7 +30,6 @@ import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.RoleAllot;
 @Repository
 public class SystemDaoImpl implements SystemDao {
-
 	@Autowired
 	private DaoTemplete daoTemplete;
 	@Override
@@ -75,7 +78,7 @@ public class SystemDaoImpl implements SystemDao {
 	}
 	@Override
 	public void updateDataDict(TdataDict d) throws RbackException {
-		daoTemplete.update("systemSql.updateDataDict", d); 
+		daoTemplete.update("systemSql.updateDataDict", d);   
 	}
 	@Override
 	public List<Tpostion> getPostionList(Tpostion e) {

@@ -27,7 +27,7 @@ public interface NoSQLDataSource {
 	 * @param listName 队列名称
 	 * @param object 数据
 	 */
-	public void rPush(String listName,String str);
+	public void rPush(String listName,String str)  throws RbackException ;
 	/****
 	 * 清除数据，从左侧数
 	 * @param listName 队列名称 
@@ -39,17 +39,17 @@ public interface NoSQLDataSource {
 	 * @param listName 队列名称 
 	 * @param index 
 	 */
-	public void lIndex(String listName,long index);
+	public String lIndex(String listName,long index);
 	/****
 	 * 从左侧pop数据
 	 * @param listName
 	 */
-	public void lPop(String listName);
+	public String lPop(String listName);
 	/****
 	 * 从右侧pop数据
 	 * @param listName
 	 */
-	public void rPop(String listName);
+	public String rPop(String listName);
 	
 	//------------SET----------------
 	/*****
