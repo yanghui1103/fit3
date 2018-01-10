@@ -58,7 +58,7 @@
 		<property name="sessionMode" value="native" />
 		<!-- 注入缓存管理器 -->
 		<!-- <property name="cacheManager" ref="cacheManager1" /> -->
-        <property name="sessionManager" ref="sessionManager"/>
+<!--         <property name="sessionManager" ref="sessionManager"/> -->
 	</bean>
 	 <!--simpleCookie,不定义在集群环境下会出现There is no session with id ....-->
     <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">

@@ -79,7 +79,14 @@ public class SystemCoreController extends BaseController {
 			BindingResult result, HttpServletRequest request, Model model) {
 		Session session = null;
 		try {
-			model.addAttribute("user", user);
+			model.addAttribute("user", user);			
+			// 如果当前客户端有未登出用户则还是去主页
+			Session session_first = PubFun.getCurrentSession();
+			User us_first = ((User) session_first.getAttribute("CurrentUser"));
+			if(us_first!=null||(us_first!=null &&!"".equals(us_first.getFdid()))){
+				return "common/indexPage";
+			} 
+			
 			if (result.hasErrors()) {
 				FieldError error = result.getFieldError();
 				model.addAttribute("errorMsg", error.getDefaultMessage());

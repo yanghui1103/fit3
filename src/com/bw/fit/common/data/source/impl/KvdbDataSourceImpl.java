@@ -22,9 +22,26 @@ public class KvdbDataSourceImpl  implements KvdbDataSource{
 		try {
 			redisTemplate.opsForValue().set(key, value);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new RbackException("1",e.getMessage());
 		}
 	}
-	 
+
+	@Override
+	public byte[] get(String key) {
+		// TODO Auto-generated method stub
+		return (byte[])(redisTemplate.opsForValue().get(key));
+	}
+
+	@Override
+	public void del(String key) throws RbackException {
+		try {
+			redisTemplate.delete(key);
+		} catch (Exception e) {
+			throw new RbackException("1",e.getMessage());
+		}
+	}
+
+
 	 
 }

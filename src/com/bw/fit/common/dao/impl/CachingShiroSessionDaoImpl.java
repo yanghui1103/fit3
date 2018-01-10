@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.SimpleSession;
-import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +17,37 @@ import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.model.User;
-
+import com.mchange.v2.ser.SerializableUtils;
+/*****
+ * redis存储会话
+ * @author yangh
+ *
+ */
 @Repository(value = "redisSessionDAO")
 public class CachingShiroSessionDaoImpl extends EnterpriseCacheSessionDAO {
-
+	
 	@Autowired
 	private DaoTemplete daoTemplete ;
 	@Override
-	protected void doDelete(Session arg0) {
-		// TODO Auto-generated method stub
-
+	protected void doDelete(Session session) {
+        super.doDelete(session);
+        try {
+			daoTemplete.del(session.getId()+"");
+		} catch (RbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	protected void doUpdate(Session arg0) {
-		// TODO Auto-generated method stub
+	protected void doUpdate(Session session) {
+        super.doUpdate(session);
+        try {
+			daoTemplete.set(session.getId().toString(), sessionToByte(session));
+		} catch (RbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -43,17 +58,38 @@ public class CachingShiroSessionDaoImpl extends EnterpriseCacheSessionDAO {
 			daoTemplete.set(sessionId.toString(), sessionToByte(session));
 		} catch (RbackException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return sessionId;
 	}
 
 	@Override
-	protected Session doReadSession(Serializable arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Session doReadSession(Serializable sessionId) {
+		// 先从缓存中获取session，如果没有再去数据库中获取
+        Session session = super.doReadSession(sessionId); 
+        if(session == null){
+            byte[] bytes = null ;
+            try {
+				bytes = daoTemplete.get(sessionId.toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null ;
+			}
+            if(bytes != null && bytes.length > 0){
+                session = byteToSession(bytes);    
+            }
+        }
+        return session;
 	}
 
-	// 把session对象转化为byte保存到redis中
+	/****
+	 * 把session对象转化为byte保存到redis中
+	 * @param session
+	 * @return
+	 */
 	public byte[] sessionToByte(Session session) {
 		ByteArrayOutputStream bo = new ByteArrayOutputStream();
 		byte[] bytes = null;
@@ -67,7 +103,11 @@ public class CachingShiroSessionDaoImpl extends EnterpriseCacheSessionDAO {
 		return bytes;
 	}
 
-	// 把byte还原为session
+	/*****
+	 * 把byte还原为session
+	 * @param bytes
+	 * @return
+	 */
 	public Session byteToSession(byte[] bytes) {
 		ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
 		ObjectInputStream in;

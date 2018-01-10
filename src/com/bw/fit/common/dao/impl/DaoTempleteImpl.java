@@ -157,4 +157,14 @@ public class DaoTempleteImpl  implements DaoTemplete{
 		kvdbDataSource.set(key, value);
 	}
 
+	@Override
+	public byte[] get(String key)  {
+		return kvdbDataSource.get(key);
+	}
+
+	@Override
+	public void del(String key) throws RbackException {
+		kvdbDataSource.del(key);
+	}
+
 }
