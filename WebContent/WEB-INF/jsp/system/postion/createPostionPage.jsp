@@ -40,13 +40,13 @@
 	<form 
 		id="createpostionPageFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
-		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="postion_name" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-textbox" name="postion_name" 
 				data-options="label:'岗位名称:',required:true">
 		</div>
-		<div style="margin-bottom: 20px">
+		<div class="fit_form_row">
 			<input class="easyui-textbox" name="desp"
-				style="width: 50%" data-options="label:'岗位说明:',required:true">
+				 data-options="label:'岗位说明:',required:true">
 		</div>
 	</form>
 	<div style="position: fixed; right: 30px; bottom: 20px;">

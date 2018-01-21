@@ -35,25 +35,25 @@
 <body>
 	<form id="userCreatePageFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
-		<div class="fit_form_row">
-			<input class="easyui-textbox" name="user_cd"
+		<div style="margin-bottom: 20px">
+			<input class="easyui-textbox" name="user_cd" style="width: 50%"
 				data-options="label:'用户账号:',required:true">
 		</div>
-		<div class="fit_form_row">
-			<input class="easyui-textbox " name="user_name"
+		<div style="margin-bottom: 20px">
+			<input class="easyui-textbox" name="user_name" style="width: 50%"
 				data-options="label:'用户姓名:',required:true">
 		</div>
-		<div class="fit_form_row">
+		<div style="margin-bottom: 20px">
 			<input class="easyui-combotree" name="company_id"
 				data-options="url:'<%=basePath%>system/getCompanyTree/0',method:'get',label:'上级组织:',required:true"
-				>
+				style="width: 50%">
 		</div>
-		<div class="fit_form_row">
-			<input class="easyui-textbox" name="phone" 
+		<div style="margin-bottom: 20px">
+			<input class="easyui-textbox" name="phone" style="width: 50%"
 				data-options="label:'联系电话:',required:true">
 		</div>
-		<div class="fit_form_row">
-			<input class="easyui-combobox" name="postion_ids" data-options="
+		<div style="margin-bottom:20px">
+			<input class="easyui-combobox" name="postion_ids" style="width:50%;" data-options="
 					url:'<%=basePath%>system/getPostionList',limitToList:true,
 					method:'get',
 					valueField:'fdid',
@@ -62,8 +62,8 @@
 					label: '岗位:' 
 					">
 		</div>
-		<div class="fit_form_row">
-			<input class="easyui-combobox" name="role_ids" data-options="
+		<div style="margin-bottom:20px">
+			<input class="easyui-combobox" name="role_ids" style="width:50%;" data-options="
 					url:'<%=basePath%>system/getAllRoles',limitToList:true,
 					method:'get',
 					valueField:'fdid',
@@ -72,8 +72,8 @@
 					label: '角色:' 
 					">
 		</div>
-		<div class="fit_form_row">
-			<input class="easyui-numberbox" name="user_order" 
+		<div style="margin-bottom: 20px">
+			<input class="easyui-numberbox" name="user_order" style="width: 50%"
 				data-options="label:'序号:',required:true">
 		</div>
 	</form>

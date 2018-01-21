@@ -204,6 +204,22 @@ public class PubFunImpl implements PubFun {
 	}
 
 	@Override
+	public boolean getEmailIsOpen(String email_dict_fdid) {
+		List<TdataDict> list = systemDao.getDataDictList(email_dict_fdid);
+		if(list==null){
+			return false;
+		}
+		if(list.size()>1){
+			return false;
+		}
+		if(list.get(0).getDict_name().equalsIgnoreCase("OPEN")){
+			return true;
+		}else{
+			return false ;
+		}
+	}
+
+	@Override
 	public boolean getSMSIsOpen(String sms_dict_fdid) {
 		List<TdataDict> list = systemDao.getDataDictList(sms_dict_fdid);
 		if(list==null){

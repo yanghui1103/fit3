@@ -94,6 +94,13 @@ public interface PubFun {
 	 * @return
 	 */
 	public boolean getSMSIsOpen(String sms_dict_fdid);
+	/****
+	 * 查看邮件功能是否开闭
+	 * @param sms_dict_fdid 数据字典里邮件开关记录fdid
+	 * @return
+	 */
+	public boolean getEmailIsOpen(String email_dict_fdid);
+	
 	/***
 	 * 发送短信
 	 * @param phone

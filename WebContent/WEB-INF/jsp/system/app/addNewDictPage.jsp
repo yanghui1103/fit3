@@ -37,37 +37,37 @@
 	<form 
 		id="addDictFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
-		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" value="${model.dict_name }" style="width: 50%" readonly
+		<div class="fit_form_row">
+			<input class="easyui-textbox" value="${model.dict_name }"  readonly
 				data-options="label:'父数据名称:',required:true">
 		</div>
-		<div style="margin-bottom: 20px">
-			<input class="easyui-numberbox" name="dict_value" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-numberbox" name="dict_value" 
 				data-options="min:0,label:'数据值:',required:true">
 		</div>
-		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="dict_name" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-textbox" name="dict_name" 
 				data-options="label:'数据名称:',required:true">
 		</div>
-		<div style="margin-bottom: 20px">
-			<input class="easyui-numberbox" name="num" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-numberbox" name="num" 
 				data-options="min:0,label:'序号:',required:true">
 		</div>
 		
-		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="limitToList:true,required:true,value:[0,1]">
+		<div class="fit_form_row">
+			<select class="easyui-combobox" name="can_add" label="可增加:"     data-options="limitToList:true,required:true,value:[0,1]">
 				<option value="1">是</option>
 				<option value="0">否</option>
 			</select>	
 		</div>
-		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_edit" label="可修改:"   style="width:50%;" data-options="limitToList:true,required:true">
+		<div class="fit_form_row">
+			<select class="easyui-combobox" name="can_edit" label="可修改:"    data-options="limitToList:true,required:true">
 				<option value="1">是</option>
 				<option value="0">否</option>
 			</select>	
 		</div>
-		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_del" label="可删除:"   style="width:50%;" data-options="limitToList:true,required:true">
+		<div class="fit_form_row">
+			<select class="easyui-combobox" name="can_del" label="可删除:"    data-options="limitToList:true,required:true">
 				<option value="0">否</option>
 				<option value="1">是</option>
 			</select>	

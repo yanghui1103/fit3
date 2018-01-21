@@ -35,21 +35,21 @@
 <body>
 	<form  id="editDictFm" class="easyui-form" method="post"
 		data-options="novalidate:false"> 
-		<div style="margin-bottom: 20px">
-			<input class="easyui-numberbox" name="dict_value"  value="${model.dict_value }" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-numberbox" name="dict_value"  value="${model.dict_value }" 
 				data-options="min:0,label:'数据值:',required:true">
 		</div>
-		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="dict_name"  value="${model.dict_name }" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-textbox" name="dict_name"  value="${model.dict_name }" 
 				data-options="label:'数据名称:',required:true">
 		</div>
-		<div style="margin-bottom: 20px">
-			<input class="easyui-numberbox" name="num" style="width: 50%" value="${model.num }" 
+		<div class="fit_form_row">
+			<input class="easyui-numberbox" name="num"  value="${model.num }" 
 				data-options="min:0,label:'序号:',required:true">
 		</div>
 		
-		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_add" label="可增加:"    style="width:50%;" data-options="limitToList:true,required:true">
+		<div class="fit_form_row">
+			<select class="easyui-combobox" name="can_add" label="可增加:"     data-options="limitToList:true,required:true">
 			<c:choose>
 				<c:when test="${model.can_add=='1' }">
 				<option value="1" selected>是</option>
@@ -62,8 +62,8 @@
 			</c:choose>
 			</select>	
 		</div>
-		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_edit" label="可修改:"   style="width:50%;" data-options="limitToList:true,required:true">
+		<div class="fit_form_row">
+			<select class="easyui-combobox" name="can_edit" label="可修改:"    data-options="limitToList:true,required:true">
 				<c:choose>
 				<c:when test="${model.can_edit=='1' }">
 				<option value="1" selected>是</option>
@@ -76,8 +76,8 @@
 			</c:choose>
 			</select>	
 		</div>
-		<div style="margin-bottom: 20px">
-			<select class="easyui-combobox" name="can_del" label="可删除:"   style="width:50%;" data-options="limitToList:true,required:true">
+		<div class="fit_form_row">
+			<select class="easyui-combobox" name="can_del" label="可删除:"    data-options="limitToList:true,required:true">
 				<c:choose>
 				<c:when test="${model.can_del=='1' }">
 				<option value="1" selected>是</option>

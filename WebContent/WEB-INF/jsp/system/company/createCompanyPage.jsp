@@ -40,16 +40,16 @@
 	<form action="<%=basePath%>system/createCompany"
 		id="createCompanyPageFm" class="easyui-form" method="post"
 		data-options="novalidate:false">
-		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="company_name" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-textbox" name="company_name" 
 				data-options="label:'组织名称:',required:true">
 		</div>
-		<div style="margin-bottom: 20px">
+		<div class="fit_form_row">
 			<input class="easyui-textbox" name="company_address"
-				style="width: 50%" data-options="label:'组织地址:'">
+				 data-options="label:'组织地址:'">
 		</div>
-		<div style="margin-bottom: 20px">
-			<select class="easyui-combogrid"  name="company_type_cd" style="width:50%" data-options="limitToList:true,
+		<div class="fit_form_row">
+			<select class="easyui-combogrid"  name="company_type_cd"   data-options="limitToList:true,
 					panelWidth: 500,
 					idField: 'dict_value',
 					textField: 'dict_name',
@@ -65,13 +65,13 @@
 				">
 			</select>
 		</div>
-		<div style="margin-bottom: 20px">
+		<div class="fit_form_row">
 			<input class="easyui-combotree" name="parent_id"
 				data-options="url:'<%=basePath%>system/getCompanyTree/0',method:'get',label:'上级组织:',required:true"
-				style="width: 50%">
+				>
 		</div>
-		<div style="margin-bottom: 20px">
-			<input class="easyui-textbox" name="company_order" style="width: 50%"
+		<div class="fit_form_row">
+			<input class="easyui-textbox" name="company_order" 
 				data-options="label:'序号:',required:true">
 		</div>
 	</form>
