@@ -28,9 +28,9 @@ public class KvdbDataSourceImpl  implements KvdbDataSource{
 	}
 
 	@Override
-	public byte[] get(String key) {
+	public String get(String key) {
 		// TODO Auto-generated method stub
-		return (byte[])(redisTemplate.opsForValue().get(key));
+		return  (String)(redisTemplate.opsForValue().get(key)) ; 
 	}
 
 	@Override

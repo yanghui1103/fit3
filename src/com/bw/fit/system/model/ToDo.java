@@ -1,8 +1,12 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
+
 import com.bw.fit.common.model.BaseModel;
 
-public class ToDo extends BaseModel {
+public class ToDo extends BaseModel   implements Serializable{
+
+	private static final long serialVersionUID = 844598881L;
 
 	private String subject;
 	private String app_name;

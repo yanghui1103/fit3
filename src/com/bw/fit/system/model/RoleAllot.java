@@ -1,10 +1,14 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.bw.fit.common.model.BaseModel;
 
-public class RoleAllot extends BaseModel {
+public class RoleAllot extends BaseModel   implements Serializable{
+
+	private static final long serialVersionUID = 744598881L;
 
 	@NotEmpty(message="请选择角色")
 	private String role_id ;

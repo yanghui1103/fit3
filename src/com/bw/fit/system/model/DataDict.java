@@ -1,12 +1,16 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.bw.fit.common.model.BaseModel; 
 import com.bw.fit.common.util.treeHandler.Children;
 import com.bw.fit.common.util.treeHandler.DataDictChildren;
 
-public class DataDict extends BaseModel {
+public class DataDict extends BaseModel   implements Serializable{
+
+	private static final long serialVersionUID = 544598881L;
 
 	@NotEmpty(message="请先选中记录")
 	private String parent_id;

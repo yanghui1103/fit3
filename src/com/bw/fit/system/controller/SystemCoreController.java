@@ -574,6 +574,10 @@ public class SystemCoreController extends BaseController {
 	@ResponseBody
 	public JSONObject createPostion(@Valid @ModelAttribute Postion p,
 			BindingResult result, Model model) {
+		Session session = PubFun.getCurrentSession();
+		String id = session.getId().toString();
+		User l = ((User)session.getAttribute("CurrentUser"));
+		
 		JSONObject json = new JSONObject();
 		if (result.hasErrors()) {
 			FieldError error = result.getFieldError();

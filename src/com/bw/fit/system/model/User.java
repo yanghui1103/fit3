@@ -1,5 +1,6 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 import com.bw.fit.common.model.BaseModel;
@@ -9,8 +10,9 @@ import com.bw.fit.common.model.BaseModel;
  * @author yangh
  *
  */
-public class User extends BaseModel{
+public class User extends BaseModel implements Serializable{
 
+	private static final long serialVersionUID = 13344598881L;
 	private String user_cd ;
 	private String user_name ;
 	private List<Role> role_list;

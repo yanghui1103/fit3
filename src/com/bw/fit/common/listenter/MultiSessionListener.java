@@ -50,6 +50,9 @@ public class MultiSessionListener implements HttpSessionListener,
 	public void attributeAdded(HttpSessionBindingEvent sbe)  {	
 		try {
 			Object s = ((JSONObject.parse((EncryptUtil.decrypt(getLicneceMiWen("FitLicence")))))); 			
+			if(list ==null || list.size()<1){
+				return ;
+			}
 			List<String> lsall = list.stream().map(x->x.getUser_cd()).distinct().collect(Collectors.toList());
 			if(lsall.size() <= Integer.valueOf(((JSONObject)s).get("user_total").toString())){
 				list.add((LogUser)sbe.getSession().getAttribute("LogUser")); 

@@ -553,6 +553,15 @@ public class PubFun {
 			b.setFdid(getUUID());
 		}
 	}
+	
+	public static byte[] strToByteArray(String str) throws Exception {
+	    if (str == null) {
+	        return null;
+	    }
+	    byte[] byteArray = str.getBytes("ISO-8859-1");
+	    return byteArray;
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(getUserPasswordShiro("admin","123456","MD5",10));
 	}

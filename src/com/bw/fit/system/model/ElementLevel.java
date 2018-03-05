@@ -1,5 +1,7 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
+
 import com.bw.fit.common.model.BaseModel;
 
 /****
@@ -7,7 +9,9 @@ import com.bw.fit.common.model.BaseModel;
  * @author yangh
  *
  */
-public class ElementLevel extends BaseModel{
+public class ElementLevel extends BaseModel   implements Serializable{
+
+	private static final long serialVersionUID = 644598881L;
 
 	private String role_id;
 	private String role_name;

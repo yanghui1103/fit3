@@ -1,8 +1,12 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
+
 import com.bw.fit.common.model.BaseModel;
 
-public class Role extends BaseModel{
+public class Role extends BaseModel  implements Serializable{
+
+	private static final long serialVersionUID = 43344598881L;
 
 	private String role_name;
 	private String parent_id; 

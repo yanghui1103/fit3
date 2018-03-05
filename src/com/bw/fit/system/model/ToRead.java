@@ -1,8 +1,12 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
+
 import com.bw.fit.common.model.BaseModel;
 
-public class ToRead extends BaseModel {
+public class ToRead extends BaseModel   implements Serializable{
+
+	private static final long serialVersionUID = 944598881L;
 
 	private String subject;
 	private String app_name;

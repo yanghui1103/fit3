@@ -70,15 +70,17 @@ public class CachingShiroSessionDaoImpl extends EnterpriseCacheSessionDAO {
 		// 先从缓存中获取session，如果没有再去数据库中获取
         Session session = super.doReadSession(sessionId); 
         if(session == null){
-            byte[] bytes = null ;
+            String bytes = null ;
             try {
-				bytes = daoTemplete.get(sessionId.toString());
+            	String inPutStreamString = daoTemplete.get(sessionId.toString());
+//            	inPutStreamString = inPutStreamString.replaceAll("\"", ""); 
+            	bytes =  (inPutStreamString);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null ;
 			}
-            if(bytes != null && bytes.length > 0){
+            if(bytes != null ){
                 session = byteToSession(bytes);    
             }
         }
@@ -89,15 +91,16 @@ public class CachingShiroSessionDaoImpl extends EnterpriseCacheSessionDAO {
 	 * 把session对象转化为byte保存到redis中
 	 * @param session
 	 * @return
+	 * @throws Exception 
 	 */
-	public byte[] sessionToByte(Session session) {
+	public String sessionToByte(Session session)   { 
 		ByteArrayOutputStream bo = new ByteArrayOutputStream();
-		byte[] bytes = null;
-		try {
-			ObjectOutputStream oo = new ObjectOutputStream(bo);
+		String bytes = null;
+		try { 
+			ObjectOutputStream oo = new ObjectOutputStream(bo); 			
 			oo.writeObject(session);
-			bytes = bo.toByteArray();
-		} catch (IOException e) {
+			bytes = (bo.toString("ISO-8859-1")) ;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return bytes;
@@ -108,19 +111,18 @@ public class CachingShiroSessionDaoImpl extends EnterpriseCacheSessionDAO {
 	 * @param bytes
 	 * @return
 	 */
-	public Session byteToSession(byte[] bytes) {
-		ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
+	public Session byteToSession(String bytes) { 
+		ByteArrayInputStream bi = new ByteArrayInputStream(bytes.getBytes());
 		ObjectInputStream in;
 		SimpleSession session = null;
 		try {
-			in = new ObjectInputStream(bi);
+			in = new ObjectInputStream(bi); 
 			session = (SimpleSession) in.readObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return session;
 	}
 }

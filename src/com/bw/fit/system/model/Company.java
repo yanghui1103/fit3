@@ -1,5 +1,7 @@
 package com.bw.fit.system.model;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
@@ -7,7 +9,9 @@ import com.bw.fit.common.model.BaseModel;
 import com.bw.fit.common.util.treeHandler.CompanyChildren;
 import com.bw.fit.common.util.treeHandler.DataDictChildren;
 
-public class Company  extends BaseModel{
+public class Company  extends BaseModel  implements Serializable{
+
+	private static final long serialVersionUID = 544598881L;
 
 	private String company_name;
 	@NotEmpty(message="请选择组织类型")

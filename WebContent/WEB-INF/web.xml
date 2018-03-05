@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-	<distributable /><!-- 允许分布式处理 -->
+	<!-- <distributable /> 允许分布式处理 -->
 	<!-- 该servlet为tomcat,jetty等容器提供,将静态资源映射从/改为/static/目录，如原来访问 http://localhost/foo.css 
 		,现在http://localhost/static/foo.css -->
 	<!-- 不拦截静态文件 -->

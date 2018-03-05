@@ -158,8 +158,8 @@ public class DaoTempleteImpl  implements DaoTemplete{
 	}
 
 	@Override
-	public byte[] get(String key)  {
-		return kvdbDataSource.get(key);
+	public String get(String key)  {
+		return kvdbDataSource.get(key)  ;
 	}
 
 	@Override
