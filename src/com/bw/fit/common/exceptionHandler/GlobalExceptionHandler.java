@@ -13,34 +13,40 @@ import org.springframework.web.context.request.NativeWebRequest;
 import com.alibaba.fastjson.*;
 import com.bw.fit.common.model.RbackException;
 
+/*****
+ * 系统统一异常拦截机制
+ * @author yangh
+ *
+ */
+@ControllerAdvice 
+public class GlobalExceptionHandler { 	   
 
-public class GlobalExceptionHandler {  
-	   
-		@ExceptionHandler(Exception.class)  
-	    public String processUnauthenticatedException(NativeWebRequest request, Exception e,Model model) {  
-	        System.out.println("===========应用到所有@RequestMapping注解的方法，在其抛出Exception异常时执行"); 
-	        System.out.println(e.getLocalizedMessage());
-	        model.addAttribute("exceptionMessage", e.getLocalizedMessage());
-	        return "common/exceptionPage"; //逻辑视图名  
-	    }  
+		@ExceptionHandler(value = Exception.class)  
+	    @ResponseBody  
+	    public JSONObject dealExp(HttpServletRequest req, Exception e) throws Exception {  
+			JSONObject obj = new JSONObject();  
+	        obj.put("res", "1");  
+	        obj.put("msg", " 拦截层返回异常:(" + e.getLocalizedMessage() + ")");   
+	        return obj;  
+	    }
+		
 		@ExceptionHandler(value = RbackException.class)  
 	    @ResponseBody  
-	    public JSONObject missActionParam(HttpServletRequest req, RbackException e) throws Exception {  
-	        return makeErrorObj("接口有参数未传", req, e);  
+	    public JSONObject dealRbackExp(HttpServletRequest req, RbackException e) throws Exception {  
+	        return makeErrorObj("拦截层返回异常:", req, e);  
 	    }  
 		
 		
 		/** 
 	     * 构造错误信息 
-	     * 
 	     * @param msg 错误描述 
 	     * @param e   异常信息 
 	     * @return 
 	     */  
-	    private JSONObject makeErrorObj(String msg, HttpServletRequest req, Exception e) {  
+	    private JSONObject makeErrorObj(String msg, HttpServletRequest req, RbackException e) {  
 	        JSONObject obj = new JSONObject();  
 	        obj.put("res", "1");  
-	        obj.put("msg", msg + " (" + e.getMessage() + ")");   
+	        obj.put("msg", msg + " (" + e.getMsg() + ")");   
 	        return obj;  
 	    }  
 

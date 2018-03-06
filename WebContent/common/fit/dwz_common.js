@@ -103,7 +103,7 @@ function alertMsgBoxByXmlData(resultXml) {
 	}
 }
 
-function alertToUserMsg(json) {
+function alertToMsg(json) {
 	var res = json.res;
 	var msg = json.msg;
 	if (res == '0') {
@@ -131,19 +131,7 @@ function alertToPageMsg(json) {
 	}
 }
 
-function alertToUserMsg(json) {
-	var res = json.res;
-	var msg = json.msg;
-	if (res == '0') {
-		$.pdialog.open("login_dialog.html", "dlglogin1", "登录");
-	} else if (res == '1') {
-		alertMsg.error(msg); 
-	} else if (res == '2') {
-		alertMsg.correct(msg); 
-	} else if (res == '3') {
-		alertMsg.warn(msg); 
-	}
-} 
+
 function alertToUserMsg(json, deal) {
 	var res = json.res;
 	var msg = json.msg;
