@@ -11,14 +11,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.alibaba.fastjson.*;
+import com.bw.fit.common.model.BaseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+
 @Component
 public class MessageServlet extends HttpServlet{
- 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -28,6 +32,7 @@ public class MessageServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException { 
- 
+
     }
 }
+

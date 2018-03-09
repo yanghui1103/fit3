@@ -1,5 +1,6 @@
 package com.bw.fit.system.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,9 +15,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +55,7 @@ import com.bw.fit.system.service.SystemService;
  */
 @RequestMapping("system")
 @Controller
-public class SystemCoreController extends BaseController {
+public class SystemCoreController extends BaseController { 
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -141,6 +145,22 @@ public class SystemCoreController extends BaseController {
 		return "common/indexPage";
 	}
 
+	@RequestMapping("logOutSys")
+	@ResponseBody
+	public JSONObject logOutSys(){
+		JSONObject json = new JSONObject();
+		try { 
+		    	SecurityUtils.getSubject().logout();  
+		} catch (InvalidSessionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnFailJson(json,"会话失效失败!");
+			return json ;
+		}
+		returnSuccessJson(json);
+		return json ;
+	}
+	
 	/*****
 	 * 当前用户，的所有菜单权限 拼接为JSON-父子结构
 	 * 

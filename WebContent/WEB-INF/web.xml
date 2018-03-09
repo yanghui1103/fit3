@@ -48,7 +48,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:com/bw/fit/common/conf/*-servlet.xml</param-value>
 		</init-param>
-		<load-on-startup>0</load-on-startup>
+		<load-on-startup>1</load-on-startup>
 		<async-supported>true</async-supported>
 		<multipart-config>
 			<max-file-size>20848820</max-file-size>
@@ -103,7 +103,30 @@
 		<servlet-name>VerificationCode</servlet-name>
 		<url-pattern>/getCheckCode</url-pattern>
 	</servlet-mapping>
+	
+	
+	<!-- log4j -->
+	<context-param>
+  		<param-name>log4jConfigLocation</param-name>
+  		<param-value>classpath:com/bw/fit/common/conf/log4j.xml</param-value>
+	</context-param>
 
+	<!-- 配置log4j.xml变量 -->
+	<context-param>
+		<param-name>rootLevel</param-name>
+		<param-value>DEBUG</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>loggingLevel</param-name>
+		<param-value>INFO</param-value>
+	</context-param>
+	<!-- 配置log4j.xml监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	
+	
 	<servlet>
 		<description>点对点通讯</description>
 		<servlet-name>message</servlet-name>

@@ -213,4 +213,11 @@ public interface SystemDao {
 	 * @return
 	 */
 	public List<TtoDo> getToDoList(TtoDo dog);
+	/*****
+	 * 查询这个节点下一层的数据字典
+	 * @param parent_id
+	 * @return
+	 */
+	public List<TdataDict> getDataDictOfPId(String parent_id);
 }
+ 

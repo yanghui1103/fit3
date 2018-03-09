@@ -15,13 +15,13 @@
 <body>
 	<!--jquery右下角pop弹窗start -->
 	<script type="text/javascript"> 
-	  $(function(){
-			if(is_pop == '1'){ // 如果启用即时信息通知
+	  $(function(){// 如果启用即时信息通知
 		  	var is_pop = '<%=PropertiesUtil.getValueByKey("system.is_open_popmessage")%>' ;
-		    var source=new EventSource("<%=basePath%>messageInteractive.jsp");
+			if(is_pop == '1'){ 
+		    var source=new EventSource('<%=basePath%>common/messageInteractive.jsp');
 			source.onmessage=function(event)
 			  {     
-					setTimeout(popAlert(event),10000) ;
+					setTimeout(popAlert(event),1000) ;
 				 
 			  };  
 			}

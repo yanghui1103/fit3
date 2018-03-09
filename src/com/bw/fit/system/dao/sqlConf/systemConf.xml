@@ -42,10 +42,13 @@
     	prior a.fdid
     	start with a.parent_id = #{parent_id}
 	</select>
-
+	<select id="getDataDictOfPId" parameterType="String"
+		resultType="tdataDict">
+		select * from data_dict a where a.parent_id = #{fdid} and isdeleted='0'
+	</select>
 	<select id="getThisDataDictInfo" parameterType="String"
 		resultType="tdataDict">
-		select * from data_dict a where a.fdid = #{fdid}
+		select * from data_dict a where a.fdid = #{fdid} 
 	</select>
 	<select id="getThisDataDictByValue" parameterType="String"
 		resultType="tdataDict">

@@ -463,12 +463,6 @@ public class PubFun {
 	 * 即时通讯
 	 */
 	public static String getMessageInfo(HttpServletRequest request) {
-		JSONObject json = new JSONObject();
-		if (request.getSession(false) == null) {
-			json.put("res", "1");
-			json.put("msg", "会话失效,请重新登录");
-			return json.toJSONString() ;
-		}
 		LogUser user = ((LogUser) request.getSession(false).getAttribute(
 				"LogUser"));
 		// httpClient

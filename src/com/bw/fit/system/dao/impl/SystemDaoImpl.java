@@ -210,6 +210,10 @@ public class SystemDaoImpl implements SystemDao {
 	public List<TtoRead> getToReadList(TtoRead dog) {
 		return daoTemplete.getListData("toReadSql.getToReadList", dog);
 	}
+	@Override
+	public List<TdataDict> getDataDictOfPId(String fdid) {
+		return daoTemplete.getListData("systemSql.getDataDictOfPId", fdid);
+	}
 	
 	
 	
