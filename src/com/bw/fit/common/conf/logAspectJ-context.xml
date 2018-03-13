@@ -13,43 +13,42 @@
 	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/task
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
-	
-	<!-- 采集Controller请求方法日志 -->
+	<!-- 采集service请求方法日志 -->
 	<aop:config>
-		<aop:aspect ref="controlLogAspect" order="1">
 		<aop:pointcut
-			expression="execution(* com.bw.fit.*.controller.*.create*(..))||execution(* com.bw.fit.*.controller.*.update*(..))||execution(* com.bw.fit.*.controller.*.edit*(..))||execution(* com.bw.fit.*.controller.*.del*(..))||execution(* com.bw.fit.*.controller.*.insert*(..))"
-			id="logpointcut1" />
+			expression="execution(* com.bw.fit.*.service.*.create*(..))||execution(* com.bw.fit.*.service.*.update*(..))||execution(* com.bw.fit.*.service.*.edit*(..))||execution(* com.bw.fit.*.service.*.del*(..))||execution(* com.bw.fit.*.service.*.insert*(..))"
+			id="logpointcut1" />		
+		<aop:aspect ref="controlLogAspect" order="1"> 		
 			<aop:around method="aroundMethod" pointcut-ref="logpointcut1" />
 		</aop:aspect>
 	</aop:config>	
 	
 	<!-- 采集mq方法日志 -->
 	<aop:config>
-		<aop:aspect ref="mqLogAspect" order="2">
 		<aop:pointcut
 			expression="execution(* com.bw.fit.*.service.*.mq_*(..))"
 			id="logpointcut2" />
+		<aop:aspect ref="mqLogAspect" order="2">
 			<aop:around method="aroundMethod" pointcut-ref="logpointcut2" />
 		</aop:aspect>
 	</aop:config>	
 	
 	<!-- 采集Ws请求方法日志 -->
 	<aop:config>
-		<aop:aspect ref="wsLogAspect" order="3">
 		<aop:pointcut
 			expression="execution(* com.bw.fit.*.service.*.ws_*(..))"
 			id="logpointcut3" />
+		<aop:aspect ref="wsLogAspect" order="3">
 			<aop:around method="aroundMethod" pointcut-ref="logpointcut3" />
 		</aop:aspect>
 	</aop:config>	
 	
 	<!-- 采集Job方法日志 -->
 	<aop:config>
-		<aop:aspect ref="jobLogAspect" order="4">
 		<aop:pointcut
 			expression="execution(* com.bw.fit.*.service.*.job_*(..))"
 			id="logpointcut4" />
+		<aop:aspect ref="jobLogAspect" order="4">
 			<aop:around method="aroundMethod" pointcut-ref="logpointcut4" />
 		</aop:aspect>
 	</aop:config>	

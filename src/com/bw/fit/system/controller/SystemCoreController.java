@@ -605,12 +605,9 @@ public class SystemCoreController extends BaseController {
 			returnFailJson(json, error.getDefaultMessage());
 		}
 		returnSuccessJson(json);
-
-		Tpostion dd = new Tpostion();
-		PubFun.copyProperties(dd, p);
 		try {
-			dd.setFdid(getUUID());
-			systemDao.createPostion(dd);
+			fillCommonProptities(p, true);
+			systemService.createPostion(p);
 		} catch (RbackException e) {
 			json = new JSONObject();
 			json.put("res", "1");

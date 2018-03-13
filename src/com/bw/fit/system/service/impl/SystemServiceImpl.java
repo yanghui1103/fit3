@@ -366,6 +366,23 @@ public class SystemServiceImpl implements SystemService {
 			systemDao.createUser2Postion(tuser);
 		}
 	}
+
+	@Override
+	public JSONObject createPostion(Postion p) throws RbackException {
+		JSONObject j = new JSONObject();
+		returnSuccessJson(j);
+		try{
+			Tpostion pp = new Tpostion();
+			copyProperties(pp, p);
+			systemDao.createPostion(pp);
+		}catch(RbackException e){
+			j = new JSONObject();
+			returnFailJson(j,e.getMsg());
+			throw e;
+		}finally{
+			return j ;
+		}
+	}
 	
 	
 

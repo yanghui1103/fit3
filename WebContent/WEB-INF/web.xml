@@ -91,7 +91,11 @@
 	<listener>
 		<listener-class>com.bw.fit.common.listenter.MultiSessionListener</listener-class>
 	</listener>
-	<!-- log4j -->
+	<listener>  
+        <listener-class>  
+            org.springframework.web.context.request.RequestContextListener  
+        </listener-class>  
+	</listener>
 
 
 	<servlet>

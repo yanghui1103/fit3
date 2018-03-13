@@ -2,6 +2,7 @@ package com.bw.fit.log.dao;
 
 import java.util.List;
 
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.log.entity.TLogInfo;
 
 /*****
@@ -13,7 +14,7 @@ public interface DLogDao {
 	/******
 	 * 录入日志消息
 	 */
-	public void notice(TLogInfo l);
+	public void notice(TLogInfo l) throws RbackException ;
 	/*****
 	 * 根据id查询日志信息
 	 * @param fdid

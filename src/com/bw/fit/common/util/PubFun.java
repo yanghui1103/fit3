@@ -38,6 +38,7 @@ import org.activiti.engine.form.FormProperty;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -67,8 +68,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import Decoder.BASE64Decoder;
+
 /*****
  * 工具类组件（组件类）
+ * 
  * @author yangh
  *
  */
@@ -196,7 +199,6 @@ public class PubFun {
 		return re;
 	}
 
-
 	public static int getPageStartNum(String pageNo, String tatol) {
 		log.info(tatol);
 		log.info(Integer.valueOf(tatol));
@@ -297,20 +299,25 @@ public class PubFun {
 	}
 
 	public static String getIpAddr(HttpServletRequest request) {
-		String ip = request.getHeader("x-forwarded-for");
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
+		String ip = request.getHeader("X-Real-IP");
+		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+			return ip;
 		}
-
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
+		ip = request.getHeader("X-Forwarded-For");
+		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+			// 多次反向代理后会有多个IP值，第一个为真实IP。
+			int index = ip.indexOf(',');
+			if (index != -1) {
+				return ip.substring(0, index);
+			} else {
+				return ip;
+			}
+		} else {
+			return request.getRemoteAddr();
 		}
-
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		return ip;
 	}
+
+
 
 	public static String getMACAddress(String ip) {
 		String str = "";
@@ -422,43 +429,50 @@ public class PubFun {
 					BufferedImage.TYPE_INT_BGR);
 			inputbig.getGraphics().drawImage(input, 0, 0, 256, 256, null); // 画图
 
-			ImageIO.write(inputbig, "jpg", new File(PropertiesUtil.getValueByKey("system.attachment_path")
-					+ name)); // 将其保存在C:/imageSort/targetPIC/下
+			ImageIO.write(
+					inputbig,
+					"jpg",
+					new File(PropertiesUtil
+							.getValueByKey("system.attachment_path") + name)); // 将其保存在C:/imageSort/targetPIC/下
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	/*****
 	 * 从后台返回JSON/Xml/String 数据至前台
 	 */
-	public static void returnJson(HttpServletResponse response, String json) throws Exception{
-        PrintWriter writer = null;
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=utf-8");
-        try {
-            writer = response.getWriter();
-            writer.print(json);
+	public static void returnJson(HttpServletResponse response, String json)
+			throws Exception {
+		PrintWriter writer = null;
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		try {
+			writer = response.getWriter();
+			writer.print(json);
 
-        } catch (IOException e) {
-        	log.error("response error",e);
-        } finally {
-            if (writer != null)
-                writer.close();
-        }
-    }
+		} catch (IOException e) {
+			log.error("response error", e);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+	}
+
 	/********
 	 * 获取licnece
 	 */
-	public static String getLicneceMiWen(String key){
-		ResourceBundle rb=null;
+	public static String getLicneceMiWen(String key) {
+		ResourceBundle rb = null;
 		try {
-			rb = ResourceBundle.getBundle("com/bw/fit/common/conf/licence" );
+			rb = ResourceBundle.getBundle("com/bw/fit/common/conf/licence");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
-        return rb.getString(key);
-	} 
+		}
+		return rb.getString(key);
+	}
+
 	/***
 	 * 即时通讯
 	 */
@@ -470,7 +484,8 @@ public class PubFun {
 		// get method
 		HttpGet httpGet = new HttpGet(
 				PropertiesUtil.getValueByKey("system.default.url")
-						+ "system/getMessageInteractiveInfo" + "/" + user.getFdid());
+						+ "system/getMessageInteractiveInfo" + "/"
+						+ user.getFdid());
 		// response
 		HttpResponse response = null;
 		try {
@@ -483,80 +498,92 @@ public class PubFun {
 			HttpEntity entity = response.getEntity();
 			temp = EntityUtils.toString(entity, "UTF-8");
 		} catch (Exception e) {
-		} 
+		}
 		return temp;
 	}
+
 	/****
-	 * 根据shrio加密方式
-	 * 得到的密文
+	 * 根据shrio加密方式 得到的密文
+	 * 
 	 * @param userName
 	 * @param passwd
-	 * @param hashalgorithmName 加密方式
-	 * @param iterations 加密次数
+	 * @param hashalgorithmName
+	 *            加密方式
+	 * @param iterations
+	 *            加密次数
 	 * @return
 	 */
-	public static String getUserPasswordShiro(String userName,String passwd,String hashalgorithmName,int iterations){
+	public static String getUserPasswordShiro(String userName, String passwd,
+			String hashalgorithmName, int iterations) {
 		String credentials = passwd;
-		Object salt = ByteSource.Util.bytes(PropertiesUtil.getValueByKey("user.pw.slogmm") + userName);
-		Object result = new SimpleHash(hashalgorithmName,credentials,salt,iterations);
+		Object salt = ByteSource.Util.bytes(PropertiesUtil
+				.getValueByKey("user.pw.slogmm") + userName);
+		Object result = new SimpleHash(hashalgorithmName, credentials, salt,
+				iterations);
 		return result.toString();
 	}
-	
-	public static void copyProperties(Object dest,Object orig){
+
+	public static void copyProperties(Object dest, Object orig) {
 		try {
-			ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+			ConvertUtils
+					.register(new DateConverter(null), java.util.Date.class);
 			BeanUtils.copyProperties(dest, orig);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 	/****
 	 * 填充成功返回JSON
+	 * 
 	 * @param j
 	 */
-	public static void returnSuccessJson(JSONObject j){
+	public static void returnSuccessJson(JSONObject j) {
 		j.put("res", "2");
-		j.put("msg", "执行成功"); 
+		j.put("msg", "执行成功");
 	}
 
 	/****
 	 * 填充失败/异常返回JSON
+	 * 
 	 * @param j
-	 * @param errorMsg 失败消息
+	 * @param errorMsg
+	 *            失败消息
 	 */
-	public static void returnFailJson(JSONObject j,String errorMsg){
+	public static void returnFailJson(JSONObject j, String errorMsg) {
 		j.put("res", "1");
-		j.put("msg", errorMsg); 
+		j.put("msg", errorMsg);
 	}
-	
+
 	/*****
-	 * 获取当前用户的会话
-	 * shrio 方法
+	 * 获取当前用户的会话 shrio 方法
+	 * 
 	 * @return
 	 */
-	public static org.apache.shiro.session.Session getCurrentSession(){
-		 return SecurityUtils.getSubject().getSession();
+	public static org.apache.shiro.session.Session getCurrentSession() {
+		return SecurityUtils.getSubject().getSession();
 	}
-	
-	public  static void fillCommonProptities(BaseModel b,boolean isFillFdid){
-		b.setCreator(((User)getCurrentSession().getAttribute("CurrentUser")).getFdid());
+
+	public static void fillCommonProptities(BaseModel b, boolean isFillFdid) {
+		b.setCreator(((User) getCurrentSession().getAttribute("CurrentUser"))
+				.getFdid());
 		b.setVersion_time(getSysDate());
 		b.setCreate_time(getSysDate());
-		if(isFillFdid){
+		if (isFillFdid) {
 			b.setFdid(getUUID());
 		}
 	}
-	
+
 	public static byte[] strToByteArray(String str) throws Exception {
-	    if (str == null) {
-	        return null;
-	    }
-	    byte[] byteArray = str.getBytes("ISO-8859-1");
-	    return byteArray;
+		if (str == null) {
+			return null;
+		}
+		byte[] byteArray = str.getBytes("ISO-8859-1");
+		return byteArray;
 	}
-	
+
 	public static void main(String[] args) {
-		System.out.println(getUserPasswordShiro("admin","123456","MD5",10));
+		System.out.println(getUserPasswordShiro("admin", "123456", "MD5", 10));
 	}
 }

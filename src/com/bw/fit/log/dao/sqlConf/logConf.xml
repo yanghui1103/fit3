@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="logSql">
+	<!-- 增加日志记录 -->
+	<insert id="createLog"  parameterType="TLogInfo">
+		insert into log_record (fdid,log_type_id,operator_id,url,ip,operate_target_fdids,operate_function,res,msg,create_time)
+		values (#{fdid},#{log_type_id},#{creator,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR},#{operate_target_fdids,jdbcType=VARCHAR}
+		,#{operate_function,jdbcType=VARCHAR},#{res,jdbcType=VARCHAR},#{msg,jdbcType=VARCHAR},sysdate)
+	</insert>
+</mapper>   

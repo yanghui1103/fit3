@@ -6,17 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bw.fit.common.dao.DaoTemplete;
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.log.dao.DLogDao;
 import com.bw.fit.log.entity.TLogInfo;
 
+/****
+ * 日志组件：持久层实现类
+ * @author yangh
+ *
+ */
 @Repository
 public class DLogDaoImpl implements DLogDao {
 
 	@Autowired
 	private DaoTemplete daoTemplete ;
 	@Override
-	public void notice(TLogInfo l) {
-		// TODO Auto-generated method stub 
+	public void notice(TLogInfo l) throws RbackException {
+		daoTemplete.insert("logSql.createLog", l);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bw.fit.common.model.RbackException;
 import com.bw.fit.log.entity.TLogInfo;
 
 /*****
@@ -16,9 +17,9 @@ public interface ILogService {
 	 * 录入日志消息
 	 * @param l 日志实体对象
 	 */
-	public void notice(TLogInfo l);
+	public JSONObject notice(TLogInfo l) throws RbackException ;
 	/*****
-	 * 根据id查询日志信息
+	 * 根据id查询日志详情信息
 	 * @param fdid
 	 * @return
 	 */
