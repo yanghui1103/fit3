@@ -6,6 +6,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.log.entity.TLogInfo;
+import com.bw.fit.log.model.LogInfo;
 
 /*****
  * 日志组件
@@ -23,7 +24,7 @@ public interface ILogService {
 	 * @param fdid
 	 * @return
 	 */
-	public TLogInfo getLogInfoById(String fdid);
+	public LogInfo getLogInfoById(String fdid);
 	/******
 	 * 	根据日志的  level/user_id/menu_id/res数据
 	 *  查询出记录fdid的list
@@ -31,4 +32,11 @@ public interface ILogService {
 	 * @return 返回 日志记录fdid的list
 	 */
 	public List<String> getFdidByInfo(TLogInfo l);
+	/****
+	 * 根据查询条件查询日志
+	 * @param f
+	 * @return
+	 */
+	public List getLogList(LogInfo f);
+	
 }

@@ -1,5 +1,6 @@
 package com.bw.fit.common.data.source.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -60,17 +61,29 @@ public class RmdbDataSourceImpl implements RmdbDataSource {
 
 	@Override
 	public Object getOneData(String sql, Object object) {
-		Object obj = sqlSessionTemplate.selectOne(sql, object);
-		if(obj ==null){
-			return null; 
+		Object obj = null ;
+		try {
+			obj = sqlSessionTemplate.selectOne(sql, object);
+			if(obj ==null){
+				return null; 
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		return obj;
 	}
 	@Override
 	public List getListData(String sql, Object object) {
-		List list = (List) sqlSessionTemplate.selectList(sql, object);
-		if(list==null || list.size()<1){
-			return null ;
+		List list = new ArrayList();
+		try {
+			list = (List) sqlSessionTemplate.selectList(sql, object);
+			if(list==null || list.size()<1){
+				return null ;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return list;
 	}

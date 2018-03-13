@@ -31,7 +31,7 @@ function roleListquery(){
              pageNumber: 1,
              pageSize: 20,
              pageList: [ 20, 30, 40, 50],
-             striped: true //奇偶行是否区分                    
+             striped: true  //奇偶行是否区分   
 	});  
 }
 

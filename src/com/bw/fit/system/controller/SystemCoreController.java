@@ -29,6 +29,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,6 +41,8 @@ import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.Node;
 import com.bw.fit.common.util.PropertiesUtil; 
 import com.bw.fit.common.util.PubFun;
+import com.bw.fit.log.model.LogInfo;
+import com.bw.fit.log.service.ILogService;
 import com.bw.fit.system.dao.CompanyDao;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.dao.UserDao;
@@ -68,6 +71,9 @@ public class SystemCoreController extends BaseController {
 	private UserDao userDao;
 	@Autowired
 	private DefaultWebSecurityManager securityManager ;
+	@Autowired
+	private ILogService iLogService ;
+	
 
 	/****
 	 * 登录请求
@@ -1067,4 +1073,44 @@ public class SystemCoreController extends BaseController {
 		return json;
 	}
 		
+	/*****
+	 * 获取各类日志列表
+	 * @param params
+	 * @param u
+	 * @return
+	 */
+	@RequestMapping(value="loglist/{logType}",method=RequestMethod.GET)
+	@ResponseBody
+	public JSONObject loglist(@PathVariable String logType,
+			@ModelAttribute LogInfo u) {
+		JSONObject json = new JSONObject();
+		u.setPaginationEnable("1");		
+		u.setLog_type_id(logType);
+		List<LogInfo> list = iLogService.getLogList(u);
+		u.setPaginationEnable("0");		
+		List<LogInfo> listTotal = iLogService.getLogList(u);
+		if (listTotal != null && listTotal.size() > 0) {
+			json.put("total", listTotal.size());
+		} else {
+			json.put("total", 0);
+		}
+		json.put("rows", JSONObject.toJSON(list));
+		return json;
+	}
+	/****
+	 * 打开日志详情页
+	 * @param fdid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("openLogDetail/{fdid}")
+	public String openLogDetail(@PathVariable String fdid,Model model){
+		LogInfo logInfo = iLogService.getLogInfoById(fdid) ;		
+		String user_id = logInfo.getOperator_id();
+		Tuser user = userDao.getUserById(user_id);
+		logInfo.setOperator_name(user.getUser_name());
+		logInfo.setRes_desp(getResDesp(logInfo.getRes()));
+		model.addAttribute("log", logInfo);
+		return "system/log/logDetailPage" ;
+	}
 }

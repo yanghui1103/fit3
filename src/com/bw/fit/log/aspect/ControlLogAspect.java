@@ -70,7 +70,8 @@ public class ControlLogAspect implements Ordered {
 			t.setOperator_id(user==null?"":user.getFdid());
 			t.setFdid(getUUID());
 			t.setIp(getIpAddr(request));
-			t.setOperate_function(currentMethod.getName()); 
+			t.setParams(request.getQueryString());
+			t.setOperate_function(request.getMethod()); 
 			if ((obj instanceof JSONObject)) {
 				JSONObject j = (JSONObject)obj;
 				t.setRes(j.get("res").toString());

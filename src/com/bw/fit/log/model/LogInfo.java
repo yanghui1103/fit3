@@ -9,14 +9,46 @@ import com.bw.fit.common.model.BaseModel;
  */
 public class LogInfo extends BaseModel{
 
+	private String operator_id; 
 	private String operator_name; 
-	private String log_type ;  
+	private String params ;
+	private String log_type_id ; 
+	private String log_type ; 
 	private String operate_function ;
 	private String operate_target_fdids ;  // 被操作的目标资源fdid集合
 	private String ip;
 	private String url;
 	private String res ;
+	private String res_desp ;
 	private String msg ;
+	
+	
+	
+	
+	public String getOperator_id() {
+		return operator_id;
+	}
+	public void setOperator_id(String operator_id) {
+		this.operator_id = operator_id;
+	}
+	public String getLog_type_id() {
+		return log_type_id;
+	}
+	public void setLog_type_id(String log_type_id) {
+		this.log_type_id = log_type_id;
+	}
+	public String getRes_desp() {
+		return res_desp;
+	}
+	public void setRes_desp(String res_desp) {
+		this.res_desp = res_desp;
+	}
+	public String getParams() {
+		return params;
+	}
+	public void setParams(String params) {
+		this.params = params;
+	}
 	public String getOperator_name() {
 		return operator_name;
 	}

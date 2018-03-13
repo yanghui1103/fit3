@@ -14,8 +14,8 @@ public class BaseEntity {
 	private String keyWords ;
 	private String creator;
 	private String creator_name;
-	private Date create_time ;
-	private Date version_time ;
+	private String create_time ;
+	private String version_time ;
 	private String operator_id;
 	private String creator_id; 
 	private String isdeleted ="0" ; // 默认未删除
@@ -87,17 +87,17 @@ public class BaseEntity {
 	}
 	public void setFdid(String fdid) {
 		this.fdid = fdid;
-	}
-	public Date getCreate_time() {
+	}	
+	public String getCreate_time() {
 		return create_time;
 	}
-	public void setCreate_time(Date create_time) {
+	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
 	}
-	public Date getVersion_time() {
+	public String getVersion_time() {
 		return version_time;
 	}
-	public void setVersion_time(Date version_time) {
+	public void setVersion_time(String version_time) {
 		this.version_time = version_time;
 	}
 	public String getOperator_id() {

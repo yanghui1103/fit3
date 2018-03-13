@@ -7,4 +7,20 @@
 		values (#{fdid},#{log_type_id},#{creator,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR},#{operate_target_fdids,jdbcType=VARCHAR}
 		,#{operate_function,jdbcType=VARCHAR},#{res,jdbcType=VARCHAR},#{msg,jdbcType=VARCHAR},sysdate)
 	</insert>
+	<sql id="paginationSql">
+		<![CDATA[ and rownum >#{start_num} and rownum <= #{end_num} ]]>   
+	</sql>
+	<select id="getLogAll"  parameterType="TLogInfo" resultType="TLogInfo">
+		select * from ( select cc.*,rownum from  ( 
+    	select a.*,to_char(a.create_time,'yyyy-MM-dd hh24:mi:ss') version_time,(select user_name from staff st where st.fdid = a.operator_id) user_name,(select user_cd from staff st where st.fdid = a.operator_id) user_cd  from log_record  a  where  1=1
+    	and a.log_type_id = #{log_type_id}
+    	order by a.create_time desc )  cc ) dd
+    	where 1=1   and ( user_cd like '%'||#{keyWords,jdbcType=VARCHAR}||'%'  or user_name like '%'||#{keyWords,jdbcType=VARCHAR}||'%' )
+		<if test="paginationEnable!='0'">		
+			<include refid="paginationSql"></include>
+		</if>
+	</select>	
+	<select id="getLogInfoById" parameterType="String" resultType="TLogInfo">
+		select * from log_record where fdid = #{fdid}
+	</select>
 </mapper>   

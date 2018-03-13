@@ -11,7 +11,8 @@ import com.bw.fit.common.entity.BaseEntity;
  */
 public class TLogInfo extends BaseEntity{
 
-	private String log_type_id ;// 值enum
+	private String log_type_id ;// 
+	private String params ;
 	private String operator_id; 
 	private String operate_function ;
 	private String operate_target_fdids ;  // 被操作的目标资源fdid集合
@@ -24,6 +25,12 @@ public class TLogInfo extends BaseEntity{
 	
 	
 	
+	public String getParams() {
+		return params;
+	}
+	public void setParams(String params) {
+		this.params = params;
+	}
 	public String getOperate_target_fdids() {
 		return operate_target_fdids;
 	}

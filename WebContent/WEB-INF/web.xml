@@ -62,6 +62,17 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- RestFul API时候用 -->
+	<filter>
+    	<filter-name>hiddenHttpMethodFilter</filter-name>
+    	<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>hiddenHttpMethodFilter</filter-name>
+    	<servlet-name>springMVC</servlet-name>
+	</filter-mapping>
+
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:com/bw/fit/common/conf/*-context.xml</param-value>

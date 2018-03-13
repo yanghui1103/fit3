@@ -574,6 +574,23 @@ public class PubFun {
 			b.setFdid(getUUID());
 		}
 	}
+	
+	/****
+	 * 根据返回标志，查询其含义
+	 * @param code
+	 * @return
+	 */
+	public static String getResDesp(String code){
+		if("2".equals(code)){
+			return "成功";
+		}else if("3".equals(code)){
+			return "提示";
+		}else if("1".equals(code)){
+			return "失败";
+		}else{
+			return "抱歉，未定义";
+		}
+	}
 
 	public static byte[] strToByteArray(String str) throws Exception {
 		if (str == null) {

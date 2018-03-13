@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.log.entity.TLogInfo;
+import com.bw.fit.log.model.LogInfo;
 
 /*****
  * 日志组件DAO层
@@ -28,6 +29,11 @@ public interface DLogDao {
 	 * @return 返回 日志记录fdid的list
 	 */
 	public List<String> getFdidByInfo(TLogInfo l);
-
+	/****
+	 * 获取所有日志
+	 * @param f
+	 * @return
+	 */
+	public List<TLogInfo> getLogAll(TLogInfo f);
 
 }

@@ -9,6 +9,7 @@ import com.bw.fit.common.dao.DaoTemplete;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.log.dao.DLogDao;
 import com.bw.fit.log.entity.TLogInfo;
+import com.bw.fit.log.model.LogInfo;
 
 /****
  * 日志组件：持久层实现类
@@ -27,14 +28,19 @@ public class DLogDaoImpl implements DLogDao {
 
 	@Override
 	public TLogInfo getLogInfoById(String fdid) {
-		// TODO Auto-generated method stub
-		return null;
+		return (TLogInfo) daoTemplete.getOneData("logSql.getLogInfoById", fdid);
 	}
 
 	@Override
 	public List<String> getFdidByInfo(TLogInfo l) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<TLogInfo> getLogAll(TLogInfo f) {
+		List<TLogInfo> list = daoTemplete.getListData("logSql.getLogAll", f);
+		return list ;
 	}
 
 }
