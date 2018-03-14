@@ -13,4 +13,8 @@
 			<include refid="paginationSql"></include>
 		</if>
 	</select>
+	<!-- 待阅详情 -->
+	<select id="getToReadDetail" parameterType="TtoRead" resultType="TtoRead">
+		select * from to_read where fdid = #{fdid}
+	</select>
 </mapper>   

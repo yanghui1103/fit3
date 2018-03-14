@@ -214,6 +214,14 @@ public class SystemDaoImpl implements SystemDao {
 	public List<TdataDict> getDataDictOfPId(String fdid) {
 		return daoTemplete.getListData("systemSql.getDataDictOfPId", fdid);
 	}
+	@Override
+	public TtoDo getToDoDetail(TtoDo dog) {
+		return (TtoDo)daoTemplete.getOneData("toDoSql.getToDoDetail", dog);
+	}
+	@Override
+	public TtoRead getToReadDetail(TtoRead dog) {
+		return (TtoRead)daoTemplete.getOneData("toReadSql.getToDetailDetail", dog);
+	}
 	
 	
 	

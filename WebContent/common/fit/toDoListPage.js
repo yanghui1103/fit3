@@ -27,7 +27,11 @@ function todolistquery(){
              pageNumber: 1,
              pageSize: 20,
              pageList: [ 20, 30, 40, 50],
-             striped: true //奇偶行是否区分                    
+             striped: true, //奇偶行是否区分           
+             //双击事件  
+             onDblClickRow: function (index, row) {  
+            	 addNewTab("待办页",ctx+"systemPlus/toDo/"+row.fdid); 
+             }    
 	});  
 
 

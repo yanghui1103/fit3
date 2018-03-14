@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
@@ -32,6 +34,12 @@ public class SystemPlusController extends BaseController {
 	@Autowired
 	private SystemDao systemDao ;
 	
+	/*****
+	 * 待办列表
+	 * @param toDo
+	 * @param params
+	 * @return
+	 */
 	@RequestMapping("todolist/{params}")
 	@ResponseBody
 	public JSONObject todolist(@ModelAttribute ToDo toDo,@PathVariable String params){
@@ -51,6 +59,12 @@ public class SystemPlusController extends BaseController {
 		return json;
 	
 	}
+	/*****
+	 * 待阅列表
+	 * @param toRead
+	 * @param params
+	 * @return
+	 */
 	@RequestMapping("toreadlist/{params}")
 	@ResponseBody
 	public JSONObject toreadlist(@ModelAttribute TtoRead toRead,@PathVariable String params){
@@ -67,9 +81,36 @@ public class SystemPlusController extends BaseController {
 			json.put("total", 0);
 		}
 		json.put("rows", JSONObject.toJSON(list));
-		return json;
-	
+		return json;	
 	}
 	
+	/******
+	 * 打开待办页面,如果当前用户为当前办理人，则可以办理
+	 * @param fdid 记录ID
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="toDo/{fdid}",method=RequestMethod.GET)
+	public String getTododetail(@PathVariable String fdid,Model model){
+		TtoDo dog = new TtoDo();
+		dog.setFdid(fdid);
+		model.addAttribute("toDo", systemDao.getToDoDetail(dog));
+		return "system/todo/toDoDealPage";
+	}
+
+	/******
+	 * 打开待阅页面,如果当前用户为当前待阅的接收人，则可以办理
+	 * @param fdid 记录ID
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="toRead/{fdid}",method=RequestMethod.GET)
+	public String gettoReaddetail(@PathVariable String fdid,Model model){
+		TtoRead dog = new TtoRead();
+		dog.setFdid(fdid);
+		model.addAttribute("toRead", systemDao.getToReadDetail(dog));
+		
+		return "system/toread/toReadDealPage";
+	}
 	
 }

@@ -13,4 +13,8 @@
 			<include refid="paginationSql"></include>
 		</if>
 	</select>
+	<!-- 待办详情 -->
+	<select id="getToDoDetail" parameterType="ttoDo" resultType="ttoDo">
+		select * from to_do where fdid = #{fdid}
+	</select>
 </mapper>   

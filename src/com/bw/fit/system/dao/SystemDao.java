@@ -219,5 +219,17 @@ public interface SystemDao {
 	 * @return
 	 */
 	public List<TdataDict> getDataDictOfPId(String parent_id);
+	/*****
+	 * 获取待办详情
+	 * @param dog
+	 * @return
+	 */
+	public TtoDo getToDoDetail(TtoDo dog);
+	/*****
+	 * 获取待阅详情
+	 * @param dog
+	 * @return
+	 */
+	public TtoRead getToReadDetail(TtoRead dog);
 }
  
