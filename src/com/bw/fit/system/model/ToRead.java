@@ -9,9 +9,9 @@ public class ToRead extends BaseModel   implements Serializable{
 	private static final long serialVersionUID = 944598881L;
 
 	private String subject;
-	private String app_name;
-	private String model_name;
-	private String model_id;
+	private String app_name;  // 来源
+	private String model_name;  // 流程模板名称
+	private String model_id;    // 流程模板id
 	private String url_link;
 	private String link_data;
 	private String staff_id;

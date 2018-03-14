@@ -2,16 +2,25 @@ package com.bw.fit.system.entity;
 
 import com.bw.fit.common.entity.BaseEntity;
 
+/****
+ * 待办实体类
+ * @author yangh
+ *
+ */
 public class TtoDo extends BaseEntity{
 
 	private String subject;
-	private String app_name;
-	private String model_name;
-	private String model_id;
+	private String app_name;  // 来源
+	private String model_name;  // 流程模板名称
+	private String model_id;    // 流程模板id
 	private String url_link;
 	private String link_data;
 	private String staff_id; 
 	private String flow_id;
+	
+	
+	
+	
 	public String getSubject() {
 		return subject;
 	}

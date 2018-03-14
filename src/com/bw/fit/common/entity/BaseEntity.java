@@ -28,10 +28,16 @@ public class BaseEntity {
 	private Integer start_num;
 	private Integer end_num;
 	private String paginationEnable;
+	private String status ;
 	
 	
 	
-	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getCreator() {
 		return creator;
 	}

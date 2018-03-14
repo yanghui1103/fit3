@@ -7,7 +7,7 @@
 	<!-- 获取待办信息 -->
 	<select id="getToReadList" parameterType="ttoRead" resultType="ttoRead">
 		select * from (
-		select * from to_read where subject like  '%'||#{keyWords,jdbcType=VARCHAR}||'%' and isdeleted='0' order by create_time desc ) 
+		select * from to_read where subject like  '%'||#{keyWords,jdbcType=VARCHAR}||'%'  and status = #{status}  and isdeleted='0' order by create_time desc ) 
 		where 1=1  
 		<if test="paginationEnable!='0'">		
 			<include refid="paginationSql"></include>

@@ -21,6 +21,7 @@ import com.bw.fit.system.entity.TtoDo;
 import com.bw.fit.system.entity.TtoRead;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.ToDo;
+import com.bw.fit.system.model.ToRead;
 /*******
  * 系统管理Plus
  * Controller
@@ -40,14 +41,18 @@ public class SystemPlusController extends BaseController {
 	 * @param params
 	 * @return
 	 */
-	@RequestMapping("todolist/{params}")
+	@RequestMapping("todolist/{status}")
 	@ResponseBody
-	public JSONObject todolist(@ModelAttribute ToDo toDo,@PathVariable String params){
+	public JSONObject todolist(@ModelAttribute ToDo toDo,@PathVariable String status){
 		JSONObject json = new JSONObject();
 		TtoDo td = new TtoDo();
 		copyProperties(td, toDo);
+		toDo.setStatus(status);
 		td.setPaginationEnable("1");
 		List<TtoDo> list = systemDao.getToDoList(td);
+		for(TtoDo tt:list){
+			tt.setStatus(systemDao.getDictByValue(tt.getStatus()).getDict_name());
+		}
 		td.setPaginationEnable("0");
 		List<TtoDo> listTotal = systemDao.getToDoList(td);
 		if (listTotal != null && listTotal.size() > 0) {
@@ -65,14 +70,18 @@ public class SystemPlusController extends BaseController {
 	 * @param params
 	 * @return
 	 */
-	@RequestMapping("toreadlist/{params}")
+	@RequestMapping("toreadlist/{status}")
 	@ResponseBody
-	public JSONObject toreadlist(@ModelAttribute TtoRead toRead,@PathVariable String params){
+	public JSONObject toreadlist(@ModelAttribute ToRead toRead,@PathVariable String status){
 		JSONObject json = new JSONObject();
 		TtoRead td = new TtoRead();
+		toRead.setStatus(status);
 		copyProperties(td, toRead);
 		td.setPaginationEnable("1");
 		List<TtoRead> list = systemDao.getToReadList(td);
+		for(TtoRead tt:list){
+			tt.setStatus(systemDao.getDictByValue(tt.getStatus()).getDict_name());
+		}
 		td.setPaginationEnable("0");
 		List<TtoRead> listTotal = systemDao.getToReadList(td);
 		if (listTotal != null && listTotal.size() > 0) {

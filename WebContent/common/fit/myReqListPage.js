@@ -2,15 +2,15 @@
  * 待办列表
  */
 $(function() {
-	toreadlistquery(); 
+	myReqlistquery(); 
 });
 
-function toreadlistquery(){    
-	$('#toreadlistdg').datagrid({ 
+function myReqlistquery(){    
+	$('#myReqlistdg').datagrid({ 
 		pagination:true,
-	    url:ctx+'systemPlus/toreadlist/64' ,   
-        queryParams:   serializeFormToJSON($("#toreadlistFM").serializeArray()),
-	    toolbar:$("div[name='toreadlisttb']"),
+	    url:ctx+'systemPlus/toreadlist/66' ,  
+        queryParams:   serializeFormToJSON($("#myReqlistFM").serializeArray()),
+	    toolbar:$("div[name='myReqlisttb']"),
 	    remoteSort: false, 
         columns: [[
                    { field: 'fdid', title: 'ID' ,hidden:true  },
@@ -41,10 +41,10 @@ function toreadlistquery(){
 
 
 //增加查询参数，在页面加载时运行  
-function toreadlistpage_query() {     
-	$('#toreadlistdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
-    $('#toreadlistdg').datagrid('options').queryParams= serializeFormToJSON($("#toreadlistFM").serializeArray());  
-    $("#toreadlistdg").datagrid('reload');  
+function myReqlistpage_query() {     
+	$('#myReqlistdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
+    $('#myReqlistdg').datagrid('options').queryParams= serializeFormToJSON($("#myReqlistFM").serializeArray());  
+    $("#myReqlistdg").datagrid('reload');  
 }  
 
 

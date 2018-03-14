@@ -2,24 +2,24 @@
  * 待办列表
  */
 $(function() {
-	toreadlistquery(); 
+	fshtodolistquery(); 
 });
 
-function toreadlistquery(){    
-	$('#toreadlistdg').datagrid({ 
+function fshtodolistquery(){    
+	$('#fshtodolistdg').datagrid({ 
 		pagination:true,
-	    url:ctx+'systemPlus/toreadlist/64' ,   
-        queryParams:   serializeFormToJSON($("#toreadlistFM").serializeArray()),
-	    toolbar:$("div[name='toreadlisttb']"),
+	    url:ctx+'systemPlus/fshtodolist/65' ,   
+        queryParams:   serializeFormToJSON($("#fshtodolistFM").serializeArray()),
+	    toolbar:$("div[name='fshtodolisttb']"),
 	    remoteSort: false, 
         columns: [[
                    { field: 'fdid', title: 'ID' ,hidden:true  },
                    { field: 'url_link', title: 'url_link' ,hidden:true  },
                    { field: 'link_data', title: 'link_data' ,hidden:true  },
                    { field: 'flow_id', title: 'flow_id' ,hidden:true  },
-                   { field: 'subject', title: '主题', width: '50%',fixed:true  }, 
-                   { field: 'app_name', title: '来源', width: '20%' },
-                   { field: 'create_time', title: '时间', width: '20%' }
+                   { field: 'subject', title: '主题', width: '50%',fixed:true  },
+                   { field: 'app_name', title: '来源', width: '25%' },
+                   { field: 'create_time', title: '时间', width: '25%' }
                ]],
              fit: true,    
              idField: "fdid",
@@ -30,21 +30,23 @@ function toreadlistquery(){
              pageNumber: 1,
              pageSize: 20,
              pageList: [ 20, 30, 40, 50],
-             striped: true , //奇偶行是否区分           
+             striped: true, //奇偶行是否区分           
              //双击事件  
              onDblClickRow: function (index, row) {  
             	 var request_url = ctx + row.url_link+"/"+ row.flow_id +"/"+  row.link_data ; 
-            	 addNewTab("待阅页",request_url); 
-             }       
+            	 addNewTab("待办页", request_url); 
+             }    
 	});  
+
+
 }
 
 
 //增加查询参数，在页面加载时运行  
-function toreadlistpage_query() {     
-	$('#toreadlistdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
-    $('#toreadlistdg').datagrid('options').queryParams= serializeFormToJSON($("#toreadlistFM").serializeArray());  
-    $("#toreadlistdg").datagrid('reload');  
+function fshtodolistpage_query() {     
+	$('#fshtodolistdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
+    $('#fshtodolistdg').datagrid('options').queryParams= serializeFormToJSON($("#fshtodolistFM").serializeArray());  
+    $("#fshtodolistdg").datagrid('reload');  
 }  
 
 
