@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /****
- * 流程组件（核心部件）
+ * 流程引擎组件（核心部件）
  * @author yangh
  *
  */

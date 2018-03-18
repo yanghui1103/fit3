@@ -70,16 +70,20 @@ $(function(){
 					var $input = $("<input type=checkbox id=editRole_menu_id name=menu_id onchange='editRolePageClk(this)' value='"+node.id+"'  /><label>"+node.text+"</label>  ");
 					$("#editRolePageMenuArea").append($input);
 				}else{
-					$.each(data,function(index){
-						if(data[index].fdid == node.id){
+					var flag = false ; 
+					for(var i=0;i<data.length;i++){
+						if(data[i].fdid == node.id){
+							flag = true ;
+						} 
+					}  
+					if(flag){ 
 							var $input = $("<input type=checkbox id=editRole_menu_id name=menu_id  onchange='editRolePageClk(this)' checked=checked value='"+node.id+"'  /><label>"+node.text+"</label>  ");
 							$("#editRolePageMenuArea").append($input);
 							editRolePageClk(document.getElementById("editRole_menu_id"));
 						}else{
 							var $input = $("<input type=checkbox id=editRole_menu_id name=menu_id  onchange='editRolePageClk(this)' value='"+node.id+"'  /><label>"+node.text+"</label>  ");
-							$("#editRolePageMenuArea").append($input);
-						}
-					});
+							$("#editRolePageMenuArea").append($input); 
+					}
 				}
 
 			});
@@ -135,19 +139,38 @@ function roleEditSubmitFm() {
 	if (!$("#roleEditPageFm").form('enableValidation')
 			.form('validate')) {
 		return;
-	}
-	$.ajax({
-		type : 'POST',
-		url : ctx + "system/updateRole",
-		data : serializeFormToJSON($("#roleEditPageFm")
-				.serializeArray()),
-		success : function(data) {
-			promptMessageCallBack(data.res, data.msg, function() {
-				completeSubmitCall(data, "2", "rolelisttdg", "close");
-			});
-		},
-		dataType : "JSON"
-	});
+	} 
+ 
+    var FileController =  ctx + "system/updateRole"  ;                    
+    // FormData 对象
+    var form = new FormData();
+    form.append("author", $("#editRoleRoleId").val());                        
+    form.append("role_id", $("#editRoleRoleId").val());                      
+    form.append("menu_id", $("#editRole_menu_id").val());    
+    var operation_id = document.getElementsByName('operation_id');
+    var value = new Array();
+    for(var i = 0; i < operation_id.length; i++){
+     if(operation_id[i].checked)
+     	value.push(operation_id[i].value);
+    } 
+    form.append("operation_ids", value);  
+    var element_id = document.getElementsByName('element_id');
+    value = new Array();
+    for(var i = 0; i < element_id.length; i++){
+     if(element_id[i].checked)
+     	value.push(element_id[i].value);
+    } 
+    form.append("element_ids", value);                       
+    // XMLHttpRequest 对象
+    var xhr = new XMLHttpRequest();
+    xhr.open("post", FileController, true); 
+    xhr.send(form);
+    xhr.onreadystatechange = function() {
+        	  if(xhr.readyState == 4 && xhr.status == 200){
+	        	  var data = JSON.parse(xhr.responseText) ;                   
+      			  promptMessage(data.res,data.msg); 
+         }
+    }
 }
 </script>
 </html>

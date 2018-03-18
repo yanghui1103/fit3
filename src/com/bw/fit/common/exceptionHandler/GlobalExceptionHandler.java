@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
 	    @ResponseBody  
 	    public JSONObject dealExp(HttpServletRequest req, Exception e) throws Exception {  
 			JSONObject obj = new JSONObject();  
+			e.printStackTrace();
 	        obj.put("res", "1");  
 	        obj.put("msg", " 拦截层返回异常:(" + e.getLocalizedMessage() + ")");   
 	        return obj;  

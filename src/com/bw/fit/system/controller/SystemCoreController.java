@@ -993,9 +993,9 @@ public class SystemCoreController extends BaseController {
 	 */
 	@RequestMapping("updateRole")
 	@ResponseBody
-	public JSONObject updateRole(@Valid @ModelAttribute RoleAllot roleAllot,BindingResult result){
+	public JSONObject updateRole(@Valid @ModelAttribute RoleAllot roleAllot,HttpServletRequest request,@RequestParam(value = "operation_id", required = false) String  positions,BindingResult result){
 		fillCommonProptities(roleAllot,true);
-		JSONObject json = new JSONObject();
+		JSONObject json = new JSONObject(); 
 		if (result.hasErrors()) {
 			FieldError error = result.getFieldError();
 			json.put("res", "1");

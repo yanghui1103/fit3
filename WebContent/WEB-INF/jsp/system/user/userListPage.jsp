@@ -21,10 +21,30 @@
 			关键词: <input name="keyWords" class="easyui-textbox"
 				style="width: 200px">
 			<a class="easyui-linkbutton" iconcls="icon-search" onclick="userListPage_query()">查询</a>
+			<a class="easyui-linkbutton" iconcls="icon-search" onclick="ff()">查询</a>
+			<div id="dd" >附件</div>
 			</div>
 		</form>
 	</div>
 <script type="text/javascript" src="<%=basePath%>common/fit/userListPage.js"></script>
-
+<script type="text/javascript">
+$(function(){
+	$('#dd').dialog({    
+	    title: 'My Dialog',    
+	    width: 800,    
+	    height: 500,    
+	    closed: true,    
+	    cache: false,    
+	    minimizable:false,
+	    maximizable:false,
+	    resizable:true,
+	    href: ctx +"system/gotoIframe/system/attachment/attachmentListPage/-9",    
+	    modal: true   
+	});   
+});
+function ff(){
+	$('#dd').dialog('open');
+}
+</script>
 </body>
 </html>

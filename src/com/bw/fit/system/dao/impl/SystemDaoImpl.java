@@ -12,6 +12,7 @@ import redis.clients.jedis.JedisPool;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.dao.DaoTemplete;
+import com.bw.fit.common.entity.BaseEntity;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
@@ -221,6 +222,30 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public TtoRead getToReadDetail(TtoRead dog) {
 		return (TtoRead)daoTemplete.getOneData("toReadSql.getToDetailDetail", dog);
+	}
+	@Override
+	public void delAuthoryOperation(BaseEntity en) throws RbackException {
+		daoTemplete.delete("roleSql.delAuthoryOperation", en);
+	}
+	@Override
+	public void delAuthoryElement(BaseEntity en) throws RbackException {
+		daoTemplete.delete("roleSql.delAuthoryElement", en);
+	}
+	@Override
+	public void createAuthoryElement(BaseEntity en) throws RbackException {
+		daoTemplete.insert("roleSql.createAuthoryElement", en);
+	}
+	@Override
+	public void createAuthoryOperation(BaseEntity en) throws RbackException {
+		daoTemplete.insert("roleSql.createAuthoryOperation", en);
+	}
+	@Override
+	public void createAuthoritymenu(BaseEntity en) throws RbackException {
+		daoTemplete.insert("roleSql.createAuthoritymenu", en);
+	}
+	@Override
+	public int getAuthoritymenu(BaseEntity en) {
+		return (int)daoTemplete.getOneData("roleSql.getAuthoritymenu", en);
 	}
 	
 	

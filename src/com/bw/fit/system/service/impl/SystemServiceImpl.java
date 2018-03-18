@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.dao.DaoTemplete;
+import com.bw.fit.common.entity.BaseEntity;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.Node;
 import com.bw.fit.common.util.PropertiesUtil;
@@ -29,6 +30,7 @@ import com.bw.fit.system.dao.UserDao;
 import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.Toperation;
+import com.bw.fit.system.entity.TpageElement;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
@@ -91,7 +93,7 @@ public class SystemServiceImpl implements SystemService {
 		User user = new User();
 		String user_id = userDao.getUserIdByCd(user_cd);
 		Tuser t = userDao.getUserById(user_id);
-		copyProperties(user,t );
+		copyProperties(user, t);
 		List<Role> roles = new ArrayList<>();
 		List<Trole> rls = userDao.getUserRoleInfo(user_id);
 		for (Trole r : rls) {
@@ -119,8 +121,8 @@ public class SystemServiceImpl implements SystemService {
 	public JSONArray getMenuAuthTreeJsonByRoleId(String role_id) {
 		JSONArray array = new JSONArray();
 		List<Menu> list = systemDao.getMenuAuthTreeJsonByRoleId(role_id);
-		if(list==null)
-			return null ;
+		if (list == null)
+			return null;
 		list = list
 				.stream()
 				.sorted((x, y) -> (x.getMenu_level().compareTo(y
@@ -168,9 +170,10 @@ public class SystemServiceImpl implements SystemService {
 		JSONArray array1 = new JSONArray();
 		for (Menu cc : list) {
 			JSONObject json2 = new JSONObject();
+			json2.put("id", cc.getFdid());
 			json2.put("text", cc.getMenu_name());
 			json2.put("state", cc.getState());
-			
+
 			String fdid = cc.getFdid();
 			List<Menu> childs = list2.stream()
 					.filter((n) -> (n.getParent_id()).equals(fdid))
@@ -193,7 +196,7 @@ public class SystemServiceImpl implements SystemService {
 		for (Menu cc : list2) {
 			JSONObject json2 = new JSONObject();
 			json2.put("id", cc.getFdid());
-			json2.put("text", cc.getMenu_name()); 
+			json2.put("text", cc.getMenu_name());
 			json2.put("state", cc.getState());
 			JSONArray arra2 = getChildJSON(list, cc.getFdid(), alllist);
 			if (arra2.size() > 0) {
@@ -215,7 +218,7 @@ public class SystemServiceImpl implements SystemService {
 		t.setForeign_id(menuId);
 		List<Toperation> list = daoTemplete.getListData(
 				"systemSql.getOperationsByMenuId", t);
-		if (list==null) {
+		if (list == null) {
 			json.put("res", "1");
 			json.put("msg", "无按钮操作权限，请与管理员联系申请");
 			return json;
@@ -227,7 +230,6 @@ public class SystemServiceImpl implements SystemService {
 		json.put("list", array);
 		return json;
 	}
-	
 
 	@Override
 	public Company getCompanyTree(String parent_id) {
@@ -246,9 +248,9 @@ public class SystemServiceImpl implements SystemService {
 		for (Company d : lis) {
 			HashMap dataRecord1 = new HashMap();
 			dataRecord1.put("id", d.getFdid());
-			dataRecord1.put("text", d.getCompany_name()); 
-			dataRecord1.put("parentId", d.getParent_id()); 
-			dataRecord1.put("company_order", d.getCompany_order()); 
+			dataRecord1.put("text", d.getCompany_name());
+			dataRecord1.put("parentId", d.getParent_id());
+			dataRecord1.put("company_order", d.getCompany_order());
 			dataList.add(dataRecord1);
 		}
 		Company node = CompanyJsonTreeHandler.getJSONTree(dataList);
@@ -256,7 +258,7 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public DataDict getAllDataDict(String parent_id){
+	public DataDict getAllDataDict(String parent_id) {
 		List<TdataDict> list = systemDao.getDataDictList(parent_id);
 		List<DataDict> lis = new ArrayList<>();
 		for (TdataDict d : list) {
@@ -295,59 +297,96 @@ public class SystemServiceImpl implements SystemService {
 			PubFun.copyProperties(d2, dd);
 			lis.add(d2);
 		}
-		return lis ;
+		return lis;
 	}
 
 	@Override
 	public List<ElementLevel> getElementLevelList(ElementLevel e) {
 		List<ElementLevel> lis = systemDao.getElementLevelList(e);
 		List<ElementLevel> list = new ArrayList<>();
-		if(lis == null)
-			return null ;
-		for(ElementLevel el:lis){
+		if (lis == null)
+			return null;
+		for (ElementLevel el : lis) {
 			TdataDict d = systemDao.getThisDataDictByValue(el.getLevel_code());
-			if(d!=null){
+			if (d != null) {
 				el.setLevel_desp(d.getDict_name());
 			}
 			d = systemDao.getThisDataDictByValue(el.getElement_type());
-			if(d!=null){
+			if (d != null) {
 				el.setElement_type_name(d.getDict_name());
 			}
-			
+
 			list.add(el);
 		}
-		return list ;
+		return list;
 	}
 
 	@Override
 	public List<Postion> getPostionList(Postion e) {
-		Tpostion t =new Tpostion();
+		Tpostion t = new Tpostion();
 		copyProperties(t, e);
 		List<Tpostion> lis = systemDao.getPostionList(t);
 		List<Postion> list = new ArrayList<>();
-		for(Tpostion p:lis){
+		for (Tpostion p : lis) {
 			Postion pp = new Postion();
-			copyProperties(pp,p);
+			copyProperties(pp, p);
 			list.add(pp);
 		}
-		return list ;
+		return list;
 	}
 
-	@Override
-	public void allotOrUpdateRole(RoleAllot roleAllot) throws RbackException {
-		//角色下原有的权限
-		
-		//角色下现有的权限
-		
-		List<Trole> roles_child = systemDao.getChildrenRoles(roleAllot.getFdid());
-		if(roles_child!=null){// 有子孙角色
+	public void allotOrUpdateRole2(RoleAllot roleAllot) throws RbackException {
+		// 角色下原有的权限
+		List<Trole> roles_child = systemDao.getChildrenRoles(roleAllot
+				.getRole_id());
+		List<RoleAllot> roleAllotsChilds = new ArrayList<>();
+		if (roles_child != null) {// 有子孙角色
 			List<String> item = new ArrayList<>();
-			for(Trole r:roles_child){
+			for (Trole r : roles_child) {
 				item.add(r.getFdid());
 			}
-			List<RoleAllot> roleAllots = systemDao.getChildRoleAllotsByRoleId(item);
+			roleAllotsChilds = systemDao.getChildRoleAllotsByRoleId(item);
 		}
-		
+		List<String> item = new ArrayList<>();
+		item.add(roleAllot.getRole_id());
+		List<RoleAllot> roleAllotsThis = systemDao
+				.getChildRoleAllotsByRoleId(item);
+		/****
+		 * 1，先检查菜单 如果此次授权有operation，说明是增加或者原来就有此菜单权限
+		 */
+		List<RoleAllot> thisLis = roleAllotsThis
+				.stream()
+				.filter(x -> x.getRole_id().equalsIgnoreCase(
+						roleAllot.getRole_id())
+						&& x.getMenu_id().equalsIgnoreCase(
+								roleAllot.getMenu_id()))
+				.collect(Collectors.toList());
+		String[] operations = roleAllot.getOperation_ids();
+		for (String s : operations) {
+			Optional<RoleAllot> op = thisLis.stream()
+					.filter(x -> x.getOperation_id().equalsIgnoreCase(s))
+					.findAny();
+			if (!op.isPresent()) {
+				BaseEntity en = new BaseEntity();
+				en.setFdid(op.get().getRole_id());
+				en.setKeyWords(op.get().getOperation_id());
+				systemDao.createAuthoryOperation(en);
+			}
+		}
+		String[] elments = roleAllot.getElement_ids();
+		for (String s : elments) {
+			Optional<RoleAllot> op = thisLis.stream()
+					.filter(x -> x.getElement_id().equalsIgnoreCase(s))
+					.findAny();
+			if (!op.isPresent()) {
+				BaseEntity en = new BaseEntity();
+				en.setFdid(op.get().getRole_id());
+				en.setKeyWords(op.get().getElement_id());
+				en.setCreator(op.get().getMenu_id());
+				systemDao.createAuthoryElement(en);
+			}
+		}
+
 	}
 
 	@Override
@@ -357,11 +396,11 @@ public class SystemServiceImpl implements SystemService {
 		copyProperties(tuser, user);
 		systemDao.createUser(tuser);
 		systemDao.createUser2Company(tuser);
-		for(String role_id:user.getRole_ids()){
+		for (String role_id : user.getRole_ids()) {
 			tuser.setRole_id(role_id);
 			systemDao.createUser2Role(tuser);
 		}
-		for(String postion_id:user.getPostion_ids()){
+		for (String postion_id : user.getPostion_ids()) {
 			tuser.setPostion_id(postion_id);
 			systemDao.createUser2Postion(tuser);
 		}
@@ -371,20 +410,115 @@ public class SystemServiceImpl implements SystemService {
 	public JSONObject createPostion(Postion p) throws RbackException {
 		JSONObject j = new JSONObject();
 		returnSuccessJson(j);
-		try{
+		try {
 			Tpostion pp = new Tpostion();
 			copyProperties(pp, p);
 			systemDao.createPostion(pp);
-		}catch(RbackException e){
+		} catch (RbackException e) {
 			j = new JSONObject();
-			returnFailJson(j,e.getMsg());
+			returnFailJson(j, e.getMsg());
 			throw e;
-		}finally{
-			return j ;
+		} finally {
+			return j;
 		}
 	}
-	
-	
 
+	@Override
+	public void allotOrUpdateRole(RoleAllot roleAllot) throws RbackException {
+
+		BaseEntity enw = new BaseEntity();
+		enw.setFdid(roleAllot.getRole_id());
+		enw.setCreator(roleAllot.getMenu_id());
+		if (systemDao.getAuthoritymenu(enw) < 1) {
+			systemDao.createAuthoritymenu(enw);
+		}
+
+		List<Toperation> operations = systemDao.getOperationsByMenuId(
+				roleAllot.getMenu_id(), roleAllot.getRole_id());
+		String[] ops = roleAllot.getOperation_ids();
+		if (operations != null) {
+			for (String s : ops) {
+				Optional<Toperation> opt = operations.stream()
+						.filter(x -> x.getFdid().equals(s)).findAny();
+				if (!opt.isPresent()) {
+					BaseEntity en = new BaseEntity();
+					en.setFdid(roleAllot.getRole_id());
+					en.setKeyWords(opt.get().getFdid());
+					systemDao.createAuthoryOperation(en);
+				} else {
+					BaseEntity en = new BaseEntity();
+					en.setFdid(roleAllot.getRole_id());
+					en.setKeyWords(s);
+					systemDao.createAuthoryOperation(en);
+				}
+			}
+		} else {
+			for (String s : ops) {
+				BaseEntity en = new BaseEntity();
+				en.setFdid(roleAllot.getRole_id());
+				en.setKeyWords(s);
+				systemDao.createAuthoryOperation(en);
+			}
+		}
+
+		if (operations != null) {
+			List<String> operationStrs = operations.stream()
+					.map(Toperation::getFdid).collect(Collectors.toList());
+			for (String ss : operationStrs) {
+				if (!Arrays.asList(ops).contains(ss)) {
+					BaseEntity en = new BaseEntity();
+					en.setFdid(roleAllot.getRole_id());
+					en.setKeyWords(ss);
+					systemDao.delAuthoryOperation(en);
+				}
+			}
+		}
+
+		List<TpageElement> telements = systemDao.getElementsByMenuId(
+				roleAllot.getMenu_id(), roleAllot.getRole_id());
+		String[] elements = roleAllot.getElement_ids();
+		if (telements != null) {
+			for (String s : elements) {
+				Optional<TpageElement> opt = telements.stream()
+						.filter(x -> x.getFdid().equals(s)).findAny();
+				if (!opt.isPresent()) {
+					BaseEntity en = new BaseEntity();
+					en.setFdid(roleAllot.getRole_id());
+					en.setKeyWords(opt.get().getFdid());
+					en.setCreator(roleAllot.getMenu_id());
+					systemDao.delAuthoryElement(en);
+				} else {
+					BaseEntity en = new BaseEntity();
+					en.setFdid(roleAllot.getRole_id());
+					en.setKeyWords(roleAllot.getOperation_id());
+					en.setCreator(roleAllot.getMenu_id());
+					systemDao.createAuthoryElement(en);
+				}
+			}
+		} else {
+			for (String s : elements) {
+				BaseEntity en = new BaseEntity();
+				en.setFdid(roleAllot.getRole_id());
+				en.setKeyWords(s);
+				en.setCreator(roleAllot.getMenu_id());
+				systemDao.createAuthoryElement(en);
+			}
+		}
+
+		if (telements != null) {
+			List<String> elementStrs = telements.stream()
+					.map(TpageElement::getFdid).collect(Collectors.toList());
+			for (String ss : elementStrs) {
+				if (!Arrays.asList(elements).contains(ss)) {
+					BaseEntity en = new BaseEntity();
+					en.setFdid(roleAllot.getRole_id());
+					en.setKeyWords(ss);
+					en.setCreator(roleAllot.getMenu_id());
+					systemDao.delAuthoryElement(en);
+				}
+			}
+		}
+
+	}
 
 }

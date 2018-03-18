@@ -76,4 +76,25 @@
       prior a.fdid
       start with a.parent_id =#{role_id}
 	</select>
+	<delete id="delAuthoryOperation"  parameterType="baseEntity">
+		delete from authority2operation where authority = #{fdid} and operation_id =#{keyWords}
+	</delete>
+	<delete id="delAuthoryElement"  parameterType="baseEntity">
+		delete from authority2element where authority = #{fdid} and element_id =#{keyWords} and menu_id=#{creator}
+	</delete>
+	<insert id="createAuthoryOperation" parameterType="baseEntity">
+		insert into authority2operation (authority,operation_id) values 
+		(#{fdid},#{keyWords})
+	</insert>
+	<insert id="createAuthoryElement" parameterType="baseEntity">
+		insert into authority2operation (element_id,authority,menu_id) values 
+		(#{keyWords},#{fdid},#{creator})
+	</insert>
+	<insert id="createAuthoritymenu" parameterType="baseEntity">
+		insert into authority2menu (authority,menu_id) values 
+		(#{fdid},#{creator})
+	</insert>
+	<select id="getAuthoritymenu" parameterType="baseEntity" resultType="int">
+		select count(1) from authority2menu where authority=#{fdid} and menu_id = #{creator}
+	</select>
 </mapper>   

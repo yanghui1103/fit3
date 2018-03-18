@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bw.fit.common.entity.BaseEntity;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
@@ -231,5 +232,21 @@ public interface SystemDao {
 	 * @return
 	 */
 	public TtoRead getToReadDetail(TtoRead dog);
+	/*****
+	 * 删除角色下操作功能权限
+	 * @param en
+	 * @throws RbackException
+	 */
+	public void delAuthoryOperation(BaseEntity en) throws RbackException ;
+	/****
+	 * 删除角色下元素权限
+	 * @param en
+	 * @throws RbackException
+	 */
+	public void delAuthoryElement(BaseEntity en) throws RbackException ;
+	public void createAuthoryElement(BaseEntity en) throws RbackException ;
+	public void createAuthoryOperation(BaseEntity en) throws RbackException ;
+	public void createAuthoritymenu(BaseEntity en) throws RbackException ;
+	public int getAuthoritymenu(BaseEntity en);
 }
  
