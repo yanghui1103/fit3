@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	import="com.bw.fit.common.util.*"
-	isELIgnored="false" pageEncoding="UTF-8"%><jsp:include page="/common.jsp"></jsp:include>
+	isELIgnored="false" pageEncoding="UTF-8"%><%@ include
+	file="/include.inc.jsp"%><jsp:include page="/common.jsp"></jsp:include>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -16,43 +17,90 @@
 	<div class="easyui-panel" 
 		style="width: 100%;height:100%; max-width: 100%; padding: 20px 20px;">
 		<div style="margin-bottom: 20px">
-			<input class="easyui-filebox" data-options="accept:'*',multiple:false,buttonText: '选择文件'"
+			<input class="easyui-filebox" data-options="accept:'${fileType }',multiple:false,buttonText: '选择文件'"
 				style="width: 50%">
-		<button class="easyui-linkbutton" type=button onclick="upLoadAttachmentFile()"
-			style="width: 80px">上传</button> 
-		<button class="easyui-linkbutton" type=button onclick="upLoadAttachmentFile()"
-			style="width: 80px">删除</button> 
-<!-- 		<button class="easyui-linkbutton" type=button onclick="upLoadAttachmentFile()" -->
-<!-- 			style="width: 80px">预览</button>  -->
-<!-- 		<button class="easyui-linkbutton" type=button onclick="upLoadAttachmentFile()" -->
-<!-- 			style="width: 80px">下载</button>  -->
-		</div>			
+				<input type="hidden" value="${foreignId }" id="upLoadAttachmentFid"/>
+				<input type="hidden" value="${auth }" id="upLoadAttachmentAuth"/>
+				<input type="hidden" value="${user_id }" id="att_current_user_id"/>
+		<c:if test="${auth =='2' }">
+			<button class="easyui-linkbutton" type=button onclick="upLoadAttachmentFile()"
+				style="width: 80px">上传</button> 
+		</c:if>
+		</div>		
+	<table id="sysAttachmentListDg"></table>
 	</div>
-	<table id="sysAttachmentListTb"></table>
 	<script type="text/javascript">
-	function upLoadAttachmentFile() {
-        var fileObj = document.getElementById("filebox_file_id_1").files[0]; // 获取文件对象
-        var FileController =  '<%=basePath%>saleShip/importSaleShipExcel'  ;                    
-        // FormData 对象
-        var form = new FormData();
-        form.append("author", "yangh");                        // 可以增加表单数据
-        form.append("file", fileObj);                           // 文件对象
-        // XMLHttpRequest 对象
-        var xhr = new XMLHttpRequest();
-        xhr.open("post", FileController, true);
-		//         xhr.onload = function () {
-		//             alert("上传完成!");
-		//         };
-        xhr.send(form);
-        xhr.onreadystatechange = function() {
-	        	  if(xhr.readyState == 4 && xhr.status == 200){
-		        	  var data = JSON.parse(xhr.responseText) ;
-                       
-          			  promptMessage(data.res,data.msg); 
-	         }
-        }
-    }
+	function upLoadAttachmentFile() {  
+		var fileObj =  document.querySelector('input[type=file]').files[0];
+		var FileController =  ctx + 'systemPlus/upLoadAttachmentFile';
+		// FormData 对象  
+		var form = new FormData(); 
+		form.append("foreignId", $("#upLoadAttachmentFid").val()); // 文件对象
+		form.append("file", fileObj); // 文件对象
+		// XMLHttpRequest 对象
+		var xhr = new XMLHttpRequest();
+		xhr.open("post", FileController, true); 
+		xhr.send(form);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				var data = JSON.parse(xhr.responseText);
+				promptMessage(data.res, data.msg);
+			}
+		}
+	}
 
+	$(function(){
+		upAttachQuery();
+	});
+
+	function upAttachQuery(){    
+		var upLoadAttachmentAuth = $("#upLoadAttachmentAuth").val();
+		var att_current_user_id = $("#att_current_user_id").val() ;
+		$('#sysAttachmentListDg').datagrid({ 
+			pagination:true,
+		    url:ctx+'system/companyList/-9' ,   
+	        queryParams:  null , 
+		    remoteSort: false, 
+	        columns: [[
+	                   { field: 'fdid', title: 'ID' ,hidden:true  },
+	                   { field: 'company_name', title: '文件名称', width: '20%',fixed:true  },
+	                   { field: 'company_type_name', title: '文件大小', width: '15%' }, 
+	                   { field: 'parent_company_name', title: '上传者', width: '15%' }, 
+	                   { field: 'company_address', title: '上传时间', width: '15%' },
+	                   {field:'operate',title:'操作',align:'center',width:$(this).width()*0.1,  
+	                	       formatter:function(value, row, index){  	                	    	   	
+	                		           var str ="";
+	                		           if(parseInt(upLoadAttachmentAuth)>0){
+		                		           str = str + '<a href="#" onclick="downFile('+row.fdid+')" name="downFile" class="easyui-linkbutton" ></a>';
+		                		           str = str + '<a href="#" onclick="viewFile('+row.fdid+')" name="viewFile" class="easyui-linkbutton" ></a>';
+	                		           }
+	                		           if(parseInt(upLoadAttachmentAuth)>1 && att_current_user_id == row.creator){
+	                		           		str = str + '<a href="#" onclick="deleteFile('+row.fdid+')" name="deleteFile" class="easyui-linkbutton" ></a>';
+	                		           }
+	                		           return str;  
+	                		   }}  
+
+	               ]],
+	             fit: true,    
+	             idField: "fdid",
+	             pagination: false,
+	             singleSelect:true,
+	             rownumbers: true, 
+	             fitColumns:true,
+	             pageNumber: 1,
+	             pageSize: 20,
+	             pageList: [ 20, 30, 40, 50],
+	             striped: true ,//奇偶行是否区分                    
+	             onLoadSuccess:function(data){     
+	            	         $("a[name='downFile']").linkbutton({text:'下载',plain:true,iconCls:'icon-add'});   
+	            	         $("a[name='viewFile']").linkbutton({text:'预览',plain:true,iconCls:'icon-search'});   
+	            	         $("a[name='deleteFile']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});    
+	             }
+
+		});  
+
+
+	}
 	</script>
 </body>
 </html>

@@ -27,6 +27,7 @@ import com.bw.fit.common.util.treeHandler.DataDictJsonTreeHandler;
 import com.bw.fit.common.util.treeHandler.JsonTreeHandler;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.dao.UserDao;
+import com.bw.fit.system.entity.TAttachment;
 import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.Toperation;
@@ -34,6 +35,7 @@ import com.bw.fit.system.entity.TpageElement;
 import com.bw.fit.system.entity.Tpostion;
 import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.Tuser;
+import com.bw.fit.system.model.Attachment;
 import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.ElementLevel;
@@ -519,6 +521,25 @@ public class SystemServiceImpl implements SystemService {
 			}
 		}
 
+	}
+
+	@Override
+	public JSONObject createNewAttachment(Attachment a) throws RbackException {
+		JSONObject json = new JSONObject(); 
+		PubFun.returnSuccessJson(json);
+		try{
+			TAttachment aa = new TAttachment();
+			copyProperties(aa, a);
+			systemDao.createNewAttachment(aa);
+		}catch(RbackException ex){
+			json = new JSONObject();
+			json.put("msg", "导入异常,"+ex.getLocalizedMessage());
+			json.put("res", "1"); 
+			throw ex;
+		}finally{
+			return json ;
+		}
+		
 	}
 
 }

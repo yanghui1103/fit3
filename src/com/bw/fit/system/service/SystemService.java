@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.Node;
 import com.bw.fit.system.entity.Tpostion;
+import com.bw.fit.system.model.Attachment;
 import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.DataDict;
 import com.bw.fit.system.model.ElementLevel;
@@ -112,5 +113,12 @@ public interface SystemService {
 	 * @throws RbackException
 	 */
 	public JSONObject createPostion(Postion p) throws RbackException;
+	/****
+	 * 上传附件，并做记录
+	 * @param a
+	 * @return
+	 * @throws RbackException
+	 */
+	public JSONObject createNewAttachment(Attachment a) throws RbackException;
 	
 }

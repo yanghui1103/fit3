@@ -16,6 +16,7 @@ import com.bw.fit.common.entity.BaseEntity;
 import com.bw.fit.common.model.RbackException;
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
+import com.bw.fit.system.entity.TAttachment;
 import com.bw.fit.system.entity.Tcompany;
 import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.TelementLevel;
@@ -246,6 +247,10 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public int getAuthoritymenu(BaseEntity en) {
 		return (int)daoTemplete.getOneData("roleSql.getAuthoritymenu", en);
+	}
+	@Override
+	public void createNewAttachment(TAttachment a) throws RbackException {
+		daoTemplete.insert("systemSql.createNewAttachment", a);
 	}
 	
 	

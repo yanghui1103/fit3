@@ -14,10 +14,10 @@
 	http://www.springframework.org/schema/task
 	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**" />
-			<bean class="com.bw.fit.common.interceptor.FileTypeInterceptor"></bean>
-		</mvc:interceptor>
-	</mvc:interceptors>
+<!-- 	<mvc:interceptors> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/**" /> -->
+<!-- 			<bean class="com.bw.fit.common.interceptor.FileTypeInterceptor"></bean> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 	</mvc:interceptors> -->
 </beans>	

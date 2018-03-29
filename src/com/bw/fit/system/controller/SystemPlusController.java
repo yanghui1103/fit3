@@ -2,8 +2,15 @@ package com.bw.fit.system.controller;
 
 import static com.bw.fit.common.util.PubFun.copyProperties;
 
+import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,17 +18,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bw.fit.common.controller.BaseController;
+import com.bw.fit.common.model.BaseModel;
+import com.bw.fit.common.model.RbackException;
+import com.bw.fit.common.util.BeanFactory;
+import com.bw.fit.common.util.PropertiesUtil;
+import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
 import com.bw.fit.system.entity.TtoDo;
 import com.bw.fit.system.entity.TtoRead;
 import com.bw.fit.system.entity.Tuser;
+import com.bw.fit.system.model.Attachment;
 import com.bw.fit.system.model.ToDo;
 import com.bw.fit.system.model.ToRead;
+import com.bw.fit.system.model.User;
+import com.bw.fit.system.service.SystemService;
 /*******
  * 系统管理Plus
  * Controller
@@ -34,6 +51,10 @@ public class SystemPlusController extends BaseController {
 
 	@Autowired
 	private SystemDao systemDao ;
+	@Autowired
+	private SystemService systemService ;
+	@Resource(name="beanFactory") 
+	private BeanFactory beanFactory;
 	
 	/*****
 	 * 待办列表
@@ -122,6 +143,91 @@ public class SystemPlusController extends BaseController {
 		return "system/toread/toReadDealPage";
 	}
 	
+	/******
+	 * 根据外键ID,查询其附件列表，并可以约束附件类型
+	 * @param foreignId
+	 * @param fileType 文件类型，以逗号分割
+	 * @param auth 2 读写兼有，1，只有读权限
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("openAttachmentPage/{foreignId}/{fileType}/{auth}")
+	public String openAttachmentPage(@PathVariable(value="foreignId") String foreignId,
+			@PathVariable(value="auth") String auth,
+				@PathVariable(value="fileType") String fileType,Model model	){
+		model.addAttribute("foreignId", foreignId);
+		Session session = PubFun.getCurrentSession();
+		String user_id = ((User) session.getAttribute("CurrentUser")).getFdid();
+		model.addAttribute("user_id", user_id);
+		if("-9".equals(fileType)){
+			// 文件格式不限
+			model.addAttribute("fileType", "*");
+		}else{
+			StringBuffer sb = new StringBuffer();
+			String[] fts = fileType.split(",");
+			Map fileTypeMaps = new LinkedHashMap<>();
+			fileTypeMaps.put("jpg", "image/jpeg");
+			fileTypeMaps.put("doc", "application/msword");
+			fileTypeMaps.put("jpeg", "image/jpeg");
+			fileTypeMaps.put("xls", "application/vnd.ms-excel");
+			fileTypeMaps.put("ppt", "application/vnd.ms-powerpoint");
+			for(String s :fts){
+				if(fileTypeMaps.containsKey(s)){
+					sb.append(fileTypeMaps.get(s));
+					sb.append(",");
+				}
+			}
+			if(sb == null){
+				model.addAttribute("fileType", "*");
+			}else{
+				String patten = sb.toString();
+				model.addAttribute("fileType",patten.substring(0, patten.length()-1));
+			}
+		}
+		/****
+		 * auth
+		 */
+		model.addAttribute("auth", auth);
+		
+		return "system/attachment/attachmentListPage";
+	}
 	
-	
+	@RequestMapping(value="upLoadAttachmentFile",produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public JSONObject upLoadAttachmentFile(@RequestParam(value="file", required=false) MultipartFile file,
+			@RequestParam(value="foreignId") String foreignId)throws Exception  {
+		JSONObject json = new JSONObject(); 
+		Session session = PubFun.getCurrentSession();
+		User us_first = (User)session.getAttribute("CurrentUser");
+		if(file == null){
+			json = new JSONObject();
+			json.put("msg", "导入异常,excel文件缺失");
+			json.put("res", "1");
+			return (json); 
+		}else{ 
+			try {
+				String realPath =PropertiesUtil.getValueByKey("system.attachment_path");
+				String fileOriginalName = file.getOriginalFilename();
+                String suffix = fileOriginalName.substring(fileOriginalName.lastIndexOf(".") + 1);
+                String newFileName = PubFun.getUUID()+"."+suffix ;
+				//这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉
+                FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, newFileName));
+                Attachment a = (Attachment)beanFactory.getNewClassInstance("com.bw.fit.system.model.Attachment");
+                PubFun.fillCommonProptities(a, true);
+                a.setFile_name(newFileName);
+                a.setBefore_name(fileOriginalName);
+                a.setPath(realPath);
+                a.setForeign_id(foreignId);
+                a.setFile_size(String.valueOf(file.getSize()/1024/1024)+"MB");
+                json = systemService.createNewAttachment(a);
+			} catch (RbackException ex) {
+				ex.printStackTrace();
+				json = new JSONObject();
+				json.put("msg", "导入异常,"+ex.getMsg());
+				json.put("res", "1"); 
+			} finally{
+				return (json);
+			}
+		} 
+	}
 }

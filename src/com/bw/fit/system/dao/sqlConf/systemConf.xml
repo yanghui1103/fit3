@@ -118,6 +118,10 @@
 	<delete id="deleteELE" parameterType="String" >
 		delete from element_level where fdid = #{fdid}
 	</delete>
-	
+	<!-- 附件部分 -->
+	<insert id="createNewAttachment" parameterType="tAttachment" >
+		insert into attachment (fdid,file_name,file_size,before_name,path,foreign_id,create_time,creator,isdeleted)
+		values (#{fdid},#{file_name},#{file_size},#{before_name},#{path},#{foreign_id},sysdate,#{creator},'0')
+	</insert>
 	
 </mapper>   

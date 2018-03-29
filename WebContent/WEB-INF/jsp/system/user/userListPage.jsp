@@ -30,7 +30,7 @@
 <script type="text/javascript">
 $(function(){
 	$('#dd').dialog({    
-	    title: 'My Dialog',    
+	    title: '附件框',    
 	    width: 800,    
 	    height: 500,    
 	    closed: true,    
@@ -38,7 +38,7 @@ $(function(){
 	    minimizable:false,
 	    maximizable:false,
 	    resizable:true,
-	    href: ctx +"system/gotoIframe/system/attachment/attachmentListPage/-9",    
+	    href: ctx +"systemPlus/openAttachmentPage/-9/-9/2",    
 	    modal: true   
 	});   
 });

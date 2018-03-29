@@ -526,7 +526,7 @@ public class PubFun {
 	public static void copyProperties(Object dest, Object orig) {
 		try {
 			ConvertUtils
-					.register(new DateConverter(null), java.util.Date.class);
+					.register(new DateConverter(), java.util.Date.class);
 			BeanUtils.copyProperties(dest, orig);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -600,6 +600,7 @@ public class PubFun {
 		return byteArray;
 	}
 
+	
 	public static void main(String[] args) {
 		System.out.println(getUserPasswordShiro("admin", "123456", "MD5", 10));
 	}
