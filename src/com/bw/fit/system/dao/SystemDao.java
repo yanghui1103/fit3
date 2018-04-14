@@ -251,5 +251,11 @@ public interface SystemDao {
 	public void createAuthoritymenu(BaseEntity en) throws RbackException ;
 	public int getAuthoritymenu(BaseEntity en);
 	public void createNewAttachment(TAttachment a) throws RbackException ;
+	public List<TAttachment> getAttachmentList(TAttachment c);
+
+	public void deleteAttachment(TAttachment a) throws RbackException ;
+	
+	public TAttachment getAttachment(String fdid);
+	
 }
  

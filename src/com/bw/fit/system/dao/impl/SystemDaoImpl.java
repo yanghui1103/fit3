@@ -27,6 +27,7 @@ import com.bw.fit.system.entity.Trole;
 import com.bw.fit.system.entity.TtoDo;
 import com.bw.fit.system.entity.TtoRead;
 import com.bw.fit.system.entity.Tuser;
+import com.bw.fit.system.model.Attachment;
 import com.bw.fit.system.model.ElementLevel;
 import com.bw.fit.system.model.Menu;
 import com.bw.fit.system.model.RoleAllot;
@@ -251,6 +252,18 @@ public class SystemDaoImpl implements SystemDao {
 	@Override
 	public void createNewAttachment(TAttachment a) throws RbackException {
 		daoTemplete.insert("systemSql.createNewAttachment", a);
+	}
+	@Override
+	public List<TAttachment> getAttachmentList(TAttachment a) {
+		return daoTemplete.getListData("systemSql.getAttachmentList", a);
+	}
+	@Override
+	public void deleteAttachment(TAttachment a) throws RbackException {
+		daoTemplete.update("systemSql.deleteAttachment", a);
+	}
+	@Override
+	public TAttachment getAttachment(String fdid) {
+		return (TAttachment)daoTemplete.getOneData("systemSql.getAttachment", fdid);
 	}
 	
 	

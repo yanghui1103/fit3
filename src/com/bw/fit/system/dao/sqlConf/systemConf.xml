@@ -123,5 +123,15 @@
 		insert into attachment (fdid,file_name,file_size,before_name,path,foreign_id,create_time,creator,isdeleted)
 		values (#{fdid},#{file_name},#{file_size},#{before_name},#{path},#{foreign_id},sysdate,#{creator},'0')
 	</insert>
+	<!-- 获取这个外键的所有附件 -->
+	<select id="getAttachmentList"  parameterType="tAttachment" resultType="tAttachment">
+		select * from attachment a where 1=1 and isdeleted='0' and a.foreign_id = #{foreign_id}
+	</select>	
+	<update id="deleteAttachment" parameterType="tAttachment">
+		update attachment set isdeleted='1' where fdid = #{fdid}
+	</update>
 	
+	<select id="getAttachment"  parameterType="String" resultType="tAttachment">
+		select * from attachment a where fdid  = #{fdid}
+	</select>	
 </mapper>   

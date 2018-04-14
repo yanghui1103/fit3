@@ -120,5 +120,12 @@ public interface SystemService {
 	 * @throws RbackException
 	 */
 	public JSONObject createNewAttachment(Attachment a) throws RbackException;
+	/****
+	 * 上传附件，并做记录
+	 * @param a
+	 * @return
+	 * @throws RbackException
+	 */
+	public JSONObject deleteAttachment(Attachment a) throws RbackException;
 	
 }

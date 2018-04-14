@@ -3,15 +3,21 @@ package com.bw.fit.system.controller;
 import static com.bw.fit.common.util.PubFun.copyProperties;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,10 +37,14 @@ import com.bw.fit.common.util.BeanFactory;
 import com.bw.fit.common.util.PropertiesUtil;
 import com.bw.fit.common.util.PubFun;
 import com.bw.fit.system.dao.SystemDao;
+import com.bw.fit.system.entity.TAttachment;
+import com.bw.fit.system.entity.Tcompany;
+import com.bw.fit.system.entity.TdataDict;
 import com.bw.fit.system.entity.TtoDo;
 import com.bw.fit.system.entity.TtoRead;
 import com.bw.fit.system.entity.Tuser;
 import com.bw.fit.system.model.Attachment;
+import com.bw.fit.system.model.Company;
 import com.bw.fit.system.model.ToDo;
 import com.bw.fit.system.model.ToRead;
 import com.bw.fit.system.model.User;
@@ -230,4 +240,68 @@ public class SystemPlusController extends BaseController {
 			}
 		} 
 	}
+	
+	
+	@RequestMapping("attachmentList/{foreignid}")
+	@ResponseBody
+	public JSONObject attachmentList(@PathVariable("foreignid") String foreign_id,
+			Model model,   HttpServletRequest request) {
+		JSONObject json = new JSONObject(); 
+		TAttachment c = new TAttachment();
+		c.setForeign_id(foreign_id);
+		List<TAttachment> listTotal = systemDao.getAttachmentList(c);
+		if (listTotal != null && listTotal.size() > 0) {
+			json.put("total", listTotal.size());
+		} else {
+			json.put("total", 0);
+		}
+		json.put("rows", JSONObject.toJSON(listTotal));
+		return json;
+	}
+	
+	
+	@RequestMapping("deleteAttachment/{fdid}")
+	@ResponseBody
+	public JSONObject deleteAttachment(@PathVariable("fdid") String fdid,
+			   HttpServletRequest request) {
+		Session session = PubFun.getCurrentSession();
+		User user = (User)session.getAttribute("CurrentUser");
+		JSONObject json = new JSONObject(); 
+		Attachment c = new Attachment();
+		c.setCreator(user.getFdid());
+		c.setFdid(fdid);
+		try{
+			json = systemService.deleteAttachment(c);
+		}catch(RbackException ex){
+			json = new JSONObject();
+			json.put("res", "1");
+			json.put("msg", ex.getMsg());			
+		}finally{
+			return json;
+		}
+	}
+	/****
+	 * 下载附件
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("download/{fdid}")    
+    public ResponseEntity<byte[]> download(@PathVariable String fdid,HttpServletRequest request) throws IOException {    
+    	TAttachment ta = systemDao.getAttachment(fdid);
+
+        String path="";
+    	if(ta!=null){ 
+    		path =   request.getServletContext().getRealPath("") +"/upLoadFiles/"+ta.getFile_name();
+    	}else{
+    		return null ;
+    	}
+        File file=new File(path);  
+        HttpHeaders headers = new HttpHeaders();    
+        String fileName=new String(ta.getBefore_name());
+        //String fileName=new String(ta.getBefore_name().getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+        headers.setContentDispositionFormData("attachment", fileName);   
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+                                          headers, HttpStatus.CREATED);    
+    }    
 }

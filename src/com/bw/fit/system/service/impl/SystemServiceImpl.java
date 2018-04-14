@@ -533,7 +533,26 @@ public class SystemServiceImpl implements SystemService {
 			systemDao.createNewAttachment(aa);
 		}catch(RbackException ex){
 			json = new JSONObject();
-			json.put("msg", "导入异常,"+ex.getLocalizedMessage());
+			json.put("msg", "上传异常,"+ex.getLocalizedMessage());
+			json.put("res", "1"); 
+			throw ex;
+		}finally{
+			return json ;
+		}
+		
+	}
+
+	@Override
+	public JSONObject deleteAttachment(Attachment a) throws RbackException {
+		JSONObject json = new JSONObject(); 
+		try{
+			TAttachment aa = new TAttachment();
+			copyProperties(aa, a);
+			systemDao.deleteAttachment(aa);
+			PubFun.returnSuccessJson(json);
+		}catch(RbackException ex){
+			json = new JSONObject();
+			json.put("msg", "异常,"+ex.getLocalizedMessage());
 			json.put("res", "1"); 
 			throw ex;
 		}finally{

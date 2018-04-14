@@ -58,24 +58,24 @@
 		var att_current_user_id = $("#att_current_user_id").val() ;
 		$('#sysAttachmentListDg').datagrid({ 
 			pagination:true,
-		    url:ctx+'system/companyList/-9' ,   
+		    url:ctx+'systemPlus/attachmentList/-9' ,   
 	        queryParams:  null , 
 		    remoteSort: false, 
 	        columns: [[
 	                   { field: 'fdid', title: 'ID' ,hidden:true  },
-	                   { field: 'company_name', title: '文件名称', width: '20%',fixed:true  },
-	                   { field: 'company_type_name', title: '文件大小', width: '15%' }, 
-	                   { field: 'parent_company_name', title: '上传者', width: '15%' }, 
-	                   { field: 'company_address', title: '上传时间', width: '15%' },
+	                   { field: 'before_name', title: '文件名称', width: '20%',fixed:true  },
+	                   { field: 'file_size', title: '文件大小', width: '15%' }, 
+	                   { field: 'creator', title: '上传者', width: '15%' }, 
+	                   { field: 'create_time', title: '上传时间', width: '15%' },
 	                   {field:'operate',title:'操作',align:'center',width:$(this).width()*0.1,  
 	                	       formatter:function(value, row, index){  	                	    	   	
 	                		           var str ="";
 	                		           if(parseInt(upLoadAttachmentAuth)>0){
-		                		           str = str + '<a href="#" onclick="downFile('+row.fdid+')" name="downFile" class="easyui-linkbutton" ></a>';
-		                		           str = str + '<a href="#" onclick="viewFile('+row.fdid+')" name="viewFile" class="easyui-linkbutton" ></a>';
+		                		           str = str + '<a href=<%=basePath%>systemPlus/download/'+row.fdid+'   name="downFile" class="easyui-linkbutton" ></a>';
+		                		           str = str + '<a href="#" onclick="viewFile("'+row.fdid+'")" name="viewFile" class="easyui-linkbutton" ></a>';
 	                		           }
 	                		           if(parseInt(upLoadAttachmentAuth)>1 && att_current_user_id == row.creator){
-	                		           		str = str + '<a href="#" onclick="deleteFile('+row.fdid+')" name="deleteFile" class="easyui-linkbutton" ></a>';
+	                		           		str = str + '<a href="#" onclick="deleteFile(\''+row.fdid+'\')" name="deleteFile" class="easyui-linkbutton" ></a>';
 	                		           }
 	                		           return str;  
 	                		   }}  
@@ -98,7 +98,16 @@
 	             }
 
 		});  
-
+	}
+	
+	function deleteFile(fdid){ 
+		promptMessageCallBack("3","是否确认删除该附件?",function(){
+			$.post(ctx+"systemPlus/deleteAttachment/"+fdid,function(data){
+				promptMessage(data.res,data.msg);
+				$('#sysAttachmentListDg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
+				upAttachQuery(); 
+			});
+		});	
 
 	}
 	</script>

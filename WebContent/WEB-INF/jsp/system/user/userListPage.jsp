@@ -21,7 +21,7 @@
 			关键词: <input name="keyWords" class="easyui-textbox"
 				style="width: 200px">
 			<a class="easyui-linkbutton" iconcls="icon-search" onclick="userListPage_query()">查询</a>
-			<a class="easyui-linkbutton" iconcls="icon-search" onclick="ff()">查询</a>
+			<a class="easyui-linkbutton" iconcls="icon-search" onclick="ff()">测试上传</a>
 			<div id="dd" >附件</div>
 			</div>
 		</form>
