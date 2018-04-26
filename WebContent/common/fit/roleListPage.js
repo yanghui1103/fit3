@@ -36,7 +36,7 @@ function roleListquery(){
 }
 
 //增加查询参数，在页面加载时运行  
-function cpListreloadgrid() {  
+function roleListreloadgrid() {  
 	$('#rolelisttdg').datagrid('loadData',{total:0,rows:[]}); //清空DataGrid行数据
     $('#rolelisttdg').datagrid('options').queryParams= serializeFormToJSON($("#rolelistFM").serializeArray());  
     $("#rolelisttdg").datagrid('reload');
@@ -50,11 +50,9 @@ function deleteRole(){
 		$.post(ctx+"system/deleteRole/"+row.fdid,function(data){
 			promptMessage(data.res,data.msg);
 			if(data.res == '2')
-				postionListreloadgrid(); 
+				roleListreloadgrid(); 
 		});
-	});
-
-	
+	});	
 }
 
 

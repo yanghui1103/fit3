@@ -11,6 +11,8 @@ public class FilterChainDefinitionMapBuilder {
 	public LinkedHashMap<String, String> buildFilterChainDefinitionmap(){
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
+		map.put("/common/*", "anon");
+		map.put("/themes/*", "anon");
 		map.put("/system/login", "anon");
 		map.put("/system/logout", "logout");
 

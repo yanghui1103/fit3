@@ -11,7 +11,7 @@ import com.aspose.words.SaveFormat;
 public class Word2PdfUtil {
 
     public static void main(String[] args) {  
-        doc2pdf("d:/2.doc","d:/21.pdf");  
+        doc2pdf("d:/2.doc","d:/22.pdf");  
     }  
   
     public static boolean getLicense() {  
@@ -28,7 +28,10 @@ public class Word2PdfUtil {
     }  
   
     public static void doc2pdf(String inPath, String outPath) {  
-       
+    	 // 验证License
+//        if (!getLicense()) {
+//            return;
+//        }
         try {  
             long old = System.currentTimeMillis();  
             File file = new File(outPath); // 新建一个空白pdf文档  

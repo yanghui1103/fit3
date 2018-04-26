@@ -42,8 +42,8 @@
 				data-options="label:'父数据名称:',required:true">
 		</div>
 		<div class="fit_form_row">
-			<input class="easyui-numberbox" name="dict_value" 
-				data-options="min:0,label:'数据值:',required:true">
+			<input class="easyui-textbox" name="dict_value" 
+				data-options="label:'数据值:',required:true">
 		</div>
 		<div class="fit_form_row">
 			<input class="easyui-textbox" name="dict_name" 
